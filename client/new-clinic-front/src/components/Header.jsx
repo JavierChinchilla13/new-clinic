@@ -1,4 +1,4 @@
-import Logo from "./Logo"
+import Logo from "./shared/Logo"
 
 
 const Header = () => {
@@ -9,7 +9,7 @@ const Header = () => {
         items-center text-black py-6 px-8
         md:px-32 bg-emerald-400 drop-shadow-md'>
 
-            <Logo classNames='w-[140px]' />
+            <Logo widthPx='140' />
 
             <ul className='hidden xl:flex items-center
             gap-12 font-semibold text-base'>
