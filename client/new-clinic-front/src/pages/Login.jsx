@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from '../components/shared/Button';
 import Input from '../components/shared/Input'
 import Logo from '../components/shared/Logo';
@@ -8,7 +9,7 @@ const Login = () => {
 
     //component styles
     const textBoxStyles = 'ml-[150px] mt-[5px] w-[300px]';
-    const imgStyles = 'ml-[100px] w-[440px]';
+    const imgStyles = 'hover:scale-105 transition-all ml-[100px] w-[440px] mt-[10px]';
     const buttonStyles = 'ml-[250px] mt-[25px] mb-[10px]';
 
     const handleSearch = (mail, password) => {
@@ -18,9 +19,11 @@ const Login = () => {
     return (
         <div className='w-screen h-screen flex items-center justify-center 
             bg-gradient-to-r from-blue-300 to-emerald-400'>
-            <div className=" w-[600px] h-[550px] shadow-2xl rounded-lg shadow-emerald-400 bg-white">
+            <div className=" w-[600px] h-[560px] shadow-2xl rounded-lg shadow-emerald-400 bg-white">
 
-                <Logo extraStyle={imgStyles} />
+                <Link to='/'>
+                    <Logo extraStyle={imgStyles} />
+                </Link>
 
                 <Label>
                     Email

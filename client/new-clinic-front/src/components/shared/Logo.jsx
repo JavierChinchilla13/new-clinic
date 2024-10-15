@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 const Logo = ({ extraStyle = '' }) => {
 
     return (
-        <img src={logo} href='#' alt=''
-            className={extraStyle} />
+        <img src={logo} alt='logo.jpg'
+            className={`${extraStyle}`} />
     )
 }
 

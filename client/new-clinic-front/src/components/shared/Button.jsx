@@ -32,7 +32,7 @@ const Button = ({ children, ligthVariant = false, extraStyle }) => {
 
 
 Button.propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.node,
     styles: PropTypes.string,
     ligthVariant: PropTypes.bool,
     extraStyle: PropTypes.string,

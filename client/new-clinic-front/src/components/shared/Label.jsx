@@ -12,7 +12,7 @@ const Label = ({ children }) => {
 }
 
 Label.propTypes = {
-    children: PropTypes.any.isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 export default Label
