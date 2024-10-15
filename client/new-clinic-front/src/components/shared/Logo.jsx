@@ -1,18 +1,15 @@
 import logo from '../../assets/logo.jpg';
 import PropTypes from 'prop-types';
 
-const Logo = ({ widthPx = '400', extraStyle = '' }) => {
-
-    const styles = `w-[${widthPx}px] ${extraStyle}`
+const Logo = ({ extraStyle = '' }) => {
 
     return (
         <img src={logo} href='#' alt=''
-            className={styles} />
+            className={extraStyle} />
     )
 }
 
 Logo.propTypes = {
-    widthPx: PropTypes.string.isRequired,
     extraStyle: PropTypes.string,
 }
 

@@ -3,13 +3,14 @@ import Logo from "./shared/Logo"
 
 const Header = () => {
 
+    const imgStyles = 'w-[140px]'
 
     return (
         <header className='flex justify-between 
         items-center text-black py-6 px-8
-        md:px-32 bg-emerald-400 drop-shadow-md'>
+        md:px-11 bg-emerald-400 drop-shadow-md'>
 
-            <Logo widthPx='140' />
+            <Logo extraStyle={imgStyles} />
 
             <ul className='hidden xl:flex items-center
             gap-12 font-semibold text-base'>

@@ -6,6 +6,11 @@ import Label from '../components/shared/Label';
 
 const Login = () => {
 
+    //component styles
+    const textBoxStyles = 'ml-[150px] mt-[5px] w-[300px]';
+    const imgStyles = 'ml-[100px] w-[440px]';
+    const buttonStyles = 'ml-[250px] mt-[25px] mb-[10px]';
+
     const handleSearch = (mail, password) => {
         console.log(mail, password);
     }
@@ -15,7 +20,7 @@ const Login = () => {
             bg-gradient-to-r from-blue-300 to-emerald-400'>
             <div className=" w-[600px] h-[550px] shadow-2xl rounded-lg shadow-emerald-400 bg-white">
 
-                <Logo widthPx='440' extraStyle='ml-[100px]' />
+                <Logo extraStyle={imgStyles} />
 
                 <Label>
                     Email
@@ -24,6 +29,7 @@ const Login = () => {
                 <Input
                     placeHolder='Email'
                     returnTextFunc={(mail) => handleSearch(mail)}
+                    extraStyle={textBoxStyles}
                 />
 
                 <Label>
@@ -33,10 +39,10 @@ const Login = () => {
                 <Input
                     placeHolder='Password'
                     returnTextFunc={(password) => handleSearch(password)}
-
+                    extraStyle={textBoxStyles}
                 />
 
-                <Button extraStyle='ml-[250px] mt-[25px] mb-[10px]' >
+                <Button extraStyle={buttonStyles} >
                     Sign in
                 </Button>
 

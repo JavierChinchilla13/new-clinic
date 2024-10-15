@@ -2,11 +2,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 
-const Input = ({ placeHolder, returnTextFunc, widthPx = '300' }) => {
+const Input = ({ placeHolder, returnTextFunc, extraStyle = '' }) => {
 
     const styles = `py-2 pl-2 rounded-xl border-2 
-                    border-blue-300 focus:outline-sky-500 
-                    ml-[150px] mt-[5px] w-[${widthPx}px]`;
+                    border-blue-300 focus:outline-sky-500 ${extraStyle}`;
 
     const [text, setText] = useState('');
 
@@ -39,7 +38,7 @@ const Input = ({ placeHolder, returnTextFunc, widthPx = '300' }) => {
 Input.propTypes = {
     placeHolder: PropTypes.string.isRequired,
     returnTextFunc: PropTypes.func.isRequired,
-    widthPx: PropTypes.string,
+    extraStyle: PropTypes.string,
 }
 
 export default Input;
