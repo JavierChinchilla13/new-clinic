@@ -1,55 +1,60 @@
-import Button from '../components/Button';
-import Input from '../components/Input'
-import Logo from '../components/Logo';
+import { Link } from "react-router-dom";
+import Button from '../components/shared/Button';
+import Input from '../components/shared/Input'
+import Logo from '../components/shared/Logo';
+import Label from '../components/shared/Label';
 
 
 const Login = () => {
 
-
+    //component styles
+    const textBoxStyles = 'ml-[150px] mt-[5px] w-[300px]';
+    const imgStyles = 'hover:scale-105 transition-all ml-[100px] w-[440px] mt-[10px]';
+    const buttonStyles = 'ml-[250px] mt-[25px] mb-[10px]';
 
     const handleSearch = (mail, password) => {
         console.log(mail, password);
     }
 
-
     return (
         <div className='w-screen h-screen flex items-center justify-center 
             bg-gradient-to-r from-blue-300 to-emerald-400'>
-            <div className=" w-[600px] h-[550px] shadow-2xl rounded-lg shadow-emerald-400 bg-white">
+            <div className=" w-[600px] h-[560px] shadow-2xl rounded-lg shadow-emerald-400 bg-white">
 
-                <Logo classNames='w-[440px] ml-[100px]' />
+                <Link to='/'>
+                    <Logo extraStyle={imgStyles} />
+                </Link>
 
-                <p className='text-lg ml-[150px] mt-[10px]'>
-                    Password
-                </p>
+                <Label>
+                    Email
+                </Label>
+
                 <Input
                     placeHolder='Email'
                     returnTextFunc={(mail) => handleSearch(mail)}
-                    classNames={`py-2 pl-10 rounded-xl border-2 
-                        border-blue-300 focus:outline-sky-500 
-                        ml-[150px] mt-[5px] w-[300px]`}
+                    extraStyle={textBoxStyles}
                 />
 
-                <p className='text-lg ml-[150px] mt-[10px]'>
+                <Label>
                     Password
-                </p>
+                </Label>
 
                 <Input
                     placeHolder='Password'
                     returnTextFunc={(password) => handleSearch(password)}
-                    classNames={`py-2 pl-10 rounded-xl border-2 
-                        border-blue-300 focus:outline-sky-500 
-                        ml-[150px] mt-[5px] w-[300px]`}
+                    extraStyle={textBoxStyles}
                 />
 
-                <Button value='Sign In' extraClassNames='ml-[250px] mt-[25px] mb-[10px]' />
+                <Button extraStyle={buttonStyles} >
+                    Sign in
+                </Button>
 
-                <p className='text-lg ml-[150px] mt-[10px]'>
+                <Label>
                     Don&apos;t have an account?
                     <u href='#' className='text-blue-400 hover:text-blue-600 ml-[10px] cursor-pointer'>
                         Sign up
                     </u>
-                </p>
+                </Label>
 
             </div>
         </div>

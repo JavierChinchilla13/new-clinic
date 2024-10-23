@@ -1,49 +1,107 @@
-import Logo from "./Logo"
-
+import { Link } from "react-router-dom";
+import Logo from "./shared/Logo"
+import { useState } from "react";
 
 const Header = () => {
 
+    const imgStyles = 'cursor-pointer hover:scale-105 transition-all mt-[20px] w-[140px]';
+
+    const [menuOpen, setMenuOpen] = useState(false);
 
     return (
         <header className='flex justify-between 
         items-center text-black py-6 px-8
-        md:px-32 bg-emerald-400 drop-shadow-md'>
+        md:px-11 bg-emerald-400 drop-shadow-md'>
 
-            <Logo classNames='w-[140px]' />
+            <Link to='/'>
+                <Logo extraStyle={imgStyles} />
+            </Link>
 
             <ul className='hidden xl:flex items-center
             gap-12 font-semibold text-base'>
 
-                <li href='#' className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
-                hover:text-white rounded-md transition-all
-                cursor-pointer'>Servicios</li>
+                <Link to='/services'>
+                    <li className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
+                    hover:text-white rounded-md transition-all
+                    cursor-pointer'>Servicios</li>
+                </Link>
 
-                <li href='#' className='p-3 text-base text-emerald-700 hover:bg-emerald-600
-                hover:text-white rounded-md transition-all
-                cursor-pointer'>Productos</li>
+                <Link to='/products'>
+                    <li className='p-3 text-base text-emerald-700 hover:bg-emerald-600
+                    hover:text-white rounded-md transition-all
+                    cursor-pointer'>Productos</li>
+                </Link>
 
-                <li href='#' className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
-                hover:text-white rounded-md transition-all
-                cursor-pointer'>Sobre nosotros</li>
+                <Link to='/aboutUs'>
+                    <li className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
+                    hover:text-white rounded-md transition-all
+                    cursor-pointer'>Sobre nosotros</li>
+                </Link>
 
-                <li href='#' className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
-                hover:text-white rounded-md transition-all
-                cursor-pointer'>Contáctanos</li>
+                <Link to='/contact'>
+                    <li className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
+                    hover:text-white rounded-md transition-all
+                    cursor-pointer'>Contáctanos</li>
+                </Link>
+
+                <Link to='/login'>
+                    <li className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
+                    hover:text-white rounded-md transition-all
+                    cursor-pointer ml-72 mr-5'>Sign in</li>
+                </Link>
 
             </ul>
 
-            <div className='relative hidden md:flex 
-            items-center justify-center gap-2'>
+            <i className="bx bx-menu xl:hidden block text-5xl cursor-pointer"
+                onClick={() => setMenuOpen(!menuOpen)}>
+            </i>
 
-                <a href='#' className='text-emerald-700 ml-[20px] text-base 
-                hover:bg-emerald-600 hover:text-white rounded-md transition-all
-                cursor-pointer p-3'>
-                    Sign in
-                </a>
+            <div className={`absolute xl:hidden top-24 left-0 w-full bg-white flex flex-col 
+                items-center gap-6 font-semibold text-lg
+                transform transition-transform ${menuOpen ?
+                    "opacity-100" : "opacity-0"}`}
+
+                style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
+            >
+                <Link to='/'>
+                    <li className="list-none w-screen text-center 
+                        p-4 hover:bg-emerald-600 hover:text-white
+                        rounded-md transition-all cursor-pointer"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >Inicio</li>
+                </Link>
+                <Link to='/products'>
+                    <li className="list-none w-screen text-center 
+                        p-4 hover:bg-emerald-600 hover:text-white
+                        rounded-md transition-all cursor-pointer"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >Productos</li>
+                </Link>
+                <Link to='/aboutUs'>
+                    <li className="list-none w-screen text-center 
+                        p-4 hover:bg-emerald-600 hover:text-white
+                        rounded-md transition-all cursor-pointer"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >Sobre nosotros</li>
+                </Link>
+                <Link to='/contact'>
+                    <li className="list-none w-screen text-center 
+                        p-4 hover:bg-emerald-600 hover:text-white
+                        rounded-md transition-all cursor-pointer"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >Contáctanos</li>
+                </Link>
+                <Link to='/login'>
+                    <li className="list-none w-screen text-center 
+                        p-4 hover:bg-emerald-600 hover:text-white
+                        rounded-md transition-all cursor-pointer"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                    >Sign in</li>
+                </Link>
 
             </div>
 
-        </header>
+        </header >
     )
 }
 

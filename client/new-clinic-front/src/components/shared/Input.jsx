@@ -2,7 +2,10 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 
-const Input = ({ placeHolder, returnTextFunc, classNames }) => {
+const Input = ({ placeHolder, returnTextFunc, extraStyle = '' }) => {
+
+    const styles = `py-2 pl-2 rounded-xl border-2 
+                    border-blue-300 focus:outline-sky-500 ${extraStyle}`;
 
     const [text, setText] = useState('');
 
@@ -25,7 +28,7 @@ const Input = ({ placeHolder, returnTextFunc, classNames }) => {
     return (
         <form onSubmit={(event) => onSubmit(event)}>
             <input type='text' placeholder={placeHolder + '...'}
-                className={classNames}
+                className={styles}
                 value={text}
                 onChange={handleText} />
         </form>
@@ -35,8 +38,7 @@ const Input = ({ placeHolder, returnTextFunc, classNames }) => {
 Input.propTypes = {
     placeHolder: PropTypes.string.isRequired,
     returnTextFunc: PropTypes.func.isRequired,
-    classNames: PropTypes.func.isRequired,
-
+    extraStyle: PropTypes.string,
 }
 
 export default Input;
