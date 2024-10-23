@@ -44,13 +44,14 @@ const Header = () => {
                     cursor-pointer'>Contáctanos</li>
                 </Link>
 
-                <Link to='/login'>
-                    <li className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
-                    hover:text-white rounded-md transition-all
-                    cursor-pointer ml-72 mr-5'>Sign in</li>
-                </Link>
 
             </ul>
+
+            <Link to='/login'>
+                    <label className='p-3 text-base text-emerald-700 hover:bg-emerald-600 
+                    hover:text-white rounded-md transition-all
+                    cursor-pointer'>Sign in</label>
+            </Link>
 
             <i className="bx bx-menu xl:hidden block text-5xl cursor-pointer"
                 onClick={() => setMenuOpen(!menuOpen)}>
