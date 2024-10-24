@@ -1,6 +1,5 @@
 const path = require("path");
 const { StatusCodes } = require("http-status-codes");
-const CustomError = require("../errors");
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 
@@ -9,7 +8,7 @@ const uploadProductImage = async (req, res) => {
     req.files.image.tempFilePath,
     {
       use_filename: true,
-      foler: "file-upload",
+      folder: "file-upload",
     }
   );
   fs.unlinkSync(req.files.image.tempFilePath);

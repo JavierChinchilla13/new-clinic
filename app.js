@@ -9,6 +9,13 @@ const xss = require("xss-clean");
 const express = require("express");
 const app = express();
 
+const fileUpload = require("express-fileupload");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 // database
 const connectDB = require("./db/connect");
 // routers
@@ -19,12 +26,16 @@ const productsRouter = require("./routes/products");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
+app.use(express.json());
+app.use(fileUpload({ useTempFiles: true }));
+
 app.set("trust proxy", 1);
 
 app.use(express.static(path.resolve(__dirname, "./client/")));
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
+
 // serve HTML at root
 app.get("/", (req, res) => {
   res.send(`
