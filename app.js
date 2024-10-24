@@ -1,13 +1,19 @@
 require("dotenv").config();
 require("express-async-errors");
 
+const path = require("path");
+// extra security packages
+const helmet = require("helmet");
+const xss = require("xss-clean");
+
 const express = require("express");
 const app = express();
 
 // database
 const connectDB = require("./db/connect");
-
 // routers
+const authRouter = require("./routes/auth");
+const productsRouter = require("./routes/products");
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
@@ -15,12 +21,45 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.set("trust proxy", 1);
 
-/*app.use(express.static(path.resolve(__dirname, "./client/")));
+app.use(express.static(path.resolve(__dirname, "./client/")));
 app.use(express.json());
 app.use(helmet());
-app.use(xss());*/
+app.use(xss());
+// serve HTML at root
+app.get("/", (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Welcome</title>
+    </head>
+    <body>
+      <h1>Welcome to the Product API</h1>
+      <p>Explore our API by visiting the following endpoints:</p>
+      <ul>
+        <li><a href="/api/v1/products">/api/v1/products</a></li>
+        <li><a href="/api/v1/auth">/api/v1/auth</a></li>
+      </ul>
+    </body>
+    </html>
+  `);
+});
 
-const port = process.env.PORT || 5000;
+// routes
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/products", productsRouter);
+
+//En esta parte cambiar para conectar al front end
+/*app.get('*', (req,res)=> {
+  res.sendFile(path.resolve(__dirname,'./client/build','index.html'))
+})*/
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
+
+const port = process.env.PORT || 3000;
 
 const start = async () => {
   try {
