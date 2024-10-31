@@ -1,43 +1,24 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 
-const Input = ({ placeHolder, returnTextFunc, extraStyle = '' }) => {
+const Input = ({ text, handleText, placeHolder, extraStyle = '' }) => {
 
     const styles = `py-2 pl-2 rounded-xl border-2 
                     border-blue-300 focus:outline-sky-500 ${extraStyle}`;
 
-    const [text, setText] = useState('');
-
-    const handleText = (e) => {
-
-        setText(e.target.value);
-    }
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-        //si el input tiene menos de 1 caracter no se sube el formulario
-        if (text.trim().length <= 1) return;
-
-        //PASAR DE VUELTA AL COMPONENTE PADRE EL TEXT
-        returnTextFunc(text);
-        setText('');
-
-    }
 
     return (
-        <form onSubmit={(event) => onSubmit(event)}>
-            <input type='text' placeholder={placeHolder + '...'}
-                className={styles}
-                value={text}
-                onChange={handleText} />
-        </form>
+        <input type='text' placeholder={placeHolder + '...'}
+            className={styles}
+            value={text}
+            onChange={handleText} />
     )
 }
 
 Input.propTypes = {
+    text: PropTypes.string,
+    handleText: PropTypes.func,
     placeHolder: PropTypes.string.isRequired,
-    returnTextFunc: PropTypes.func.isRequired,
     extraStyle: PropTypes.string,
 }
 
