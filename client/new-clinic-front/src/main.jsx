@@ -4,7 +4,6 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import Header from "./components/Header.jsx";
 
-import Home from "./pages/Home.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
 import Contact from "./pages/Contact.jsx";
 import Products from "./pages/Products.jsx";
@@ -17,21 +16,11 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Routes>
         {/* Home route */}
-        <Route
-          exact
-          path="/"
-          element={
-            <>
-              <Header />
-              <Home />
-            </>
-          }
-        ></Route>
 
         {/* About Us route */}
         <Route
           exact
-          path="/aboutUs"
+          path="/"
           element={
             <>
               <Header />

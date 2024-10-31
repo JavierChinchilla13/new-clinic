@@ -42,7 +42,7 @@ const Header = () => {
           </li>
         </Link>
 
-        <Link to="/aboutUs">
+        <Link to="/">
           <li
             className="p-3 text-base text-emerald-700 hover:bg-emerald-600 
                     hover:text-white rounded-md transition-all
@@ -106,7 +106,7 @@ const Header = () => {
             Productos
           </li>
         </Link>
-        <Link to="/aboutUs">
+        <Link to="/">
           <li
             className="list-none w-screen text-center 
                         p-4 hover:bg-emerald-600 hover:text-white
