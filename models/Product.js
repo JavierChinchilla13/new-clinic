@@ -19,6 +19,14 @@ const ProductSchema = new mongoose.Schema({
       message: "{VALUE} is not supported",
     },
   },
+  price: {
+    type: Number,
+    require: [true, "product price must be provided"],
+  },
+  state: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model("Product", ProductSchema);
