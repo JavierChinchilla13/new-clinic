@@ -9,6 +9,7 @@ const xss = require("xss-clean");
 const express = require("express");
 const app = express();
 
+// file upload
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -16,11 +17,15 @@ cloudinary.config({
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET,
 });
+
 // database
 const connectDB = require("./db/connect");
+
 // routers
 const authRouter = require("./routes/auth");
 const productsRouter = require("./routes/products");
+const contactsRouter = require("./routes/contacts");
+const postsRouter = require("./routes/posts");
 
 // error handler
 const notFoundMiddleware = require("./middleware/not-found");
@@ -61,6 +66,8 @@ app.get("/", (req, res) => {
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productsRouter);
+app.use("/api/v1/contacts", contactsRouter);
+app.use("/api/v1/posts", postsRouter);
 
 //En esta parte cambiar para conectar al front end
 /*app.get('*', (req,res)=> {

@@ -19,7 +19,7 @@ const deleteProduct = async (req, res) => {
     _id: productId,
   });
   if (!product) {
-    throw new NotFoundError(`No job with id ${productId}`);
+    throw new NotFoundError(`No product with id ${productId}`);
   }
   res.status(StatusCodes.OK).send();
 };
@@ -31,11 +31,11 @@ const getAllProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   const {
-    body: { name, description },
+    body: { name, description, price, state },
     params: { id: productId },
   } = req;
 
-  if (name === "" || description === "") {
+  if (name === "" || description === "" || price === "" || state === "") {
     throw new BadRequestError("Name or Description fields cannot be empty");
   }
   const product = await Product.findByIdAndUpdate(
@@ -58,7 +58,7 @@ const getProduct = async (req, res) => {
     _id: productId,
   });
   if (!product) {
-    throw new NotFoundError(`No job with id ${productId}`);
+    throw new NotFoundError(`No product with id ${productId}`);
   }
   res.status(StatusCodes.OK).json({ product });
 };
