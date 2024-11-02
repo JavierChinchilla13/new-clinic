@@ -20,6 +20,17 @@ cloudinary.config({
 // database
 const connectDB = require("./db/connect");
 
+// Configura Express para servir los archivos estáticos del frontend en `dist`
+app.use(express.static(path.join(__dirname, "client/new-clinic-front/dist")));
+
+// Redirige todas las rutas desconocidas al `index.html` en `dist`
+// Esto permite que el enrutador del frontend maneje las rutas de la SPA
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.resolve(__dirname, "client/new-clinic-front/dist", "index.html")
+  );
+});
+
 // routers
 const authRouter = require("./routes/auth");
 const productsRouter = require("./routes/products");
@@ -41,7 +52,7 @@ app.use(helmet());
 app.use(xss());
 
 // serve HTML at root
-app.get("/", (req, res) => {
+/*app.get("/", (req, res) => {
   res.send(`
     <!DOCTYPE html>
     <html lang="en">
@@ -60,18 +71,13 @@ app.get("/", (req, res) => {
     </body>
     </html>
   `);
-});
+});*/
 
 // routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/products", productsRouter);
 app.use("/api/v1/contacts", contactsRouter);
 app.use("/api/v1/posts", postsRouter);
-
-//En esta parte cambiar para conectar al front end
-/*app.get('*', (req,res)=> {
-  res.sendFile(path.resolve(__dirname,'./client/build','index.html'))
-})*/
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
