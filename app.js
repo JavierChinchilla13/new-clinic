@@ -20,6 +20,8 @@ cloudinary.config({
 // database
 const connectDB = require("./db/connect");
 
+//Esto Para el front
+
 // Configura Express para servir los archivos estáticos del frontend en `dist`
 app.use(express.static(path.join(__dirname, "client/new-clinic-front/dist")));
 
