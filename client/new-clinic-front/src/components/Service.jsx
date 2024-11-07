@@ -1,7 +1,3 @@
-// import { Link } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import ProductInfo from "./ProductInfo";
-// import PropTypes from "prop-types";
 import { getProducts } from "../utils/productService";
 import { useEffect, useState } from "react";
 
@@ -26,7 +22,7 @@ export default function Product() {
         {Array.isArray(products) && products.length > 0 ? (
           products
             .filter(
-              (product) => product.type === "producto" && product.state === true
+              (product) => product.type === "servicio" && product.state === true
             ) // Filter by type
             .map((product, index) => (
               <li key={product.id || index}>
@@ -50,20 +46,9 @@ export default function Product() {
               </li>
             ))
         ) : (
-          <p>No products available</p>
+          <p>No service available</p>
         )}
       </ul>
     </div>
   );
 }
-
-// Define prop-types for validation
-// Product.propTypes = {
-//   _id: PropTypes.string.isRequired,
-//   name: PropTypes.string.isRequired,
-//   description: PropTypes.string.isRequired,
-//   image: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   price: PropTypes.number.isRequired,
-//   state: PropTypes.string.isRequired,
-// };
