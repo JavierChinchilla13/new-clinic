@@ -8,6 +8,7 @@ const createPost = async (req, res) => {
   res.status(StatusCodes.CREATED).json({
     post: {
       name: post.name,
+      subtitle: post.subtitle,
       description: post.description,
       image: post.image,
     },
@@ -35,11 +36,11 @@ const getAllPosts = async (req, res) => {
 
 const updatePost = async (req, res) => {
   const {
-    body: { name, description },
+    body: { name, subtitle, description },
     params: { id: PostId },
   } = req;
 
-  if (name === "" || description === "") {
+  if (name === "" || subtitle === "" || description === "") {
     throw new BadRequestError("Name or Description fields cannot be empty");
   }
   const post = await Post.findByIdAndUpdate({ _id: PostId }, req.body, {
@@ -52,6 +53,7 @@ const updatePost = async (req, res) => {
   res.status(StatusCodes.CREATED).json({
     post: {
       name: post.name,
+      subtitle: post.subtitle,
       description: post.description,
       image: post.image,
     },

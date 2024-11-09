@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+
 import "./index.css";
 import Header from "./components/Header.jsx";
-
 import AboutUs from "./pages/AboutUs.jsx";
 import Contact from "./pages/Contact.jsx";
 import Products from "./pages/Products.jsx";
@@ -16,8 +16,6 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <Routes>
         {/* Home route */}
-
-        {/* About Us route */}
         <Route
           exact
           path="/"
@@ -27,7 +25,7 @@ createRoot(document.getElementById("root")).render(
               <AboutUs />
             </>
           }
-        ></Route>
+        />
 
         {/* Contact route */}
         <Route
@@ -39,7 +37,7 @@ createRoot(document.getElementById("root")).render(
               <Contact />
             </>
           }
-        ></Route>
+        />
 
         {/* Products route */}
         <Route
@@ -51,7 +49,7 @@ createRoot(document.getElementById("root")).render(
               <Products />
             </>
           }
-        ></Route>
+        />
 
         {/* Services route */}
         <Route
@@ -63,29 +61,13 @@ createRoot(document.getElementById("root")).render(
               <Services />
             </>
           }
-        ></Route>
+        />
 
         {/* Login route */}
-        <Route
-          exact
-          path="/login"
-          element={
-            <>
-              <Login />
-            </>
-          }
-        ></Route>
+        <Route exact path="/login" element={<Login />} />
 
-        {/* SignIn route */}
-        <Route
-          exact
-          path="/signUp"
-          element={
-            <>
-              <SignUp />
-            </>
-          }
-        ></Route>
+        {/* SignUp route */}
+        <Route exact path="/signUp" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
