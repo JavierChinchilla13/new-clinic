@@ -7,10 +7,11 @@ import PropTypes from "prop-types";
 /*
     type data = {
         key={index}
-        title={element.title}
-        price={element.price}
-        imageUrl={element.imageUrl}
+        name={element.name}
         description={element.description}
+        image={element.image}
+        type:{element.type}
+        price={element.price}
     }
 
 */
@@ -19,10 +20,10 @@ export const ElementsGrid = ({data, searchTerm}) => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showContactForm, setShowContactForm] = useState(false);
 
-    // Filtro según tipo
+    // Filtro segun tipo
     const filteredProducts = searchTerm
-    ? data.filter((element) =>
-        element.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ? data?.filter((element) =>
+        element.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
     : data;
 
@@ -42,13 +43,14 @@ export const ElementsGrid = ({data, searchTerm}) => {
   return (
     <>
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 max-w-6xl mx-auto">
-            {filteredProducts.map((element, index) => (
+            {filteredProducts?.map((element) => (
               <ItemCard
-                key={index}
-                title={element.title}
-                price={element.price}
-                imageUrl={element.imageUrl}
+                key={element._id}
+                name={element.name}
                 description={element.description}
+                image={element.image}
+                type={element.type}
+                price={element.price}
                 onViewDetails={() => handleViewDetails(element)}
               />
             ))}
