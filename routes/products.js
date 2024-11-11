@@ -13,8 +13,8 @@ const { uploadProductImage } = require("../controllers/uploadsController");
 
 router.route("/").post(createProduct).get(getAllProducts);
 
-router.route("/:id").get(getProduct).delete(deleteProduct).patch(updateProduct);
-
 router.route("/uploads").post(uploadProductImage);
+
+router.route("/:id").get(getProduct).delete(deleteProduct).patch(updateProduct);
 
 module.exports = router;
