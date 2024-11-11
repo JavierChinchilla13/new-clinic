@@ -1,38 +1,36 @@
-// import { useState } from "react";
-// import Input from "../components/shared/Input";
-// import { productsData } from "../data/tempData";
-// import { ElementsGrid } from "../components/shared/ElementsGrid";
+import { useState } from "react";
 import Product from "../components/Product";
+import Button from "../components/shared/Button";
+import ElementModal from "../components/shared/ElementModal";
 
 const Products = () => {
-  //Input search term
-  // const [searchTerm, setSearchTerm] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // return (
-  //   <div>
-  //     <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Productos</h2>
-  //     <div className="flex justify-start mb-4 ml-[400px]">
+  const handleOpenModal = (event) => {
+    event.stopPropagation();
+    setIsModalOpen(true);
+  };
 
-  //           <Input
-  //             text={searchTerm}
-  //             handleText={(newText) => setSearchTerm(newText)}
-  //             placeHolder="Buscar por tipo de producto..."
-  //             extraStyle = 'w-[300px]'
-  //           />
+  const handleCloseModal = () => setIsModalOpen(false);
 
-  //     </div>
-
-  //     <ElementsGrid
-  //       data={productsData}
-  //       searchTerm={searchTerm}
-  //     />
-
-  //     </div>
-  //   );
+  const handleAddProduct = (product) => {
+    console.log("Product added:", product);
+  };
 
   return (
     <>
-      <Product></Product>
+      <div style={{ padding: "20px" }}>
+        <div style={{ marginBottom: "20px" }}>
+          <Button onClickFunc={handleOpenModal}>Añadir nuevo item</Button>
+
+          <ElementModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onAddProduct={handleAddProduct}
+          />
+        </div>
+      </div>
+      <Product />
     </>
   );
 };
