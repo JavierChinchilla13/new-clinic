@@ -1,12 +1,8 @@
-import { Link } from "react-router-dom";
-import Button from "../components/shared/Button";
-import Input from "../components/shared/Input";
-import Logo from "../components/shared/Logo";
-import Label from "../components/shared/Label";
-import { useState } from "react";
+
+import User from "../components/User";
 
 const Login = () => {
-  //component styles
+  /*//component styles
   const textBoxStyles = "ml-[150px] mt-[5px] w-[300px]";
   const imgStyles =
     "hover:scale-105 transition-all ml-[100px] w-[440px] mt-[10px]";
@@ -73,6 +69,13 @@ const Login = () => {
         </Label>
       </div>
     </div>
+  );
+  */
+
+  return (
+    <>
+      <User></User>
+    </>
   );
 };
 
