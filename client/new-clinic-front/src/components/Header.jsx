@@ -106,6 +106,16 @@ const Header = () => {
             Productos
           </li>
         </Link>
+        <Link to="/services">
+          <li
+            className="list-none w-screen text-center 
+                        p-4 hover:bg-emerald-600 hover:text-white
+                        rounded-md transition-all cursor-pointer"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            Servicios
+          </li>
+        </Link>
         <Link to="/">
           <li
             className="list-none w-screen text-center 

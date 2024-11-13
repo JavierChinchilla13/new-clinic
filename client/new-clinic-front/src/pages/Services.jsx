@@ -1,40 +1,44 @@
-// import { useState } from 'react';
-// import Input from '../components/shared/Input';
-// import { ElementsGrid } from "../components/shared/ElementsGrid";
-// import { servicesData } from '../data/tempData';
-import Service from "../components/Service";
+import { useState } from 'react';
+import Input from '../components/shared/Input';
+import { ElementsGrid } from "../components/shared/ElementsGrid";
+import useFetch from '../hooks/useFetch';
 
 // Tarjetas de Servicios
 const Services = () => {
   //Input search term
-  // const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  // return (
-  //   <div >
+  const { data, isLoading, hasError, error} = useFetch("/api/v1/products/");
 
-  //     <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
-  //     <div className="flex justify-start mb-4 ml-[400px]">
+  const filteredProducts = data?.products.filter( (element) => element.type === 'servicio');
+    //Si la llamada a la api da error imprmirlo en consola
+  if(hasError) console.log(error);
 
-  //     <Input
-  //         text={searchTerm}
-  //         handleText={(newText) => setSearchTerm(newText)}
-  //         placeHolder="Buscar por tipo de servicio..."
-  //         extraStyle = 'w-[300px]'
-  //       />
-
-  //     </div>
-
-  //     <ElementsGrid
-  //       data={servicesData}
-  //       searchTerm={searchTerm}
-  //     />
-
-  //   </div>
-  // );
   return (
-    <>
-      <Service></Service>
-    </>
+    <div >
+
+      <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
+      <div className="flex justify-start mb-4 ml-[400px]">
+
+      <Input
+          text={searchTerm}
+          handleText={(newText) => setSearchTerm(newText)}
+          placeHolder="Buscar por tipo de servicio..."
+          extraStyle = 'w-[300px]'
+        />
+
+      </div>
+      {
+        isLoading ?
+        <p>Cargando servicios...</p>
+        :
+        <ElementsGrid
+          data={filteredProducts}
+          searchTerm={searchTerm}
+        />
+      }
+
+    </div>
   );
 };
 
