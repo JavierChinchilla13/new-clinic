@@ -1,12 +1,27 @@
-import { Link } from "react-router-dom";
-import Logo from "./shared/Logo";
-import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import Logo from '../components/shared/Logo'
+import { AuthContext } from "../../auth/context/AuthContext";
 
 const Header = () => {
+
+  const navigate = useNavigate();
+
+  const { authState, logout } = useContext(AuthContext);
+
   const imgStyles =
     "cursor-pointer hover:scale-105 transition-all mt-[20px] w-[140px]";
 
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const onLogoutLogin = () => {
+    if (authState.logged){
+      logout();
+      navigate('/');
+    }else{
+      navigate('/auth/login');
+    }
+  }
 
   return (
     <header
@@ -22,7 +37,7 @@ const Header = () => {
         className="hidden xl:flex items-center
             gap-12 font-semibold text-base"
       >
-        <Link to="/services">
+        <NavLink to="/services">
           <li
             className="p-3 text-base text-emerald-700 hover:bg-emerald-600 
                     hover:text-white rounded-md transition-all
@@ -30,9 +45,9 @@ const Header = () => {
           >
             Servicios
           </li>
-        </Link>
+        </NavLink>
 
-        <Link to="/products">
+        <NavLink to="/products">
           <li
             className="p-3 text-base text-emerald-700 hover:bg-emerald-600
                     hover:text-white rounded-md transition-all
@@ -40,9 +55,9 @@ const Header = () => {
           >
             Productos
           </li>
-        </Link>
+        </NavLink>
 
-        <Link to="/">
+        <NavLink to="/">
           <li
             className="p-3 text-base text-emerald-700 hover:bg-emerald-600 
                     hover:text-white rounded-md transition-all
@@ -50,9 +65,9 @@ const Header = () => {
           >
             Sobre nosotros
           </li>
-        </Link>
+        </NavLink>
 
-        <Link to="/contact">
+        <NavLink to="/contact">
           <li
             className="p-3 text-base text-emerald-700 hover:bg-emerald-600 
                     hover:text-white rounded-md transition-all
@@ -60,18 +75,31 @@ const Header = () => {
           >
             Contáctanos
           </li>
-        </Link>
+        </NavLink>
       </ul>
 
-      <Link to="/login">
+      {/* <NavLink to="/auth/login"> */}
         <label
-          className="p-3 text-base text-emerald-700 hover:bg-emerald-600 
-                    hover:text-white rounded-md transition-all
-                    cursor-pointer"
+          className={
+            !authState.logged ?
+            ( `p-3 text-base text-emerald-700 hover:bg-emerald-600 
+            hover:text-white rounded-md transition-all
+            cursor-pointer hidden xl:flex`)
+            :
+            ( `p-3 text-base text-emerald-700 hover:bg-red-500 
+            hover:text-white rounded-md transition-all
+            cursor-pointer hidden xl:flex`)
+            }
+
+          onClick={onLogoutLogin}
         >
-          Sign in
+          {
+            authState.logged ?
+            ("Logout")
+            : ("Sign in")
+          }
         </label>
-      </Link>
+      {/* </NavLink> */}
 
       <i
         className="bx bx-menu xl:hidden block text-5xl cursor-pointer"
@@ -86,7 +114,7 @@ const Header = () => {
                 }`}
         style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
       >
-        <Link to="/">
+        <NavLink to="/">
           <li
             className="list-none w-screen text-center 
                         p-4 hover:bg-emerald-600 hover:text-white
@@ -95,8 +123,8 @@ const Header = () => {
           >
             Inicio
           </li>
-        </Link>
-        <Link to="/products">
+        </NavLink>
+        <NavLink to="/products">
           <li
             className="list-none w-screen text-center 
                         p-4 hover:bg-emerald-600 hover:text-white
@@ -105,8 +133,8 @@ const Header = () => {
           >
             Productos
           </li>
-        </Link>
-        <Link to="/services">
+        </NavLink>
+        <NavLink to="/services">
           <li
             className="list-none w-screen text-center 
                         p-4 hover:bg-emerald-600 hover:text-white
@@ -115,8 +143,8 @@ const Header = () => {
           >
             Servicios
           </li>
-        </Link>
-        <Link to="/">
+        </NavLink>
+        <NavLink to="/">
           <li
             className="list-none w-screen text-center 
                         p-4 hover:bg-emerald-600 hover:text-white
@@ -125,8 +153,8 @@ const Header = () => {
           >
             Sobre nosotros
           </li>
-        </Link>
-        <Link to="/contact">
+        </NavLink>
+        <NavLink to="/contact">
           <li
             className="list-none w-screen text-center 
                         p-4 hover:bg-emerald-600 hover:text-white
@@ -135,17 +163,29 @@ const Header = () => {
           >
             Contáctanos
           </li>
-        </Link>
-        <Link to="/login">
+        </NavLink>
           <li
-            className="list-none w-screen text-center 
-                        p-4 hover:bg-emerald-600 hover:text-white
-                        rounded-md transition-all cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
+            className={
+              !authState.logged ?
+              (`list-none w-screen text-center 
+              p-4 hover:bg-emerald-600 hover:text-white
+              rounded-md transition-all cursor-pointer`)
+              :
+              (`list-none w-screen text-center 
+              p-4 hover:bg-red-500 hover:text-white
+              rounded-md transition-all cursor-pointer`)
+            }
+            
+            onClick={() => {
+              setMenuOpen(!menuOpen) 
+              onLogoutLogin()}}
           >
-            Sign in
+            {
+            authState.logged ?
+            ("Logout")
+            : ("Sign in")
+            }
           </li>
-        </Link>
       </div>
     </header>
   );
