@@ -18,7 +18,7 @@ const Services = () => {
     <div >
 
       <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
-      <div className="flex justify-start mb-4 ml-[400px]">
+      <div className="flex justify-center mb-4">
 
       <Input
           text={searchTerm}

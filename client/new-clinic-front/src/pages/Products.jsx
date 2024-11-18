@@ -17,7 +17,7 @@ const Products = () => {
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Productos</h2>
-      <div className="flex justify-start mb-4 ml-[400px]">
+      <div className="flex justify-center mb-4">
 
             <Input
               text={searchTerm}
@@ -30,7 +30,7 @@ const Products = () => {
 
       {
         isLoading ?
-        <p>Cargando servicios...</p>
+        <p>Cargando productos...</p>
         :
         <ElementsGrid
           data={filteredProducts}
