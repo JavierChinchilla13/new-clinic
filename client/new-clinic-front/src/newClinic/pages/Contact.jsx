@@ -1,13 +1,25 @@
+import { useContext, useState } from "react";
 import Header from "../components/Header";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import ContactList from "../components/shared/ContactList";
+import EditContactInfoModal from "../components/EditContactInfoModal";
+import { AuthContext } from "../../auth/context/AuthContext";
+import Button from "../components/shared/Button";
 
 const center = [9.9357769, -84.1106032]; // Coordenadas de Sabana, Multicentro Sabana
 
 const Contact = () => {
-  return (
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { authState } = useContext(AuthContext);
 
+  // Función para abrir el modal
+  const openModal = () => setIsModalOpen(true);
+
+  // Función para cerrar el modal
+  const closeModal = () => setIsModalOpen(false);
+
+  return (
     <>
       <Header />
 
@@ -17,8 +29,21 @@ const Contact = () => {
           {/* Información de contacto y dirección */}
           <div className="flex flex-col items-start space-y-2">
             <h2 className="text-3xl font-bold text-gray-800">Contacto</h2>
-            
+
             <ContactList />
+
+            {authState.logged ? (
+              <>
+                <Button
+                  onClickFunc={openModal}
+                  extraStyle="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Abrir Modal
+                </Button>
+              </>
+            ) : null}
+
+            {isModalOpen && <EditContactInfoModal closeModal={closeModal} />}
           </div>
 
           {/* Mapa */}
