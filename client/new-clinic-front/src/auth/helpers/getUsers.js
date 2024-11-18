@@ -4,23 +4,38 @@ const api = axios.create({
   baseURL: "/api/v1",
 });
 
-const getUser = () => {
-  let success = false
-  api.get("/login")
+const logInUser = (email, password) => {
+
+  const userJSONobject = {
+    email,
+    password
+  }
+
+  let success = false;
+
+  api.get("/login", userJSONobject)
   .then((response) => {
-    console.log("Login successful", response.data);
+    console.log("Login successful", response);
     success = true;
+    return {
+      success,
+      response
+    };
   })
   .catch((error) => {
     console.error("Login failed", error);
+    return {
+      success,
+      response: null
+    };
   });
-  return success; 
+   
 };
 
 // const createUser2 = () => api.post("/login");
 
 
-const createUser = (user) => {
+const resgisterUser = (user) => {
 
   let success = false
   api.post("/login", user )
@@ -37,4 +52,4 @@ const createUser = (user) => {
 
 
 
-export { getUser, createUser };
+export { logInUser, resgisterUser };

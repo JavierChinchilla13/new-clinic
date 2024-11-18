@@ -11,7 +11,7 @@ const Contact = () => {
     <>
       <Header />
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center z-5">
         {/* Sección de contacto */}
         <div className="w-full flex flex-col md:flex-row justify-center items-start p-8 space-y-4 md:space-y-0 md:space-x-8">
           {/* Información de contacto y dirección */}

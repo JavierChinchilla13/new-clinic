@@ -3,16 +3,20 @@ import PropTypes from "prop-types";
 import Input from "../components/shared/Input";
 import Button from "../components/shared/Button";
 import { createPost, uploadImage } from "../utils/productService";
+import {useForm} from '../../hooks/useForm'
 
 const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+  const { formState, onInputChange } = useForm({
+    elementName: "",
+    description: "",
+    price: ""
+  });
+
   const [type, setType] = useState("producto");
-  const [price, setPrice] = useState("");
   const [state, setState] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
 
   const handleSubmit = async () => {
     
@@ -26,9 +30,9 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         const { data } = await uploadImage(formData);
         imageUrl = data.image.src;
       }
-
+      const {elementName, description, price} = formState;
       const newProduct = {
-        name,
+        elementName,
         description,
         image: imageUrl,
         type,
@@ -56,13 +60,18 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         <h2 className="text-xl font-semibold mb-4">{title}</h2>
 
         <label>Nombre</label>
-        <Input text={name} handleText={setName} placeHolder="Nombre" />
+        <Input 
+        text={formState.elementName} 
+        handleText={onInputChange} 
+        placeHolder="Nombre"
+        nameRef="elementName" />
 
         <label>Descripción</label>
         <Input
-          text={description}
-          handleText={setDescription}
+          text={formState.description}
+          handleText={onInputChange}
           placeHolder="Descripción"
+          nameRef="description"
         />
 
         <label>Imagen</label>
@@ -83,7 +92,11 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         </select>
 
         <label>Precio</label>
-        <Input text={price} handleText={setPrice} placeHolder="Precio" />
+        <Input 
+        text={formState.price} 
+        handleText={onInputChange} 
+        placeHolder="Precio" 
+        nameRef="price"/>
 
         <label>Estado</label>
         <select

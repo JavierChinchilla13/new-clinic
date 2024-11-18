@@ -26,7 +26,6 @@ const Products = () => {
     console.log("Product added:", product);
   };
 
-  console.log(authState)
 
   return (
     <>

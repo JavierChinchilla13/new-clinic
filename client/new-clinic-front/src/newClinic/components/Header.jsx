@@ -106,87 +106,92 @@ const Header = () => {
         onClick={() => setMenuOpen(!menuOpen)}
       ></i>
 
-      <div
-        className={`absolute xl:hidden top-24 left-0 w-full bg-white flex flex-col 
-                items-center gap-6 font-semibold text-lg
-                transform transition-transform ${
-                  menuOpen ? "opacity-100" : "opacity-0"
-                }`}
-        style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
-      >
-        <NavLink to="/">
-          <li
-            className="list-none w-screen text-center 
-                        p-4 hover:bg-emerald-600 hover:text-white
-                        rounded-md transition-all cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            Inicio
-          </li>
-        </NavLink>
-        <NavLink to="/products">
-          <li
-            className="list-none w-screen text-center 
-                        p-4 hover:bg-emerald-600 hover:text-white
-                        rounded-md transition-all cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            Productos
-          </li>
-        </NavLink>
-        <NavLink to="/services">
-          <li
-            className="list-none w-screen text-center 
-                        p-4 hover:bg-emerald-600 hover:text-white
-                        rounded-md transition-all cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            Servicios
-          </li>
-        </NavLink>
-        <NavLink to="/">
-          <li
-            className="list-none w-screen text-center 
-                        p-4 hover:bg-emerald-600 hover:text-white
-                        rounded-md transition-all cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            Sobre nosotros
-          </li>
-        </NavLink>
-        <NavLink to="/contact">
-          <li
-            className="list-none w-screen text-center 
-                        p-4 hover:bg-emerald-600 hover:text-white
-                        rounded-md transition-all cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            Contáctanos
-          </li>
-        </NavLink>
-          <li
-            className={
-              !authState.logged ?
-              (`list-none w-screen text-center 
-              p-4 hover:bg-emerald-600 hover:text-white
-              rounded-md transition-all cursor-pointer`)
+          {
+            menuOpen ?
+              <div
+                className={`absolute top-24 left-0 w-full bg-white flex flex-col 
+                        items-center gap-6 font-semibold text-lg
+                        transform transition-transform z-50`}
+                style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
+              >
+                <NavLink to="/">
+                  <li
+                    className="list-none w-screen text-center 
+                                p-4 hover:bg-emerald-600 hover:text-white
+                                rounded-md transition-all cursor-pointer"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                  >
+                    Inicio
+                  </li>
+                </NavLink>
+                <NavLink to="/products">
+                  <li
+                    className="list-none w-screen text-center 
+                                p-4 hover:bg-emerald-600 hover:text-white
+                                rounded-md transition-all cursor-pointer"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                  >
+                    Productos
+                  </li>
+                </NavLink>
+                <NavLink to="/services">
+                  <li
+                    className="list-none w-screen text-center 
+                                p-4 hover:bg-emerald-600 hover:text-white
+                                rounded-md transition-all cursor-pointer"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                  >
+                    Servicios
+                  </li>
+                </NavLink>
+                <NavLink to="/">
+                  <li
+                    className="list-none w-screen text-center 
+                                p-4 hover:bg-emerald-600 hover:text-white
+                                rounded-md transition-all cursor-pointer"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                  >
+                    Sobre nosotros
+                  </li>
+                </NavLink>
+                <NavLink to="/contact">
+                  <li
+                    className="list-none w-screen text-center 
+                                p-4 hover:bg-emerald-600 hover:text-white
+                                rounded-md transition-all cursor-pointer"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                  >
+                    Contáctanos
+                  </li>
+                </NavLink>
+                  <li
+                    className={
+                      !authState.logged ?
+                      (`list-none w-screen text-center 
+                      p-4 hover:bg-emerald-600 hover:text-white
+                      rounded-md transition-all cursor-pointer`)
+                      :
+                      (`list-none w-screen text-center 
+                      p-4 hover:bg-red-500 hover:text-white
+                      rounded-md transition-all cursor-pointer`)
+                    }
+                    
+                    onClick={() => {
+                      setMenuOpen(!menuOpen) 
+                      onLogoutLogin()}}
+                  >
+                    {
+                    authState.logged ?
+                    ("Logout")
+                    : ("Sign in")
+                    }
+                  </li>
+              </div>
+
               :
-              (`list-none w-screen text-center 
-              p-4 hover:bg-red-500 hover:text-white
-              rounded-md transition-all cursor-pointer`)
-            }
-            
-            onClick={() => {
-              setMenuOpen(!menuOpen) 
-              onLogoutLogin()}}
-          >
-            {
-            authState.logged ?
-            ("Logout")
-            : ("Sign in")
-            }
-          </li>
-      </div>
+              null
+
+          }
     </header>
   );
 };

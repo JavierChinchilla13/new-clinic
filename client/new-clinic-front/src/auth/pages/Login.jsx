@@ -2,13 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../newClinic/components/shared/Button";
 import Input from "../../newClinic/components/shared/Input";
 import { useContext, useState } from "react";
-// import { getUser, createUser } from "../helpers/getUsers";
+import { logInUser, resgisterUser } from "../helpers/getUsers";
 import { toast } from "react-toastify";
 import Logo from "../../newClinic/components/shared/Logo";
 import { AuthContext } from "../context/AuthContext";
  
 const Login = () => {
-
+  
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -42,30 +42,39 @@ const Login = () => {
     }
 
 
-    console.log('login')
-    login(email, password );
-    navigate('/');
-    // if (isLogin) {
-    //   getUser()
-    //     .then((response) => {
-    //       console.log("Login successful", response.data);
-    //       toast.success("Login successful");
-    //     })
-    //     .catch((error) => {
-    //       console.error("Login failed", error);
-    //       toast.error("Login failed");
-    //     });
-    // } else {
-    //   createUser({ name, email, password })
-    //     .then((response) => {
-    //       console.log("Registration successful", response.data);
-    //       toast.success("Registration successful");
-    //     })
-    //     .catch((error) => {
-    //       console.error("Registration failed", error);
-    //       toast.error("Registration failed");
-    //     });
-    // }
+    if (isLogin) {
+      
+      login(email, password );
+      // const {successStatus, response} = logInUser(email, password);
+      // if(successStatus) {
+      //   console.log('login')
+      //   console.log(response.data)
+      //   login(email, password );
+      //   navigate('/');
+      // }
+      // console.log(response)
+      // console.error("Login failed");
+      // toast.error("Login failed");
+
+        // .then((response) => {
+        //   console.log("Login successful", response.data);
+        //   toast.success("Login successful");
+        // })
+        // .catch((error) => {
+        //   console.error("Login failed", error);
+        //   toast.error("Login failed");
+        // });
+    } else {
+      // createUser({ name, email, password })
+        // .then((response) => {
+        //   console.log("Registration successful", response.data);
+        //   toast.success("Registration successful");
+        // })
+        // .catch((error) => {
+        //   console.error("Registration failed", error);
+        //   toast.error("Registration failed");
+        // });
+    }
 
 
   };

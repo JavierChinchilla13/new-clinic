@@ -24,7 +24,7 @@ Input.propTypes = {
     text: PropTypes.string,
     handleText: PropTypes.func,
     placeHolder: PropTypes.string.isRequired,
-    nameRef: PropTypes.string.isRequired,
+    nameRef: PropTypes.string,
     extraStyle: PropTypes.string,
 }
 
