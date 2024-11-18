@@ -1,92 +1,79 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../newClinic/components/shared/Button";
 import Input from "../../newClinic/components/shared/Input";
-import { useContext, useState } from "react";
-import { logInUser, resgisterUser } from "../helpers/getUsers";
-import { toast } from "react-toastify";
+import { useState, useContext } from "react";
 import Logo from "../../newClinic/components/shared/Logo";
+import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
- 
+
 const Login = () => {
-  
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Component styles
-  const containerStyles = "flex flex-col items-center space-y-4"; // Estilo para alinear verticalmente los elementos
-  const textBoxStyles = "w-9/12 mt-4 ml-16"; // Ajustar el ancho al 100% del contenedor padre
-  const imgStyles = "hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16"; // Ajustar el tamaño de la imagen
-  const buttonStyles = "mt-4 w-32"; // Centrar y ajustar el tamaño del botón
-  const labelStyle = 'text-lg mt-4 ml-16'
+  // Estilos
+  const containerStyles = "flex flex-col items-center space-y-4";
+  const textBoxStyles = "w-9/12 mt-4 ml-16";
+  const imgStyles =
+    "hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16";
+  const buttonStyles = "mt-4 w-32";
+  const labelStyle = "text-lg mt-4 ml-16";
 
-  // State management
-  const [formValues, setFormValues] = useState({
-    email: "",
-    password: "",
-    name: "",
-  });
+  // Estados
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
+  const toggleForm = () => setIsLogin(!isLogin);
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
+    console.log("Formulario enviado");
     event.preventDefault();
-    const { email, password, name } = formValues;
 
-    if (!email || !password || (!isLogin && !name)) {
-      toast.error("Please fill out all fields");
+    // Mensaje de ayuda para depuración
+    console.log("Formulario enviado");
+
+    if (!email || !password) {
+      toast.error("Es necesario el email y contraseña");
       return;
     }
 
+    const user = { email, password };
 
-    if (isLogin) {
-      
-      login(email, password );
-      // const {successStatus, response} = logInUser(email, password);
-      // if(successStatus) {
-      //   console.log('login')
-      //   console.log(response.data)
-      //   login(email, password );
-      //   navigate('/');
-      // }
-      // console.log(response)
-      // console.error("Login failed");
-      // toast.error("Login failed");
+    try {
+      const url = isLogin ? "/api/v1/auth/login" : "";
+      console.log("Enviando solicitud a:", url);
 
-        // .then((response) => {
-        //   console.log("Login successful", response.data);
-        //   toast.success("Login successful");
-        // })
-        // .catch((error) => {
-        //   console.error("Login failed", error);
-        //   toast.error("Login failed");
-        // });
-    } else {
-      // createUser({ name, email, password })
-        // .then((response) => {
-        //   console.log("Registration successful", response.data);
-        //   toast.success("Registration successful");
-        // })
-        // .catch((error) => {
-        //   console.error("Registration failed", error);
-        //   toast.error("Registration failed");
-        // });
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.ok) {
+        alert(isLogin ? "Login correcto!" : "Registro correcto!");
+        login(email, password);
+        navigate("/"); // Redirige a la página principal
+        setEmail("");
+        setPassword("");
+      } else {
+        const errorData = await response.json();
+        alert(
+          (isLogin ? "Login failed: " : "Registro fallido: ") +
+            (errorData.message || "Unknown error")
+        );
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      alert("Ocurrió un error durante el proceso.");
     }
-
-
-  };
-
-  const toggleForm = () => {
-    setIsLogin(!isLogin);
   };
 
   return (
     <div
       className="w-screen h-screen flex items-center justify-center 
-            bg-gradient-to-r from-blue-300 to-emerald-400"
+      bg-gradient-to-r from-blue-300 to-emerald-400"
     >
       <div className="w-full max-w-[600px] p-8 shadow-2xl rounded-lg shadow-emerald-400 bg-white">
         <Link to="/">
@@ -94,53 +81,32 @@ const Login = () => {
         </Link>
 
         <form onSubmit={onSubmit} className={containerStyles}>
-          {!isLogin && (
-            <div className="w-full">
-              <label className={labelStyle}>Name</label>
-              <Input
-                text={formValues.name}
-                nameRef="name"
-                handleText={handleInputChange}
-                placeHolder="Name"
-                extraStyle={textBoxStyles}
-              />
-            </div>
-          )}
-
-          <div className="w-full">
-            <label className={labelStyle}>Email</label>
-            <Input
-              text={formValues.email}
-              nameRef="email"
-              handleText={handleInputChange}
-              placeHolder="Email"
-              extraStyle={textBoxStyles}
-            />
-          </div>
-
-          <div className="w-full">
-            <label className={labelStyle}>Password</label>
-            <Input
-              text={formValues.password}
-              nameRef="password"
-              handleText={handleInputChange}
-              placeHolder="Password"
-              extraStyle={textBoxStyles}
-            />
-          </div>
-
-          <Button extraStyle={buttonStyles} onClickFunc={onSubmit}>
-            {isLogin ? "Sign in" : "Register"}
+          <Input
+            text={email}
+            nameRef="email"
+            handleText={(e) => setEmail(e.target.value)}
+            placeHolder="Email"
+            extraStyle={textBoxStyles}
+          />
+          <Input
+            text={password}
+            nameRef="password"
+            handleText={(e) => setPassword(e.target.value)}
+            placeHolder="Password"
+            extraStyle={textBoxStyles}
+          />
+          <Button type="submit" extraStyle={buttonStyles}>
+            {isLogin ? "Iniciar sesión" : "Registro"}
           </Button>
         </form>
 
         <label className={labelStyle}>
-          {isLogin ? "Don't have an account?" : "Already have an account?"}
+          {isLogin ? "No tiene cuenta?" : "Tiene cuenta?"}
           <u
             onClick={toggleForm}
             className="text-blue-400 hover:text-blue-600 ml-2 cursor-pointer"
           >
-            {isLogin ? "Sign up" : "Sign in"}
+            {isLogin ? "Inscribirse" : "Iniciar sesión"}
           </u>
         </label>
       </div>

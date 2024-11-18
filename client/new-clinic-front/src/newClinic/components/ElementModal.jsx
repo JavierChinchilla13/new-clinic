@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import Input from "../components/shared/Input";
 import Button from "../components/shared/Button";
 import { createPost, uploadImage } from "../utils/productService";
-import {useForm} from '../../hooks/useForm'
+import { useForm } from "../../hooks/useForm";
 
 const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
-
   const { formState, onInputChange } = useForm({
-    elementName: "",
+    name: "",
     description: "",
-    price: ""
+    price: "",
   });
 
   const [type, setType] = useState("producto");
@@ -19,7 +18,19 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
   const [image, setImage] = useState(null);
 
   const handleSubmit = async () => {
-    
+    // Validación de los campos
+    if (!formState.name || !formState.description || !formState.price) {
+      alert("Todos los campos son requeridos.");
+      return;
+    }
+
+    // Validar que el precio sea un número
+    const price = parseInt(formState.price);
+    if (isNaN(price)) {
+      alert("El precio debe ser un número válido.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -30,17 +41,18 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         const { data } = await uploadImage(formData);
         imageUrl = data.image.src;
       }
-      const {elementName, description, price} = formState;
+
+      const { name, description } = formState;
       const newProduct = {
-        elementName,
+        name,
         description,
         image: imageUrl,
         type,
-        price: parseInt(price),
+        price, // Enviamos el precio como un número
         state,
       };
-      await createPost(newProduct);
 
+      await createPost(newProduct);
       onAddProduct(newProduct);
       onClose();
     } catch (error) {
@@ -48,8 +60,6 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
     } finally {
       setLoading(false);
     }
-
-
   };
 
   if (!isOpen) return null;
@@ -60,11 +70,12 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         <h2 className="text-xl font-semibold mb-4">{title}</h2>
 
         <label>Nombre</label>
-        <Input 
-        text={formState.elementName} 
-        handleText={onInputChange} 
-        placeHolder="Nombre"
-        nameRef="elementName" />
+        <Input
+          text={formState.name}
+          handleText={onInputChange}
+          placeHolder="Nombre"
+          nameRef="name"
+        />
 
         <label>Descripción</label>
         <Input
@@ -92,11 +103,12 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         </select>
 
         <label>Precio</label>
-        <Input 
-        text={formState.price} 
-        handleText={onInputChange} 
-        placeHolder="Precio" 
-        nameRef="price"/>
+        <Input
+          text={formState.price}
+          handleText={onInputChange}
+          placeHolder="Precio"
+          nameRef="price"
+        />
 
         <label>Estado</label>
         <select
@@ -117,7 +129,7 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
             extraStyle="bg-emerald-400"
             disabled={loading}
           >
-            {loading ? "Saving..." : "Save"}
+            {loading ? "Guardando..." : "Guardar"}
           </Button>
         </div>
       </div>
