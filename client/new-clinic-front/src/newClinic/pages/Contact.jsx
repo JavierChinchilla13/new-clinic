@@ -1,8 +1,7 @@
-import Header from '../components/Header'
+import Header from "../components/Header";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import ContactList from '../components/shared/ContactList';
-
+import ContactList from "../components/shared/ContactList";
 
 const center = [9.9357769, -84.1106032]; // Coordenadas de Sabana, Multicentro Sabana
 
@@ -18,7 +17,7 @@ const Contact = () => {
           {/* Información de contacto y dirección */}
           <div className="flex flex-col items-start space-y-2">
             <h2 className="text-3xl font-bold text-gray-800">Contacto</h2>
-           
+            
             <ContactList />
           </div>
 
