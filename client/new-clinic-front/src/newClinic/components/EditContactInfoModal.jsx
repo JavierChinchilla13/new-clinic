@@ -12,16 +12,8 @@ const EditContactInfoModal = ({ closeModal }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const getToken = () => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("token="))
-      ?.split("=")[1];
-    return token;
-  };
-
   useEffect(() => {
-    Axios.get("http://localhost:3000/api/v1/contacts")
+    Axios.get("api/v1/contacts")
       .then((response) => {
         const contacts = response.data.Contacts;
         setFormData({
@@ -51,8 +43,8 @@ const EditContactInfoModal = ({ closeModal }) => {
       });
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData((prev) => ({
       ...prev,
       [name]: { ...prev[name], info: value },
@@ -60,27 +52,14 @@ const EditContactInfoModal = ({ closeModal }) => {
   };
 
   const handleSave = async () => {
-    const token = getToken();
-  
-    if (!token) {
-      console.error("No token found, user is not authorized");
-      setError("No estás autorizado. Por favor, inicia sesión.");
-      return;
-    }
-  
     try {
       const updates = Object.keys(formData).map((key) =>
         Axios.patch(
-          `http://localhost:3000/api/v1/contacts/${formData[key].id}`,
-          { info: formData[key].info },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `api/v1/contacts/${formData[key].id}`,
+          { info: formData[key].info }
         )
       );
-  
+
       await Promise.all(updates);
       alert("Datos actualizados correctamente.");
       closeModal();
@@ -124,33 +103,33 @@ const EditContactInfoModal = ({ closeModal }) => {
         <label className="block text-gray-700">Teléfono</label>
         <Input
           text={formData.Telefono.info}
-          nameRef="Telefono"
           handleText={handleChange}
           placeHolder="Teléfono"
+          nameRef="Telefono"
         />
 
         <label className="block text-gray-700">Ubicación</label>
         <Input
           text={formData.Ubicacion.info}
-          nameRef="Ubicacion"
           handleText={handleChange}
           placeHolder="Ubicación"
+          nameRef="Ubicacion"
         />
 
         <label className="block text-gray-700">Celular</label>
         <Input
           text={formData.Celular.info}
-          nameRef="Celular"
           handleText={handleChange}
           placeHolder="Celular"
+          nameRef="Celular"
         />
 
         <label className="block text-gray-700">Email</label>
         <Input
           text={formData.email.info}
-          nameRef="email"
           handleText={handleChange}
           placeHolder="Email"
+          nameRef="email"
         />
 
         <div className="flex justify-end space-x-2 mt-4">
