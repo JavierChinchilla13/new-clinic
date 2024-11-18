@@ -22,11 +22,7 @@ const Button = ({
             active:text-white active:bg-emerald-400 disabled:pointer-events-none 
             disabled:opacity-50 disabled:shadow-none`;
   return (
-    <button
-      className={`${styles} ${extraStyle}`}
-      type="button"
-      onClick={onClickFunc}
-    >
+    <button className={`${styles} ${extraStyle}`} onClick={onClickFunc}>
       {children}
     </button>
   );
