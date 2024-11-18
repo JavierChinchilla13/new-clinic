@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.jpg";
+import logo from "../../../assets/logo.jpg";
 import PropTypes from "prop-types";
 
 const Logo = ({ extraStyle = "" }) => {
