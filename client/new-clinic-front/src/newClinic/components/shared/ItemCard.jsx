@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 */
 const ItemCard = ({ name, description, image, type, price, onViewDetails }) => {
     return (
-        <div className="w-full max-w-xs rounded-lg overflow-hidden shadow-lg bg-white"> 
+        <div className="w-full max-w-xs rounded-lg overflow-hidden shadow-lg bg-white animate__animated animate__fadeIn"> 
           <img className="w-full h-64 object-cover" src={image} alt={name} />
           <div className="px-6 py-4">
             <h3 className="font-bold text-2xl mb-2">{name}</h3>

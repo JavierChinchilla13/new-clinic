@@ -15,6 +15,7 @@ const Services = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [servicesList, setServicesList] = useState();
+  const [elementModalAnimationStyle, setElementModalAnimationStyle] = useState('animate__animated animate__fadeIn');
 
 const getProductsList = () => {
     console.log('rerender')
@@ -34,9 +35,13 @@ const getProductsList = () => {
   }, [])
 
   const onCloseModal = () => {
-    console.log('recall')
+    console.log('recall');
     getProductsList();
-    setIsModalOpen(!isModalOpen)
+    setElementModalAnimationStyle("animate__animated animate__fadeOut");
+    setTimeout(() => {
+      setElementModalAnimationStyle("animate__animated animate__fadeIn");
+      setIsModalOpen(!isModalOpen)
+    }, 500);
   }
 
   const handleAddProduct = (product) => {
@@ -85,6 +90,7 @@ const getProductsList = () => {
               onClose={onCloseModal}
               onAddProduct={handleAddProduct}
               type='servicio'
+              style={elementModalAnimationStyle}
               />
             </>
 

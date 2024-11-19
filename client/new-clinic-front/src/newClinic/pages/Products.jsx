@@ -15,6 +15,9 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productsList, setProductsList] = useState();
+  const [elementModalAnimationStyle, setElementModalAnimationStyle] = useState('animate__animated animate__fadeIn');
+
+  
 
   const getProductsList = () => {
     console.log('rerender')
@@ -34,9 +37,13 @@ const Products = () => {
   }, [])
 
   const onCloseModal = () => {
-    console.log('recall')
+    console.log('recall');
     getProductsList();
-    setIsModalOpen(!isModalOpen)
+    setElementModalAnimationStyle("animate__animated animate__fadeOut");
+    setTimeout(() => {
+      setElementModalAnimationStyle("animate__animated animate__fadeIn");
+      setIsModalOpen(!isModalOpen)
+    }, 500);
   }
 
   const handleAddProduct = (product) => {
@@ -73,7 +80,10 @@ const Products = () => {
                       hover:shadow-lg text-slate-600 hover:text-white
                       focus:text-white active:text-white disabled:pointer-events-none 
                       disabled:opacity-50 disabled:shadow-none`}
-                onClick={() => setIsModalOpen(!isModalOpen)}
+                onClick={() => {
+                  // elementModalStyle = 'animate__animated animate__fadeIn';
+                  setIsModalOpen(!isModalOpen)
+                }}
                 >
                   Añadir nuevo producto
                 </button>
@@ -85,6 +95,7 @@ const Products = () => {
               onClose={onCloseModal}
               onAddProduct={handleAddProduct}
               type="producto"
+              style={elementModalAnimationStyle}
               />
             </>
 

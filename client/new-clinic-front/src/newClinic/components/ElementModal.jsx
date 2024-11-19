@@ -5,7 +5,7 @@ import Button from "../components/shared/Button";
 import { createPost, uploadImage } from "../utils/productService";
 import { useForm } from "../../hooks/useForm";
 
-const ElementModal = ({ isOpen, onClose, onAddProduct, title, type }) => {
+const ElementModal = ({ isOpen, onClose, onAddProduct, title, type, style }) => {
   const { formState, onInputChange } = useForm({
     name: "",
     description: "",
@@ -65,8 +65,8 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title, type }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full grid">
+    <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 ${style}`}>
+      <div className={`bg-white p-6 rounded-lg shadow-lg max-w-md w-full grid `}>
         <h2 className="text-xl font-semibold mb-4">{title}</h2>
 
         <label>Nombre</label>
@@ -143,6 +143,7 @@ ElementModal.propTypes = {
   onAddProduct: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  style: PropTypes.string,
 };
 
 export default ElementModal;
