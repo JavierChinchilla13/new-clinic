@@ -1,13 +1,25 @@
-import Header from '../components/Header'
+import { useContext, useState } from "react";
+import Header from "../components/Header";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-
+import ContactList from "../components/shared/ContactList";
+import EditContactInfoModal from "../components/EditContactInfoModal";
+import { AuthContext } from "../../auth/context/AuthContext";
+import Button from "../components/shared/Button";
 
 const center = [9.9357769, -84.1106032]; // Coordenadas de Sabana, Multicentro Sabana
 
 const Contact = () => {
-  return (
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { authState } = useContext(AuthContext);
 
+  // Función para abrir el modal
+  const openModal = () => setIsModalOpen(true);
+
+  // Función para cerrar el modal
+  const closeModal = () => setIsModalOpen(false);
+
+  return (
     <>
       <Header />
 
@@ -17,20 +29,41 @@ const Contact = () => {
           {/* Información de contacto y dirección */}
           <div className="flex flex-col items-start space-y-2">
             <h2 className="text-3xl font-bold text-gray-800">Contacto</h2>
-            <p className="text-gray-700">
-              <span role="img" aria-label="pin">
-                📍
-              </span>{" "}
-              Sabana, Multicentro Sabana.
-            </p>
 
-            <ul className="text-gray-700 list-disc ml-4 mt-4 space-y-1">
-              <li>+22222222</li>
-              <li>email@email.email</li>
-              <li>+88888888</li>
-              <li>WhatsApp</li>
-              <li>Tenemos</li>
-            </ul>
+            <ContactList />
+
+            {authState.logged ? (
+              <>
+                <Button
+                  onClickFunc={openModal}
+                  extraStyle="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Abrir Modal
+                </Button>
+              </>
+            ) : null}
+
+            {isModalOpen && <EditContactInfoModal closeModal={closeModal} />}
+
+            {/* Botón de WhatsApp */}
+            <a
+              href="https://wa.me/50661226703"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center px-4 py-2 text-white bg-green-500 rounded-md shadow hover:bg-green-600 transition"
+            >
+              Contactar por WhatsApp
+            </a>
+
+            {/* Botón de Email */}
+            <a
+              href="mailto:newclinics.info@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center px-4 py-2 text-white bg-blue-500 rounded-md shadow hover:bg-blue-600 transition"
+            >
+              Contactar por Email
+            </a>
           </div>
 
           {/* Mapa */}
