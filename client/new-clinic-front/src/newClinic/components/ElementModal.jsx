@@ -5,14 +5,14 @@ import Button from "../components/shared/Button";
 import { createPost, uploadImage } from "../utils/productService";
 import { useForm } from "../../hooks/useForm";
 
-const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
+const ElementModal = ({ isOpen, onClose, onAddProduct, title, type }) => {
   const { formState, onInputChange } = useForm({
     name: "",
     description: "",
     price: "",
   });
-
-  const [type, setType] = useState("producto");
+ 
+  // const [type, setType] = useState("producto");
   const [state, setState] = useState(true);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -47,7 +47,7 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         name,
         description,
         image: imageUrl,
-        type,
+        type: type,
         price, // Enviamos el precio como un número
         state,
       };
@@ -92,7 +92,7 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
           className="mb-4"
         />
 
-        <label>Tipo</label>
+        {/* <label>Tipo</label>
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
@@ -100,7 +100,7 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title }) => {
         >
           <option value="producto">Producto</option>
           <option value="servicio">Servicio</option>
-        </select>
+        </select> */}
 
         <label>Precio</label>
         <Input
@@ -142,6 +142,7 @@ ElementModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onAddProduct: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default ElementModal;

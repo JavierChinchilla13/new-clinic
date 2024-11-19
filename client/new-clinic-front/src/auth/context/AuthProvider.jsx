@@ -13,30 +13,40 @@ actionType = {
 }
 
 user = {
-    id: string
-    name: string
+    email: string
+    token: string
 }
 
 */
 
-const user = {}
+const user = {
+    logged: false
+}
 
 const init = () => {
-    return user;
+    return JSON.parse(localStorage.getItem("userAuth"));
+    // return user;
 }
 
 export const AuthProvider = ({children}) => {
 
     const [ authState, dispatch ] = useReducer( authReducer, user, init );
 
-    const login = ( id, name ) => {
+    const login = ( email, token ) => {
         const action = {
             type: types.login,
             payload: {
-                id,
-                name
+                email,
+                token
             }
         }
+        localStorage.setItem("userAuth", JSON.stringify({
+            logged: true,
+            user:{
+                email,
+                token
+            }
+        }));
 
         dispatch(action);
     }
@@ -45,6 +55,7 @@ export const AuthProvider = ({children}) => {
         const action = {
             type: types.logout,
         }
+        localStorage.removeItem('userAuth');
 
         dispatch(action);
     }

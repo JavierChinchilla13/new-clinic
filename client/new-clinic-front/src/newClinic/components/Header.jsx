@@ -15,7 +15,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const onLogoutLogin = () => {
-    if (authState.logged){
+    if (authState?.logged){
       logout();
       navigate('/');
     }else{
@@ -81,7 +81,7 @@ const Header = () => {
       {/* <NavLink to="/auth/login"> */}
         <label
           className={
-            !authState.logged ?
+            !authState?.logged ?
             ( `p-3 text-base text-emerald-700 hover:bg-emerald-600 
             hover:text-white rounded-md transition-all
             cursor-pointer hidden xl:flex`)
@@ -94,7 +94,7 @@ const Header = () => {
           onClick={onLogoutLogin}
         >
           {
-            authState.logged ?
+            authState?.logged ?
             ("Logout")
             : ("Sign in")
           }
@@ -109,7 +109,7 @@ const Header = () => {
           {
             menuOpen ?
               <div
-                className={`absolute top-24 left-0 w-full bg-white flex flex-col 
+                className={`absolute top-36 left-0 w-full bg-white flex flex-col 
                         items-center gap-6 font-semibold text-lg
                         transform transition-transform z-50`}
                 style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
@@ -166,7 +166,7 @@ const Header = () => {
                 </NavLink>
                   <li
                     className={
-                      !authState.logged ?
+                      !authState?.logged ?
                       (`list-none w-screen text-center 
                       p-4 hover:bg-emerald-600 hover:text-white
                       rounded-md transition-all cursor-pointer`)
@@ -181,7 +181,7 @@ const Header = () => {
                       onLogoutLogin()}}
                   >
                     {
-                    authState.logged ?
+                    authState?.logged ?
                     ("Logout")
                     : ("Sign in")
                     }

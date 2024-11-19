@@ -8,7 +8,7 @@ export const PublicRoute = ({children}) => {
     const { authState } = useContext(AuthContext);
 
     //Si el usuario esta logeado no puede acceder a las pantallas de login y registro
-    return (authState.logged) ?
+    return (authState?.logged) ?
       <Navigate to='/'/>
      : children
 

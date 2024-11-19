@@ -16,7 +16,7 @@ actionType = {
     payload: user
     
 }
-
+ 
 */
 
 export const authReducer = (initialState = {}, action) => {

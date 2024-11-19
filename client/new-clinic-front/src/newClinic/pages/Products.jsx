@@ -1,11 +1,10 @@
 import Header from "../components/Header";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Input from "../components/shared/Input";
 import { ElementsGrid } from "../components/shared/ElementsGrid";
-import useFetch from "../../hooks/useFetch";
 import ElementModal from "../components/ElementModal";
 import {AuthContext} from '../../auth/context/AuthContext'
-// import Product from "../components/Product";
+import axios from "axios";
 
 
 const Products = () => {
@@ -15,12 +14,30 @@ const Products = () => {
   // Input search term
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [productsList, setProductsList] = useState();
 
-  const { data, isLoading, hasError, error} = useFetch("/api/v1/products/");
-  const filteredProducts = data?.products.filter( (element) => element.type === 'producto');
-  //Si la llamada a la api da error imprmirlo en consola
-  if(hasError) console.log(error);
+  const getProductsList = () => {
+    console.log('rerender')
+    axios
+    .get("/api/v1/products/")
+    .then( ({data}) => {
+        setProductsList(data?.products.filter( (element) => element.type === 'producto'));
+        console.log(productsList)
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+  }
 
+  useEffect(() => {
+    getProductsList();
+  }, [])
+
+  const onCloseModal = () => {
+    console.log('recall')
+    getProductsList();
+    setIsModalOpen(!isModalOpen)
+  }
 
   const handleAddProduct = (product) => {
     console.log("Product added:", product);
@@ -46,7 +63,7 @@ const Products = () => {
 
         {
 
-            authState.logged ?
+            authState?.logged ?
 
             <>
             <div className="flex justify-items-center justify-self-start ml-20">
@@ -65,8 +82,9 @@ const Products = () => {
               <ElementModal
               title="Añadir Producto"
               isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(!isModalOpen)}
+              onClose={onCloseModal}
               onAddProduct={handleAddProduct}
+              type="producto"
               />
             </>
 
@@ -74,16 +92,10 @@ const Products = () => {
             null
         }
 
-        {
-          isLoading ?
-          <p>Cargando servicios...</p>
-          :
           <ElementsGrid
-            data={filteredProducts}
+            data={productsList}
             searchTerm={searchTerm}
           />
-        }
-
         
     </>
     );

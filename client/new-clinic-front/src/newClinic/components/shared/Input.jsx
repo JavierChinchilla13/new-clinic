@@ -11,7 +11,7 @@ const Input = ({ text, handleText, placeHolder, nameRef, extraStyle = "" }) => {
   return (
     <input
       type="text"
-      placeholder={placeHolder + "..."}
+      placeholder={placeHolder}
       className={styles}
       value={text}
       onChange={onChange}
