@@ -32,7 +32,7 @@ const Contact = () => {
 
             <ContactList />
 
-            {authState.logged ? (
+            {authState?.logged ? (
               <>
                 <Button
                   onClickFunc={openModal}
