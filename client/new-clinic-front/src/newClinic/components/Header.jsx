@@ -111,7 +111,7 @@ const Header = () => {
               <div
                 className={`absolute top-36 left-0 w-full bg-white flex flex-col 
                         items-center gap-6 font-semibold text-lg
-                        transform transition-transform z-50`}
+                        transform transition-transform z-100`}
                 style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
               >
                 <NavLink to="/">

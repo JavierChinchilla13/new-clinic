@@ -59,7 +59,7 @@ const getProductsList = () => {
 
         <Input
             text={searchTerm}
-            handleText={(newText) => setSearchTerm(newText)}
+            handleText={(newText) => setSearchTerm(newText.target.value)}
             placeHolder="Buscar por tipo de servicio..."
             extraStyle = 'w-[300px]'
           />

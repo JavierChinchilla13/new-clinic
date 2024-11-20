@@ -61,7 +61,7 @@ const Products = () => {
 
               <Input
                 text={searchTerm}
-                handleText={(newText) => setSearchTerm(newText)}
+                handleText={(newText) => setSearchTerm(newText.target.value)}
                 placeHolder="Buscar por tipo de producto..."
                 extraStyle = 'w-[300px]'
               />
