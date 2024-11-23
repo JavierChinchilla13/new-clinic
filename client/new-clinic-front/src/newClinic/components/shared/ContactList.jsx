@@ -172,7 +172,7 @@ const ContactList = () => {
                 Añadir Información
               </h4>
               <p className="text-sm text-gray-500 mt-2">
-                Agrega un nuevo contacto.
+                Agrega más información.
               </p>
 
               <div className="mt-4 text-left">
