@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { FaEdit, FaTrashAlt } from "react-icons/fa"; // Iconos para editar y borrar
+import { AuthContext } from "../../../auth/context/AuthContext";
+import { useContext } from "react";
 
 const ContactList = () => {
+  const { authState } = useContext(AuthContext);
+
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editingContact, setEditingContact] = useState(null); // Contacto en edición
   const [updatedInfo, setUpdatedInfo] = useState(""); // Información actualizada
+  const [successMessage, setSuccessMessage] = useState(""); // Mensaje de éxito
 
   // Cargar los contactos al montar el componente
   useEffect(() => {
@@ -48,15 +53,22 @@ const ContactList = () => {
       setContacts((prevContacts) =>
         prevContacts.map((contact) =>
           contact._id === editingContact._id
-            ? { ...contact, info: response.data.contact.info } // Actualiza solo `info`
+            ? { ...contact, info: response.data.contact.info, name: contact.name } // Mantener el nombre intacto
             : contact
         )
       );
 
+      // Actualizar el mensaje de éxito
+      setSuccessMessage(`${editingContact.name} actualizado correctamente`);
+
       // Reinicia el modo edición
       setEditingContact(null);
       setUpdatedInfo("");
-      alert("Contacto actualizado correctamente.");
+
+      // Ocultar el mensaje después de 3 segundos
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
     } catch (err) {
       console.error(err);
       alert("Error al actualizar el contacto. Verifica la conexión o la ruta.");
@@ -68,7 +80,7 @@ const ContactList = () => {
     try {
       const url = `/api/v1/contacts/${contactId}`;
       await Axios.delete(url);
-      
+
       // Actualiza la lista de contactos localmente tras la eliminación
       setContacts(contacts.filter((contact) => contact._id !== contactId));
       alert("Contacto eliminado correctamente.");
@@ -88,6 +100,13 @@ const ContactList = () => {
 
   return (
     <div className="font-sans overflow-x-auto">
+      {/* Mostrar el mensaje de éxito */}
+      {successMessage && (
+        <div className="bg-green-500 text-white p-2 rounded mb-4">
+          {successMessage}
+        </div>
+      )}
+
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-100 whitespace-nowrap">
           <tr>
@@ -97,9 +116,13 @@ const ContactList = () => {
             <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
               Información
             </th>
-            <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              Acción
-            </th>
+            {authState?.logged ? (
+              <>
+                <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Acción
+                </th>
+              </>
+            ) : null}
           </tr>
         </thead>
 
@@ -121,39 +144,44 @@ const ContactList = () => {
                   contact.info // Solo se muestra el `info`
                 )}
               </td>
-              <td className="px-4 py-4 text-sm text-gray-800">
-                {editingContact?._id === contact._id ? (
-                  <>
-                    <button
-                      onClick={handleSave}
-                      className="text-blue-600 mr-4"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={() => setEditingContact(null)}
-                      className="text-red-600"
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => handleEdit(contact)}
-                      className="text-blue-600 mr-4"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(contact._id)}
-                      className="text-red-600"
-                    >
-                      <FaTrashAlt />
-                    </button>
-                  </>
-                )}
-              </td>
+
+              {authState?.logged ? (
+                <>
+                  <td className="px-4 py-4 text-sm text-gray-800">
+                    {editingContact?._id === contact._id ? (
+                      <>
+                        <button
+                          onClick={handleSave}
+                          className="text-blue-600 mr-4"
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          onClick={() => setEditingContact(null)}
+                          className="text-red-600"
+                        >
+                          <FaTrashAlt />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleEdit(contact)}
+                          className="text-blue-600 mr-4"
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(contact._id)}
+                          className="text-red-600"
+                        >
+                          <FaTrashAlt />
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </>
+              ) : null}
             </tr>
           ))}
         </tbody>
