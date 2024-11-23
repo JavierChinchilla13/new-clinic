@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { FaEdit, FaTrashAlt } from "react-icons/fa"; // Iconos para editar y borrar
+import { FaEdit, FaTrash, FaSave, FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../../auth/context/AuthContext";
 import { useContext } from "react";
-import Button from "./Button"; // Asumiendo que Button está en la misma carpeta
-import Input from "./Input"; // Asumiendo que Input está en la misma carpeta
+import Button from "./Button";
+import Input from "./Input";
 
 const ContactList = () => {
   const { authState } = useContext(AuthContext);
@@ -14,6 +14,7 @@ const ContactList = () => {
   const [error, setError] = useState(null);
   const [editingContact, setEditingContact] = useState(null); // Contacto en edición
   const [updatedInfo, setUpdatedInfo] = useState(""); // Información actualizada
+  const [updatedName, setUpdatedName] = useState(""); // Nombre actualizado
   const [successMessage, setSuccessMessage] = useState(""); // Mensaje de éxito
 
   const [newContactName, setNewContactName] = useState(""); // Nombre del nuevo contacto
@@ -37,29 +38,38 @@ const ContactList = () => {
   const handleEdit = (contact) => {
     setEditingContact(contact); // Configura el contacto a editar
     setUpdatedInfo(contact.info); // Inicializa el campo con la información actual
+    setUpdatedName(contact.name); // Inicializa el campo nombre con el nombre actual
   };
 
   // Guardar la información editada
   const handleSave = async () => {
-    if (!updatedInfo.trim()) {
-      alert("La información no puede estar vacía.");
+    if (!updatedName.trim() || !updatedInfo.trim()) {
+      alert("El nombre y la información no pueden estar vacíos.");
       return;
     }
 
     try {
       const url = `/api/v1/contacts/${editingContact._id}`;
-      const response = await Axios.patch(url, { info: updatedInfo });
+      const response = await Axios.patch(url, {
+        name: updatedName,
+        info: updatedInfo,
+      });
 
       setContacts((prevContacts) =>
         prevContacts.map((contact) =>
           contact._id === editingContact._id
-            ? { ...contact, info: response.data.contact.info }
+            ? {
+                ...contact,
+                name: response.data.contact.name,
+                info: response.data.contact.info,
+              }
             : contact
         )
       );
 
       setSuccessMessage(`${editingContact.name} actualizado correctamente`);
       setEditingContact(null);
+      setUpdatedName("");
       setUpdatedInfo("");
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (err) {
@@ -227,45 +237,62 @@ const ContactList = () => {
         <tbody className="divide-y divide-gray-200">
           {contacts.map((contact) => (
             <tr key={contact._id}>
-              <td className="px-4 py-4 text-sm text-gray-800">
-                {contact.name}
+              <td className="px-4 py-4">
+                {editingContact?._id === contact._id ? (
+                  <input
+                    type="text"
+                    value={updatedName}
+                    onChange={(e) => setUpdatedName(e.target.value)}
+                    className="w-full border border-gray-300 p-2 rounded-md"
+                  />
+                ) : (
+                  contact.name
+                )}
               </td>
-              <td className="px-4 py-4 text-sm text-gray-800">
+              <td className="px-4 py-4">
                 {editingContact?._id === contact._id ? (
                   <input
                     type="text"
                     value={updatedInfo}
                     onChange={(e) => setUpdatedInfo(e.target.value)}
-                    className="px-4 py-2 border rounded-md"
+                    className="w-full border border-gray-300 p-2 rounded-md"
                   />
                 ) : (
                   contact.info
                 )}
               </td>
               {authState?.logged ? (
-                <td className="px-4 py-4 text-sm text-gray-800">
+                <td className="px-4 py-4 text-center">
                   {editingContact?._id === contact._id ? (
-                    <button
-                      onClick={handleSave}
-                      className="text-blue-500 hover:text-blue-700"
-                    >
-                      Guardar
-                    </button>
+                    <div className="flex space-x-2 justify-center">
+                      <button
+                        onClick={handleSave}
+                        className="bg-blue-600 text-white p-2 rounded-md"
+                      >
+                        <FaSave className="h-5 w-5" />
+                      </button>
+                      <button
+                        onClick={() => setEditingContact(null)}
+                        className="bg-gray-300 text-gray-700 p-2 rounded-md"
+                      >
+                        <FaTimes className="h-5 w-5" />
+                      </button>
+                    </div>
                   ) : (
-                    <>
+                    <div className="flex space-x-2 justify-center">
                       <button
                         onClick={() => handleEdit(contact)}
-                        className="text-yellow-500 hover:text-yellow-700 mr-2"
+                        className="bg-yellow-500 text-white p-2 rounded-md"
                       >
-                        <FaEdit />
+                        <FaEdit className="h-5 w-5" />
                       </button>
                       <button
                         onClick={() => handleDelete(contact._id)}
-                        className="text-red-500 hover:text-red-700"
+                        className="bg-red-600 text-white p-2 rounded-md"
                       >
-                        <FaTrashAlt />
+                        <FaTrash className="h-5 w-5" />
                       </button>
-                    </>
+                    </div>
                   )}
                 </td>
               ) : null}
