@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { FaEdit, FaTrashAlt } from "react-icons/fa"; // Iconos para editar y borrar
 
 const ContactList = () => {
   const [contacts, setContacts] = useState([]);
@@ -62,6 +63,21 @@ const ContactList = () => {
     }
   };
 
+  // Eliminar un contacto
+  const handleDelete = async (contactId) => {
+    try {
+      const url = `/api/v1/contacts/${contactId}`;
+      await Axios.delete(url);
+      
+      // Actualiza la lista de contactos localmente tras la eliminación
+      setContacts(contacts.filter((contact) => contact._id !== contactId));
+      alert("Contacto eliminado correctamente.");
+    } catch (err) {
+      console.error(err);
+      alert("Error al eliminar el contacto.");
+    }
+  };
+
   if (error) {
     return <p className="text-red-500">{error}</p>;
   }
@@ -71,26 +87,29 @@ const ContactList = () => {
   }
 
   return (
-    <div>
-      <table className="min-w-full border-collapse border border-gray-200 mt-4">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-200 px-4 py-2 text-left">Nombre</th>
-            <th className="border border-gray-200 px-4 py-2 text-left">
+    <div className="font-sans overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-100 whitespace-nowrap">
+          <tr>
+            <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Nombre
+            </th>
+            <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
               Información
             </th>
-            <th className="border border-gray-200 px-4 py-2 text-left">
+            <th className="px-4 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
               Acción
             </th>
           </tr>
         </thead>
-        <tbody>
+
+        <tbody className="bg-white divide-y divide-gray-200 whitespace-nowrap">
           {contacts.map((contact) => (
-            <tr key={contact._id} className="hover:bg-gray-50">
-              <td className="border border-gray-200 px-4 py-2">
+            <tr key={contact._id}>
+              <td className="px-4 py-4 text-sm text-gray-800">
                 {contact.name} {/* El nombre no se edita */}
               </td>
-              <td className="border border-gray-200 px-4 py-2">
+              <td className="px-4 py-4 text-sm text-gray-800">
                 {editingContact?._id === contact._id ? (
                   <input
                     type="text"
@@ -102,29 +121,37 @@ const ContactList = () => {
                   contact.info // Solo se muestra el `info`
                 )}
               </td>
-              <td className="border border-gray-200 px-4 py-2">
+              <td className="px-4 py-4 text-sm text-gray-800">
                 {editingContact?._id === contact._id ? (
                   <>
                     <button
                       onClick={handleSave}
-                      className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded mr-2"
+                      className="text-blue-600 mr-4"
                     >
-                      Guardar
+                      <FaEdit />
                     </button>
                     <button
                       onClick={() => setEditingContact(null)}
-                      className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded"
+                      className="text-red-600"
                     >
-                      Cancelar
+                      <FaTrashAlt />
                     </button>
                   </>
                 ) : (
-                  <button
-                    onClick={() => handleEdit(contact)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
-                  >
-                    Editar
-                  </button>
+                  <>
+                    <button
+                      onClick={() => handleEdit(contact)}
+                      className="text-blue-600 mr-4"
+                    >
+                      <FaEdit />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(contact._id)}
+                      className="text-red-600"
+                    >
+                      <FaTrashAlt />
+                    </button>
+                  </>
                 )}
               </td>
             </tr>
