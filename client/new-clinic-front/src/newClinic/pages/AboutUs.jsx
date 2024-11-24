@@ -1,38 +1,62 @@
-import { useContext } from "react";
+import { useState } from "react";
 import Header from "../components/Header";
-import { AuthContext } from "../../auth/context/AuthContext";
+import AboutUsList from "../components/shared/AboutUsList";
+import { AddAboutUs } from "../components/shared/AddAboutUs";
 
 const AboutUs = () => {
+  const [informaciones, setInformaciones] = useState([
+    {
+      id: 1,
+      title: "Misión",
+      description: "Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. V Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. Nuestra misión es brindar un servicio excepcional. ",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      id: 2,
+      title: "Visión",
+      description: "Nuestra visión es convertirnos en líderes del sector salud.",
+      image: "https://via.placeholder.com/150",
+    },
+  ]);
 
-    const { authState } = useContext(AuthContext);
-    console.log(JSON.stringify(authState));
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    return (
-        <>
-            <Header />
-            <h1
-                className="text-4xl ml-12 mt-12 font-bold "
-            >Bienvenido a New Clinic!</h1>
-            <div className="bg-white py-12 px-8 flex flex-col lg:flex-row items-center lg:items-start">
-                <div className="lg:w-1/2">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-4">Sobre nosotros</h2>
-                    <p className="text-xl text-gray-600 mb-6">• Medicina Estética • Medicina General • Nutrición • Spa</p>
-                    <p className="text-gray-600">
-                        Información general de la empresa y explicación de quiénes son. Información general de la empresa y explicación de quiénes son.
-                        Información general de la empresa y explicación de quiénes son. Información general de la empresa y explicación de quiénes son.
-                        Información general de la empresa y explicación de quiénes son. Información general de la empresa y explicación de quiénes son.
-                    </p>
-                </div>
-                <div className="lg:w-1/2 flex justify-center mt-8 lg:mt-0">
-                    <img 
-                        src="C:\Users\lizan\OneDrive\Imágenes\meme" 
-                        alt="Doctora en New Clinic" 
-                        className="w-64 h-auto"
-                    />
-                </div>
-            </div>
-        </>
-    )
-}
+  const handleAddInfo = (newInfo) => {
+    setInformaciones((prev) => [
+      ...prev,
+      { id: prev.length + 1, ...newInfo },
+    ]);
+  };
 
-export default AboutUs
+  return (
+    <>
+      <Header />
+      <h1 className="text-4xl ml-12 mt-12 font-bold">Bienvenido a New Clinic!</h1>
+      <div className="bg-white py-12 px-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-8">Sobre nosotros</h2>
+
+        <div className="flex justify-end">
+            <button
+            onClick={() => setIsModalOpen(true)}
+    className="bg-teal-500 text-white py-2 px-4 rounded mb-6"
+  >
+    Añadir Información
+  </button>
+</div>
+
+        {/* AboutUsList para manejar el listado */}
+        <AboutUsList informaciones={informaciones} />
+
+        {/* Modal para agregar información */}
+        {isModalOpen && (
+          <AddAboutUs
+            onClose={() => setIsModalOpen(false)}
+            onSave={handleAddInfo}
+          />
+        )}
+      </div>
+    </>
+  );
+};
+
+export default AboutUs;

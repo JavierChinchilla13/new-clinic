@@ -57,7 +57,7 @@ const Products = () => {
 
       
         <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Productos</h2>
-        <div className="flex justify-start mb-4 ml-[400px]">
+        <div className="flex justify-center mb-4">
 
               <Input
                 text={searchTerm}
@@ -73,13 +73,13 @@ const Products = () => {
             authState?.logged ?
 
             <>
-            <div className="flex justify-items-center justify-self-start ml-20">
-                <button 
-                className={`rounded-md bg-yellow-400 
+<div className="flex justify-end relative">
+<button 
+                className={`rounded-md bg-yellow-300 
                       py-2 px-4 text-center text-lg transition-all shadow-sm 
                       hover:shadow-lg text-slate-600 hover:text-white
                       focus:text-white active:text-white disabled:pointer-events-none 
-                      disabled:opacity-50 disabled:shadow-none`}
+                      disabled:opacity-50 disabled:shadow-none absolute left-[38cm]`}
                 onClick={() => {
                   // elementModalStyle = 'animate__animated animate__fadeIn';
                   setIsModalOpen(!isModalOpen)

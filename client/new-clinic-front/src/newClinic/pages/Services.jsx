@@ -55,7 +55,7 @@ const getProductsList = () => {
       
 
         <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
-        <div className="flex justify-start mb-4 ml-[400px]">
+        <div className="flex justify-center mb-4">
 
         <Input
             text={searchTerm}
@@ -71,18 +71,20 @@ const getProductsList = () => {
             authState?.logged ?
 
             <>
-            <div className="flex justify-items-center justify-self-start ml-20">
-            <button 
-                className={`rounded-md bg-yellow-400 
-                      py-2 px-4 text-center text-lg transition-all shadow-sm 
-                      hover:shadow-lg text-slate-600 hover:text-white
-                      focus:text-white active:text-white disabled:pointer-events-none 
-                      disabled:opacity-50 disabled:shadow-none`}
-                onClick={() => setIsModalOpen(!isModalOpen)}
-                >
-                  Añadir nuevo producto
-                </button>
-            </div>
+<div className="flex justify-end relative">
+  <button 
+    className={`rounded-md bg-yellow-300 
+      py-2 px-4 text-center text-lg transition-all shadow-sm 
+      hover:shadow-lg text-slate-600 hover:text-white
+      focus:text-white active:text-white disabled:pointer-events-none 
+      disabled:opacity-50 disabled:shadow-none 
+      absolute left-[38cm]`}
+    onClick={() => setIsModalOpen(!isModalOpen)}
+  >
+    Añadir nuevo servicio
+  </button>
+</div>
+
 
               <ElementModal
               title="Añandir Servicio"

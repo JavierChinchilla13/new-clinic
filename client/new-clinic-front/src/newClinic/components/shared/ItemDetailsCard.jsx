@@ -23,8 +23,7 @@ export const ItemDetailsCard = ({ data, onClose, onContact }) => {
           <h2 className="text-2xl font-bold mb-4">{data.name}</h2>
           <img className="w-full h-64 object-cover mb-4" src={data.image} alt={data.name} />
           <p className="text-gray-700 mb-4">{`Descripción: ${data.description}`}</p>
-          <p className="text-gray-700 mb-4">{`Tipo: ${data.type}`}</p>
-          <span className="text-green-600 font-bold text-xl">{`Precio: ${data.price}`}</span>
+          <span className="text-green-600 font-bold text-xl">{`Precio: ₡${data.price}`}</span>
           <div className="mt-4">
             <button 
               onClick={onContact} 
