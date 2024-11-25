@@ -8,6 +8,10 @@ const xss = require("xss-clean");
 const express = require("express");
 const app = express();
 
+// rest of the package
+const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+
 // file upload
 const fileUpload = require("express-fileupload");
 const cloudinary = require("cloudinary").v2;
@@ -21,12 +25,13 @@ cloudinary.config({
 const connectDB = require("./db/connect");
 
 // routers
-const authRouter = require("./routes/auth");
-const productsRouter = require("./routes/products");
-const contactsRouter = require("./routes/contacts");
-const postsRouter = require("./routes/posts");
+const authRouter = require("./routes/authRoutes");
+const userRouter = require("./routes/userRoutes");
+const productRouter = require("./routes/productRoutes");
+const contactRouter = require("./routes/contactRoutes");
+const postRouter = require("./routes/postRoutes");
 
-// error handler
+// middleware
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
@@ -35,46 +40,26 @@ app.use(fileUpload({ useTempFiles: true }));
 
 app.set("trust proxy", 1);
 
+app.use(morgan("tiny"));
+app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static(path.resolve(__dirname, "./client/")));
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
 
-// serve HTML at root
-// app.get("/", (req, res) => {
-//   res.send(`
-//     <!DOCTYPE html>
-//     <html lang="en">
-//     <head>
-//       <meta charset="UTF-8">
-//       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//       <title>Welcome</title>
-//     </head>
-//     <body>
-//       <h1>Welcome to the Product API</h1>
-//       <p>Explore our API by visiting the following endpoints:</p>
-//       <ul>
-//         <li><a href="/api/v1/products">/api/v1/products</a></li>
-//         <li><a href="/api/v1/auth">/api/v1/auth</a></li>
-//       </ul>
-//     </body>
-//     </html>
-//   `);
-// });
-
 // routes
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/products", productsRouter);
-app.use("/api/v1/contacts", contactsRouter);
-app.use("/api/v1/posts", postsRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/contacts", contactRouter);
+app.use("/api/v1/posts", postRouter);
 
 //Esto Para el front
 
 // Configura Express para servir los archivos estáticos del frontend en `dist`
 app.use(express.static(path.join(__dirname, "client/new-clinic-front/dist")));
 
-// Redirige todas las rutas desconocidas al `index.html` en `dist`
-// Esto permite que el enrutador del frontend maneje las rutas de la SPA
+//---
 app.get("*", (req, res) => {
   res.sendFile(
     path.resolve(__dirname, "client/new-clinic-front/dist", "index.html")
