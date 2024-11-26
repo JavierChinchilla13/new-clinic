@@ -1,14 +1,14 @@
-import { useContext, useState } from "react";
+// import { useContext, useState } from "react";
 import Header from "../components/Header";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import ContactList from "../components/shared/ContactList";
-import { AuthContext } from "../../auth/context/AuthContext";
+// import { AuthContext } from "../../auth/context/AuthContext";
 
-const center = [9.9357769, -84.1106032]; // Coordenadas de Sabana, Multicentro Sabana
+// const center = [9.9357769, -84.1106032]; // Coordenadas de Sabana, Multicentro Sabana
 
 const Contact = () => {
-  const { authState } = useContext(AuthContext);
+  // const { authState } = useContext(AuthContext);
 
   return (
     <>
