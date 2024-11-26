@@ -71,19 +71,18 @@ const getProductsList = () => {
             authState?.logged ?
 
             <>
-<div className="flex justify-end relative">
-  <button 
-    className={`rounded-md bg-yellow-300 
-      py-2 px-4 text-center text-lg transition-all shadow-sm 
-      hover:shadow-lg text-slate-600 hover:text-white
-      focus:text-white active:text-white disabled:pointer-events-none 
-      disabled:opacity-50 disabled:shadow-none 
-      absolute left-[38cm]`}
-    onClick={() => setIsModalOpen(!isModalOpen)}
-  >
-    Añadir nuevo servicio
-  </button>
-</div>
+            <div className="flex justify-start relative">
+              <button 
+                className={`rounded-md bg-yellow-300 
+                  py-2 px-4 text-center text-lg transition-all shadow-sm 
+                  hover:shadow-lg text-slate-600 hover:text-white
+                  focus:text-white active:text-white disabled:pointer-events-none 
+                  disabled:opacity-50 disabled:shadow-none ml-24`}
+                onClick={() => setIsModalOpen(!isModalOpen)}
+              >
+                Añadir nuevo servicio
+              </button>
+            </div>
 
 
               <ElementModal
