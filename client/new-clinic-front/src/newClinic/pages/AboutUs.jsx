@@ -38,11 +38,11 @@ const AboutUs = () => {
         <div className="flex justify-end">
             <button
             onClick={() => setIsModalOpen(true)}
-    className="bg-teal-500 text-white py-2 px-4 rounded mb-6"
-  >
-    Añadir Información
-  </button>
-</div>
+            className="bg-teal-500 text-white py-2 px-4 rounded mb-6"
+            >  
+            Añadir Información
+            </button>
+        </div>
 
         {/* AboutUsList para manejar el listado */}
         <AboutUsList informaciones={informaciones} />
