@@ -76,6 +76,24 @@ const Header = () => {
             Contáctanos
           </li>
         </NavLink>
+
+        {
+          authState?.logged ?
+          (
+          <NavLink to="/admin/addUser">
+            <li
+              className="p-3 text-base text-emerald-700 hover:bg-emerald-600 
+                      hover:text-white rounded-md transition-all
+                      cursor-pointer"
+            >
+              Agregar colaborador
+            </li>
+          </NavLink>
+          )
+          :
+          null
+        }
+        
       </ul>
 
       {/* <NavLink to="/auth/login"> */}
@@ -159,33 +177,62 @@ const Header = () => {
                     className="list-none w-screen text-center 
                                 p-4 hover:bg-emerald-600 hover:text-white
                                 rounded-md transition-all cursor-pointer"
-                    onClick={() => setMenuOpen(!menuOpen)}
+                    onClick={() => {
+                      setMenuOpen(!menuOpen);
+
+                    }}
                   >
                     Contáctanos
                   </li>
                 </NavLink>
-                  <li
-                    className={
-                      !authState?.logged ?
-                      (`list-none w-screen text-center 
-                      p-4 hover:bg-emerald-600 hover:text-white
-                      rounded-md transition-all cursor-pointer`)
-                      :
-                      (`list-none w-screen text-center 
-                      p-4 hover:bg-red-500 hover:text-white
-                      rounded-md transition-all cursor-pointer`)
-                    }
-                    
-                    onClick={() => {
-                      setMenuOpen(!menuOpen) 
-                      onLogoutLogin()}}
-                  >
-                    {
-                    authState?.logged ?
-                    ("Logout")
-                    : ("Sign in")
-                    }
-                  </li>
+                {
+                  authState?.logged ? 
+                  (
+                    <NavLink to="/admin/addUser">
+                    <li
+                      className="list-none w-screen text-center 
+                                  p-4 hover:bg-emerald-600 hover:text-white
+                                  rounded-md transition-all cursor-pointer"
+                      onClick={() => {}}
+                    >
+                      Agregar colaborador
+                    </li>
+                    </NavLink>
+  
+
+                  )
+
+                  :
+
+                  null
+                }
+               
+
+
+                <li
+                  className={
+                    !authState?.logged ?
+                    (`list-none w-screen text-center 
+                    p-4 hover:bg-emerald-600 hover:text-white
+                    rounded-md transition-all cursor-pointer`)
+                    :
+                    (`list-none w-screen text-center 
+                    p-4 hover:bg-red-500 hover:text-white
+                    rounded-md transition-all cursor-pointer`)
+                  }
+                  
+                  onClick={() => {
+                    setMenuOpen(!menuOpen) 
+                    onLogoutLogin()}}
+                >
+                  {
+                  authState?.logged ?
+                  ("Logout")
+                  : ("Sign in")
+                  }
+                </li>
+
+
               </div>
 
               :
