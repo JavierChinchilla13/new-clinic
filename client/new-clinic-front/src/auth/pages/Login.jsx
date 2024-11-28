@@ -21,7 +21,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const onSubmit = async (event) => {
     console.log("Formulario enviado");
     event.preventDefault();
@@ -37,7 +36,6 @@ const Login = () => {
     const user = { email, password };
 
     try {
-
       const url = "/api/v1/auth/login";
       console.log("Enviando solicitud a:", url);
 
@@ -50,7 +48,7 @@ const Login = () => {
       });
 
       if (response.ok) {
-        console.log(response)
+        console.log(response);
         console.log("Login correcto!");
         login(email, password); //se actualiza el context
         navigate("/"); // Redirige a la página principal
@@ -58,10 +56,7 @@ const Login = () => {
         setPassword("");
       } else {
         const errorData = await response.json();
-        console.log(
-          ("Login fallido: ") +
-            (errorData.message || "Unknown error")
-        );
+        console.log("Login fallido: " + (errorData.message || "Unknown error"));
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
@@ -80,7 +75,6 @@ const Login = () => {
         </Link>
 
         <form onSubmit={onSubmit} className={containerStyles}>
-
           <Input
             text={email}
             nameRef="email"
@@ -95,15 +89,20 @@ const Login = () => {
             placeHolder="Contraseña"
             extraStyle={textBoxStyles}
           />
-        
-          
-          
+
           <Button type="submit" extraStyle={buttonStyles}>
             {"Iniciar sesión como colaborador"}
           </Button>
+
+          <p>
+            <Link
+              to="../forgot-password"
+              className="text-blue-400 hover:text-blue-600 ml-2 cursor-pointer"
+            >
+              ¿Has olvidado tu contraseña?
+            </Link>
+          </p>
         </form>
-
-
       </div>
     </div>
   );
