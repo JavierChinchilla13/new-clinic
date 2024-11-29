@@ -18,12 +18,10 @@ const Services = () => {
   const [elementModalAnimationStyle, setElementModalAnimationStyle] = useState('animate__animated animate__fadeIn');
 
 const getProductsList = () => {
-    console.log('rerender')
     axios
     .get("/api/v1/products/")
     .then( ({data}) => {
         setServicesList(data?.products.filter( (element) => element.type === 'servicio'));
-        console.log(servicesList)
     })
     .catch((error) => {
         console.log(error);
@@ -32,10 +30,9 @@ const getProductsList = () => {
 
   useEffect(() => {
     getProductsList();
-  }, [])
+  }, []);
 
-  const onCloseModal = () => {
-    console.log('recall');
+  const onCloseAddModal = () => {
     getProductsList();
     setElementModalAnimationStyle("animate__animated animate__fadeOut");
     setTimeout(() => {
@@ -44,9 +41,14 @@ const getProductsList = () => {
     }, 500);
   }
 
-  const handleAddProduct = (product) => {
-    console.log("Product added:", product);
-  };
+  const onCloseModal = () => {
+    console.log('recall');
+    getProductsList();
+  }
+
+  // const handleAddProduct = (product) => {
+  //   console.log("Product added:", product);
+  // };
 
 
   return (
@@ -88,8 +90,8 @@ const getProductsList = () => {
               <ElementModal
               title="Añandir Servicio"
               isOpen={isModalOpen}
-              onClose={onCloseModal}
-              onAddProduct={handleAddProduct}
+              onClose={onCloseAddModal}
+              // onAddProduct={handleAddProduct}
               type='servicio'
               style={elementModalAnimationStyle}
               />
@@ -102,6 +104,8 @@ const getProductsList = () => {
         <ElementsGrid
             data={servicesList}
             searchTerm={searchTerm}
+            onCloseDeleteModal={onCloseModal}
+            onCloseEditModal={onCloseModal}
           />
 
       

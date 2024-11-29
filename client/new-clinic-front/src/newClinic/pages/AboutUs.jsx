@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Header from "../components/Header";
 import AboutUsList from "../components/shared/AboutUsList";
 import { AddAboutUs } from "../components/shared/AddAboutUs";
+import { AuthContext } from "../../auth/context/AuthContext";
 
 const AboutUs = () => {
+
+  const { authState } = useContext(AuthContext);
+
+
   const [informaciones, setInformaciones] = useState([
     {
       id: 1,
@@ -35,14 +40,22 @@ const AboutUs = () => {
       <div className="bg-white py-12 px-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-8">Sobre nosotros</h2>
 
-        <div className="flex justify-end">
-            <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-teal-500 text-white py-2 px-4 rounded mb-6"
-            >  
-            Añadir Información
-            </button>
-        </div>
+        {
+          authState?.logged ?
+          (
+            <div className="flex justify-end">
+                <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-teal-500 text-white py-2 px-4 rounded mb-6"
+                >  
+                Añadir Información
+                </button>
+            </div>
+          )
+          :
+          null
+        }
+        
 
         {/* AboutUsList para manejar el listado */}
         <AboutUsList informaciones={informaciones} />

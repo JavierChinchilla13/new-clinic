@@ -1,7 +1,7 @@
 const Product = require("../models/Product");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, NotFoundError } = require("../errors");
-
+ 
 const createProduct = async (req, res) => {
   const product = await Product.create(req.body);
   res.status(StatusCodes.CREATED).json({ product });
@@ -31,6 +31,10 @@ const updateProduct = async (req, res) => {
     body: { name, description, price, state },
     params: { id: productId },
   } = req;
+
+  
+  console.log('backend')
+  console.log(req.body);
 
   if (name === "" || description === "" || price === "" || state === "") {
     throw new BadRequestError("Name or Description fields cannot be empty");

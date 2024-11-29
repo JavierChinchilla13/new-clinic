@@ -20,12 +20,10 @@ const Products = () => {
   
 
   const getProductsList = () => {
-    console.log('rerender')
     axios
     .get("/api/v1/products/")
     .then( ({data}) => {
         setProductsList(data?.products.filter( (element) => element.type === 'producto'));
-        console.log(productsList)
     })
     .catch((error) => {
         console.log(error);
@@ -36,7 +34,7 @@ const Products = () => {
     getProductsList();
   }, [])
 
-  const onCloseModal = () => {
+  const onCloseAddModal = () => {
     console.log('recall');
     getProductsList();
     setElementModalAnimationStyle("animate__animated animate__fadeOut");
@@ -46,9 +44,13 @@ const Products = () => {
     }, 500);
   }
 
-  const handleAddProduct = (product) => {
-    console.log("Product added:", product);
-  };
+  const onCloseModal = () => {
+    getProductsList();
+  }
+
+  // const handleAddProduct = (product) => {
+  //   console.log("Product added:", product);
+  // };
 
 
   return (
@@ -92,8 +94,8 @@ const Products = () => {
               <ElementModal
               title="Añadir Producto"
               isOpen={isModalOpen}
-              onClose={onCloseModal}
-              onAddProduct={handleAddProduct}
+              onClose={onCloseAddModal}
+              // onAddProduct={handleAddProduct}
               type="producto"
               style={elementModalAnimationStyle}
               />
@@ -106,6 +108,8 @@ const Products = () => {
           <ElementsGrid
             data={productsList}
             searchTerm={searchTerm}
+            onCloseDeleteModal={onCloseModal}
+            onCloseEditModal={onCloseModal}
           />
         
     </>

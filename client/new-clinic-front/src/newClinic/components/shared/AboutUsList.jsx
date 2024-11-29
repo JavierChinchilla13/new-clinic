@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AddAboutUs } from "./AddAboutUs";
 import { DeleteAboutUsModal } from "./DeleteAboutUsModal"; 
 import { EditAboutUsModal } from "./EditAboutUsModal"; 
+import PropTypes from "prop-types";
 
 // Manejo de estados para controlar la visibilidad de los modales de agregar, editar y eliminar
 // y almacenar la información de la entrada seleccionada para realizar las acciones correspondientes.
@@ -63,26 +64,26 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
 
   return (
     <>
-     {/* Contenedor de la lista de tarjetas  */}
-<div className="flex flex-wrap gap-4 w-full">
-  {informaciones.map((info) => (
-    <div className="flex-grow bg-transparent border-none">
-      <AboutUsCard
-        key={info.id}
-        title={info.title}
-        description={info.description}
-        image={info.image}
-        onDelete={() => handleOpenDeleteModal(info)} 
-        onEdit={() => handleOpenEditModal(info)} 
-      />
-    </div>
-  ))}
-</div>
+      {/* Contenedor de la lista de tarjetas  */}
+      <div className="flex flex-wrap gap-4 w-full">
+        {informaciones.map((info) => (
+          <div className="flex-grow bg-transparent border-none"
+            key={info.id}>
+            <AboutUsCard
+              title={info.title}
+              description={info.description}
+              image={info.image}
+              onDelete={() => handleOpenDeleteModal(info)} 
+              onEdit={() => handleOpenEditModal(info)} 
+            />
+          </div>
+        ))}
+      </div>
 
 
       {/* Modales para agregar, eliminar y editar */}
       {isAddModalOpen && (
-        <AddAboutUsModal onClose={handleCloseAddModal} onSave={handleSave} />
+        <AddAboutUs onClose={handleCloseAddModal} onSave={handleSave} />
       )}
 
       {isDeleteModalOpen && (
@@ -105,3 +106,9 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
 };
 
 export default AboutUsList;
+
+
+AboutUsList.propTypes = {
+  informaciones: PropTypes.array, 
+  setInformaciones: PropTypes.func
+}
