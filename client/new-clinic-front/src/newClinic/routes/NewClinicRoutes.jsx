@@ -4,6 +4,7 @@ import Products from "../pages/Products";
 import Contact from "../pages/Contact";
 import AboutUs from "../pages/AboutUs";
 import ResetPassword from "../pages/ResetPassword";
+import Verify from "../pages/Verify";
 
 const NewClinicRoutes = () => {
   return (
@@ -20,7 +21,9 @@ const NewClinicRoutes = () => {
       {/* Services route */}
       <Route path="/services" element={<Services />} />
 
-      <Route path="user/reset-password" element={<ResetPassword />} />
+      <Route path="/user/reset-password" element={<ResetPassword />} />
+
+      <Route path="/user/verify-email" element={<Verify />} />
     </Routes>
   );
 };

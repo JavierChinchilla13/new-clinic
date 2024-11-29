@@ -28,7 +28,7 @@ const ResetPasswordForm = () => {
 
   const handleChange = (e) => {
     setPassword(e.target.value);
-    console.log("Valor actualizado de la contraseña:", e.target.value); // Debugging
+    console.log("Valor actualizado de la contraseña:", e.target.value);
   };
 
   const handleSubmit = async (e) => {
