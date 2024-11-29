@@ -1,29 +1,36 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { useForm } from "../../../hooks/useForm";
 
 export const EditModal = ({ product, onClose, onSave }) => {
-  const [editedProduct, setEditedProduct] = useState({ ...product });
+  // const [editedProduct, setEditedProduct] = useState({ ...product });
+
+  const { formState, onInputChange} = useForm({
+    name: product ? product.name : '',
+    description: product ? product.description : '',
+    price: product ? product.price : ''
+  })
+
   const [imageFile, setImageFile] = useState(null);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProduct((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handlePriceChange = (e) => {
-    const value = parseFloat(e.target.value);
-    if (!isNaN(value)) {
-      setEditedProduct((prev) => ({ ...prev, price: value }));
-    }
-  };
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImageFile(file); 
+    setImageLoaded(true);
   };
 
   const handleSubmit = () => {
-    const updatedProduct = { ...editedProduct, image: imageFile };
+    const updatedProduct = {
+      _id: product._id,
+      name: formState.name,
+      description: formState.description,
+      price: formState.price,
+      image: imageFile === null ? product.image : imageFile,
+      imageLoaded
+
+    };
+    
     onSave(updatedProduct);
   };
 
@@ -39,8 +46,8 @@ export const EditModal = ({ product, onClose, onSave }) => {
             <input
               type="text"
               name="name"
-              value={editedProduct.name}
-              onChange={handleChange}
+              value={formState.name}
+              onChange={onInputChange}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -48,8 +55,8 @@ export const EditModal = ({ product, onClose, onSave }) => {
             <label className="block text-gray-700">Descripción</label>
             <textarea
               name="description"
-              value={editedProduct.description}
-              onChange={handleChange}
+              value={formState.description}
+              onChange={onInputChange}
               className="w-full p-2 border rounded"
             />
           </div>
@@ -66,8 +73,8 @@ export const EditModal = ({ product, onClose, onSave }) => {
             <input
               type="text"
               name="price"
-              value={editedProduct.price}
-              onChange={handlePriceChange}
+              value={formState.price}
+              onChange={onInputChange}
               className="w-full p-2 border rounded"
               min="0"
               step="any"
