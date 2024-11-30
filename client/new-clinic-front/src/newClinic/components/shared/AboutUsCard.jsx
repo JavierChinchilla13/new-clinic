@@ -1,7 +1,13 @@
-import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import PropTypes from "prop-types";
+import { useContext } from "react";
+import { AuthContext } from "../../../auth/context/AuthContext";
 
 const AboutUsCard = ({ title, description, image, onEdit, onDelete }) => {
+
+  const { authState } = useContext(AuthContext);
+
+
   return (
     <div className="flex border rounded-lg shadow-lg mb-6 p-6">
       {/* Bloque que acomoda el texto */}
@@ -18,20 +24,29 @@ const AboutUsCard = ({ title, description, image, onEdit, onDelete }) => {
 
         {/* Bloque que acomoda los botones de editar y eliminar */}
         <div className="flex space-x-2 ml-5 mt-[-10px]">
-          <button
-            onClick={onEdit}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-md"
-            aria-label="Editar"
-          >
-            <FaEdit />
-          </button>
-          <button
-            onClick={onDelete}
-            className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md"
-            aria-label="Eliminar"
-          >
-            <FaTrash />
-          </button>
+          {
+            authState?.logged ?
+            (
+              <>
+                <button
+                  onClick={onEdit}
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-md"
+                  aria-label="Editar"
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  onClick={onDelete}
+                  className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md"
+                  aria-label="Eliminar"
+                >
+                  <FaTrash />
+                </button>
+              </>
+            )
+            :
+            null
+          }
         </div>
       </div>
     </div>
@@ -39,3 +54,12 @@ const AboutUsCard = ({ title, description, image, onEdit, onDelete }) => {
 };
 
 export default AboutUsCard;
+
+
+AboutUsCard.propTypes = {
+  title: PropTypes.string, 
+  description: PropTypes.string, 
+  image: PropTypes.string, 
+  onEdit: PropTypes.func, 
+  onDelete: PropTypes.func 
+}

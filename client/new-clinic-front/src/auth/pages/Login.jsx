@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
-  const { login, authState } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // Estilos
@@ -16,17 +16,11 @@ const Login = () => {
   const imgStyles =
     "hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16";
   const buttonStyles = "mt-6 mb-6";
-  const labelStyle = "text-lg mt-4 ml-16 mt-10 ml-10 text-gray-700";
 
   // Estados
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
 
-  console.log(authState);
-
-  const toggleForm = () => setIsLogin(!isLogin);
 
   const onSubmit = async (event) => {
     console.log("Formulario enviado");
@@ -44,7 +38,7 @@ const Login = () => {
 
     try {
 
-      const url = isLogin ? "/api/v1/auth/login" : "";
+      const url = "/api/v1/auth/login";
       console.log("Enviando solicitud a:", url);
 
       const response = await fetch(url, {
@@ -57,15 +51,15 @@ const Login = () => {
 
       if (response.ok) {
         console.log(response)
-        alert(isLogin ? "Login correcto!" : "Registro correcto!");
-        login(email, password);
+        console.log("Login correcto!");
+        login(email, password); //se actualiza el context
         navigate("/"); // Redirige a la página principal
         setEmail("");
         setPassword("");
       } else {
         const errorData = await response.json();
-        alert(
-          (isLogin ? "Login fallido: " : "Registro fallido: ") +
+        console.log(
+          ("Login fallido: ") +
             (errorData.message || "Unknown error")
         );
       }
@@ -88,19 +82,6 @@ const Login = () => {
         <form onSubmit={onSubmit} className={containerStyles}>
 
           <Input
-            text={name}
-            nameRef="name"
-            handleText={(e) => setName(e.target.value)}
-            placeHolder="Nombre"
-            extraStyle={
-              isLogin ?
-              "hidden"
-              :
-              `${textBoxStyles}`
-            }
-          />
-
-          <Input
             text={email}
             nameRef="email"
             handleText={(e) => setEmail(e.target.value)}
@@ -118,19 +99,11 @@ const Login = () => {
           
           
           <Button type="submit" extraStyle={buttonStyles}>
-            {isLogin ? "Iniciar sesión" : "Registro"}
+            {"Iniciar sesión como colaborador"}
           </Button>
         </form>
 
-        <label className={labelStyle}>
-          {isLogin ? "¿No tiene cuenta?" : "¿Ya tiene cuenta?"}
-          <u
-            onClick={toggleForm}
-            className="text-blue-400 hover:text-blue-600 ml-2 cursor-pointer"
-          >
-            {isLogin ? "Registrarse" : "Iniciar sesión"}
-          </u>
-        </label>
+
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import Button from "../components/shared/Button";
 import { createPost, uploadImage } from "../utils/productService";
 import { useForm } from "../../hooks/useForm";
 
-const ElementModal = ({ isOpen, onClose, onAddProduct, title, type, style }) => {
+const ElementModal = ({ isOpen, onClose, title, type, style }) => {
   const { formState, onInputChange } = useForm({
     name: "",
     description: "",
@@ -53,7 +53,7 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title, type, style }) => 
       };
 
       await createPost(newProduct);
-      onAddProduct(newProduct);
+      // onAddProduct(newProduct);
       onClose();
     } catch (error) {
       console.error("Error creating product:", error);
@@ -140,7 +140,7 @@ const ElementModal = ({ isOpen, onClose, onAddProduct, title, type, style }) => 
 ElementModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onAddProduct: PropTypes.func.isRequired,
+  // onAddProduct: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   style: PropTypes.string,

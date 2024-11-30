@@ -5,6 +5,9 @@ import { ItemDetailsCard } from "./ItemDetailsCard";
 import { DeleteModal } from "./DeleteModal"; 
 import { EditModal } from "./EditModal"; 
 import PropTypes from "prop-types";
+import axios from "axios";
+import { updatePost, uploadImage } from "../../utils/productService";
+
 
 /*
     type data = {
@@ -16,7 +19,7 @@ import PropTypes from "prop-types";
         price={element.price}
 */
 
-export const ElementsGrid = ({data, searchTerm}) => {
+export const ElementsGrid = ({data, searchTerm, onCloseDeleteModal, onCloseEditModal}) => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showContactForm, setShowContactForm] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false); 
@@ -44,15 +47,61 @@ export const ElementsGrid = ({data, searchTerm}) => {
         setShowContactForm(true);
     };
 
-    const handleDeleteProduct = (product) => { 
+    const handleSetEditProduct = (product) => { 
+      setProductToEdit(product); 
+      setShowEditModal(true);                
+    };
+
+    const handleSetDeleteProduct = (product) => { 
         setProductToDelete(product);  
         setShowDeleteModal(true);              
     };
 
-    const handleEditProduct = (product) => { 
-        setProductToEdit(product); 
-        setShowEditModal(true);                
-    };
+    const handleDelete = () => {
+      const productId = productToDelete?._id;
+
+      axios
+      .delete(`/api/v1/products/${productId}`)
+      .catch( () => {
+        console.log('error');
+      });
+
+      onCloseDeleteModal();
+
+      setShowDeleteModal(false);
+
+    }
+
+    const handleEdit = async(updatedProduct) => {
+      // setProductToEdit(updatedProduct);  
+      // console.log("Producto editado", updatedProduct);
+      
+      let imageUrl = "";
+      if (updatedProduct.imageLoaded) {
+        const formData = new FormData();
+        formData.append("image", updatedProduct.image);
+        const { data } = await uploadImage(formData);
+        imageUrl = data.image.src;
+      }
+
+      const newProductData = {
+        name: updatedProduct.name,
+        description: updatedProduct.description,
+        price: updatedProduct.price,
+        state: updatedProduct.state,
+        image: updatedProduct.imageLoaded ? imageUrl : updatedProduct.image
+        // image: 'https://images.wikidexcdn.net/mwuploads/wikidex/thumb/9/95/latest/20160817212623/Charizard.png/200px-Charizard.png'
+      }
+
+      // console.log(updatedProduct.image); 
+ 
+      await updatePost(updatedProduct._id, newProductData);
+
+      onCloseEditModal();
+      setShowEditModal(false);
+
+    }
+
 
   return (
     <>
@@ -67,8 +116,8 @@ export const ElementsGrid = ({data, searchTerm}) => {
             type={element.type}
             price={element.price}
             onViewDetails={() => handleViewDetails(element)}
-            onEdit={() => handleEditProduct(element)}  
-            onDelete={() => handleDeleteProduct(element)}  
+            onEdit={() => handleSetEditProduct(element)}  
+            onDelete={() => handleSetDeleteProduct(element)}  
           />
         ))}
       </div>
@@ -89,21 +138,15 @@ export const ElementsGrid = ({data, searchTerm}) => {
         <DeleteModal 
           product={productToDelete} 
           onClose={() => setShowDeleteModal(false)} 
-          onConfirm={() => {
-            console.log("Producto eliminado", productToDelete); 
-            setShowDeleteModal(false); 
-          }}
+          onConfirm={handleDelete}
         />
       )}
 
       {showEditModal && ( 
         <EditModal
           product={productToEdit} 
-          onClose={() => setShowEditModal(false)} 
-          onSave={(updatedProduct) => { 
-            console.log("Producto editado", updatedProduct); 
-            setShowEditModal(false); 
-          }}
+          onClose={() => {setShowEditModal(false)}} 
+          onSave={handleEdit}
         />
       )}
 
@@ -114,4 +157,6 @@ export const ElementsGrid = ({data, searchTerm}) => {
 ElementsGrid.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object),
     searchTerm: PropTypes.string,
+    onCloseDeleteModal: PropTypes.func,
+    onCloseEditModal: PropTypes.func
 };
