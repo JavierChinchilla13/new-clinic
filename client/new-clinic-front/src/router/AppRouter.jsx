@@ -1,33 +1,31 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
 import NewClinicRoutes from "../newClinic/routes/NewClinicRoutes";
-import { PublicRoute } from "./PublicRoute";
+// import { PublicRoute } from "./PublicRoute";
 import { PrivateRoute } from "./PrivateRoute";
 import AdminRoutes from "../newClinic/routes/AdminRoutes";
+import { AppProvider } from "../newClinic/context";
 
 const AppRouter = () => {
   return (
-    <Routes>
-      <Route
-        path="/auth/*"
-        element={
-          <PublicRoute>
-            <AuthRoutes />
-          </PublicRoute>
-        }
-      />
+    <AppProvider>
+      <Router>
+        <Routes>
+          <Route path="/auth/*" element={<AuthRoutes />} />
 
-      <Route
-        path="/admin/*"
-        element={
-          <PrivateRoute>
-            <AdminRoutes/>
-          </PrivateRoute>
-        }
-      />
+          <Route
+            path="/admin/*"
+            element={
+              <PrivateRoute>
+                <AdminRoutes />
+              </PrivateRoute>
+            }
+          />
 
-      <Route path="/*" element={<NewClinicRoutes />} />
-    </Routes>
+          <Route path="/*" element={<NewClinicRoutes />} />
+        </Routes>
+      </Router>
+    </AppProvider>
   );
 };
 
