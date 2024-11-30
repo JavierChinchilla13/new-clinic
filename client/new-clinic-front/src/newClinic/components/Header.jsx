@@ -8,7 +8,7 @@ const Header = () => {
   const { authState, logout } = useContext(AuthContext); // Asegúrate de tener el AuthContext bien configurado
 
   const imgStyles =
-    "cursor-pointer hover:scale-105 transition-all mt-[20px] w-[140px]";
+    "cursor-pointer hover:scale-105 transition-all mt-[20px] w-[180px]";
 
   const [menuOpen, setMenuOpen] = useState(false);
 

@@ -4,62 +4,66 @@ import { useContext } from "react";
 import { AuthContext } from "../../../auth/context/AuthContext";
 
 const AboutUsCard = ({ title, description, image, onEdit, onDelete }) => {
-
   const { authState } = useContext(AuthContext);
 
-
   return (
-    <div className="flex border rounded-lg shadow-lg mb-6 p-6">
-      {/* Bloque que acomoda el texto */}
-      <div className="flex-1 pr-4">
-        <h3 className="font-bold text-xl mb-2">{title}</h3>
-        <p className="text-gray-600">{description}</p>
-      </div>
-
-      {/* Bloque que acomoda la imagen */}
-      <div className="flex items-center justify-between">
-        <div className="w-80 h-60 bg-gray-200 rounded-lg overflow-hidden mb-4">
-          <img src={image} alt="Imagen" className="w-full h-full object-cover" />
+    <div className="   w-full flex flex-col">
+      <div className="mb-6 p-4 w-full flex flex-col md:flex-row">
+        {/* Texto a la izquierda */}
+        <div className="flex-1 pr-0 md:pr-4 pt-2">
+          <h3 className="font-bold text-xl text-gray-800 mb-2">
+            {title || "Sin título"}
+          </h3>
+          <p className="text-gray-600 text-lg">
+            {description || "Sin descripción"}
+          </p>
         </div>
 
-        {/* Bloque que acomoda los botones de editar y eliminar */}
-        <div className="flex space-x-2 ml-5 mt-[-10px]">
-          {
-            authState?.logged ?
-            (
-              <>
-                <button
-                  onClick={onEdit}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-md"
-                  aria-label="Editar"
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  onClick={onDelete}
-                  className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md"
-                  aria-label="Eliminar"
-                >
-                  <FaTrash />
-                </button>
-              </>
-            )
-            :
-            null
-          }
+        {/* Imagen aún más grande */}
+        <div className="w-full md:w-1/2 h-80 bg-gray-200 rounded-lg overflow-hidden mt-4 md:mt-0">
+          {image ? (
+            <img
+              src={image}
+              alt="Imagen"
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-500">
+              Sin imagen
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Botones debajo */}
+      {authState?.logged && (
+        <div className="mt-4 flex justify-end space-x-2">
+          <button
+            onClick={onEdit}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-full shadow-md"
+            aria-label="Editar"
+          >
+            <FaEdit />
+          </button>
+          <button
+            onClick={onDelete}
+            className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-full shadow-md"
+            aria-label="Eliminar"
+          >
+            <FaTrash />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AboutUsCard;
-
-
 AboutUsCard.propTypes = {
-  title: PropTypes.string, 
-  description: PropTypes.string, 
-  image: PropTypes.string, 
-  onEdit: PropTypes.func, 
-  onDelete: PropTypes.func 
-}
+  title: PropTypes.string,
+  description: PropTypes.string,
+  image: PropTypes.string,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
+};
+
+export default AboutUsCard;

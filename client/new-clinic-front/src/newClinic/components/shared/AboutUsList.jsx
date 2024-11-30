@@ -1,68 +1,58 @@
-import AboutUsCard from "./AboutUsCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Axios from "axios";
-import { AddAboutUs } from "./AddAboutUs";
+import AboutUsCard from "./AboutUsCard";
 import { DeleteAboutUsModal } from "./DeleteAboutUsModal";
 import { EditAboutUsModal } from "./EditAboutUsModal";
+import PropTypes from "prop-types";
 
-const AboutUsList = () => {
-  const [informaciones, setInformaciones] = useState([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [infoToDelete, setInfoToDelete] = useState(null);
-  const [infoToEdit, setInfoToEdit] = useState(null);
+const AboutUsList = ({ informaciones, setInformaciones }) => {
+  const [loading, setLoading] = useState(true); // Estado de carga
+  const [error, setError] = useState(""); // Estado de error
+  const [infoToDelete, setInfoToDelete] = useState(null); // Info seleccionada para eliminar
+  const [infoToEdit, setInfoToEdit] = useState(null); // Info seleccionada para editar
 
-  
-  // Abre modal de agregar
-  const handleOpenAddModal = () => setIsAddModalOpen(true);
+  // Función para cargar datos de la API
+  const fetchInformaciones = async () => {
+    setLoading(true);
+    setError("");
 
-  // Cierra modal de agregar
-  const handleCloseAddModal = () => setIsAddModalOpen(false);
-
-  // Guarda nueva información en la base de datos
-  const handleSave = async (newInfo) => {
     try {
-      const response = await Axios.post("/api/v1/posts", newInfo);
-      setInformaciones((prev) => [...prev, response.data.post]);
-      setIsAddModalOpen(false);
-    } catch (error) {
-      console.error("Error al guardar la nueva información:", error);
+      const response = await Axios.get("/api/v1/posts"); // Endpoint de la API
+      if (response.data && response.data.Posts) {
+        setInformaciones(response.data.Posts); // Actualiza el estado con los datos de la API
+      }
+    } catch (err) {
+      setError("Error al cargar los datos: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Abre la ventana de eliminación
-  const handleOpenDeleteModal = (info) => {
-    setInfoToDelete(info);
-    setIsDeleteModalOpen(true);
-  };
+  // Cargar datos al montar el componente
+  useEffect(() => {
+    fetchInformaciones();
+  }, []);
 
-  // Elimina un dato de la base de datos
+  // Función para abrir el modal de eliminar
+  const handleOpenDeleteModal = (info) => setInfoToDelete(info);
+
+  // Eliminar información
   const handleDelete = async () => {
     try {
-      await Axios.delete(`/api/v1/posts/${infoToDelete._id}`); // Asegúrate de que el ID sea correcto
+      await Axios.delete(`/api/v1/posts/${infoToDelete._id}`); // DELETE a la API
       setInformaciones((prev) =>
         prev.filter((info) => info._id !== infoToDelete._id)
       );
-      setIsDeleteModalOpen(false);
-    } catch (error) {
-      console.error("Error al eliminar la información:", error);
+      setInfoToDelete(null); // Cierra el modal de eliminar
+    } catch (err) {
+      console.error("Error al eliminar la información:", err);
     }
   };
 
-  // Cierra el modal de eliminación
-  const handleCloseDeleteModal = () => setIsDeleteModalOpen(false);
+  // Función para abrir el modal de edición
+  const handleOpenEditModal = (info) => setInfoToEdit(info);
 
-  // Abre el modal de edición
-  const handleOpenEditModal = (info) => {
-    setInfoToEdit(info);
-    setIsEditModalOpen(true);
-  };
-
-  // Cierra el modal de edición
-  const handleCloseEditModal = () => setIsEditModalOpen(false);
-
-  // Guarda los cambios de edición en la base de datos
+  // Guardar los cambios de edición
   const handleEditSave = async (editedInfo) => {
     try {
       const response = await Axios.patch(
@@ -71,64 +61,74 @@ const AboutUsList = () => {
       );
       setInformaciones((prev) =>
         prev.map((info) =>
-          info._id === editedInfo._id ? { ...info, ...response.data.post } : info
+          info._id === editedInfo._id
+            ? { ...info, ...response.data.post }
+            : info
         )
       );
-      setIsEditModalOpen(false);
-    } catch (error) {
-      console.error("Error al guardar los cambios de edición:", error);
+      setInfoToEdit(null); // Cierra el modal de edición
+    } catch (err) {
+      console.error("Error al guardar los cambios de edición:", err);
     }
   };
 
   return (
-    <>
-      {/* Contenedor de la lista de tarjetas */}
-      <div className="flex flex-wrap gap-4 w-full">
-        {informaciones.map((info) => (
-          <div key={info._id} className="flex-grow bg-transparent border-none">
-            <AboutUsCard
-              title={info.title}
-              description={info.description}
-              image={info.image}
-              onDelete={() => handleOpenDeleteModal(info)}
-              onEdit={() => handleOpenEditModal(info)}
-            />
+    <div>
+      {/* Lista de tarjetas */}
+      <div className="container mx-auto py-6">
+        {loading ? (
+          <p className="text-gray-500">Cargando información...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : informaciones.length > 0 ? (
+          <div className="flex flex-wrap gap-4 w-full mb-4">
+            {informaciones.map((info) => (
+              <AboutUsCard
+                key={info._id}
+                title={info.name}
+                description={info.description}
+                image={info.image}
+                onDelete={() => handleOpenDeleteModal(info)}
+                onEdit={() => handleOpenEditModal(info)}
+              />
+            ))}
           </div>
-        ))}
+        ) : (
+          <p className="text-gray-500">No hay información para mostrar.</p>
+        )}
       </div>
 
-      {/* Botón para abrir modal de agregar */}
-      <button
-        onClick={handleOpenAddModal}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        Agregar Nuevo Post
-      </button>
-
-      {/* Modales para agregar, eliminar y editar */}
-      {isAddModalOpen && (
-        <AddAboutUs 
-        onClose={handleCloseAddModal} 
-        onSave={handleSave} 
-        isOpen={false}
-        />
-      )}
-      {isDeleteModalOpen && (
+      {/* Modales */}
+      {infoToDelete && (
         <DeleteAboutUsModal
-          info={ infoToDelete}
-          onClose={handleCloseDeleteModal}
+          info={infoToDelete}
+          onClose={() => setInfoToDelete(null)}
           onConfirm={handleDelete}
         />
       )}
-      {isEditModalOpen && (
+      {infoToEdit && (
         <EditAboutUsModal
-          infoToEdit={infoToEdit}
-          onClose={handleCloseEditModal}
+          info={infoToEdit}
+          onClose={() => setInfoToEdit(null)}
           onSave={handleEditSave}
         />
       )}
-    </>
+    </div>
   );
+};
+
+AboutUsList.propTypes = {
+  informaciones: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired, // Identificador único
+      name: PropTypes.string.isRequired, // Nombre del post
+      description: PropTypes.string, // Descripción del post
+      image: PropTypes.string, // URL de la imagen (puede ser opcional)
+    })
+  ).isRequired, // La lista es obligatoria
+  setInformaciones: PropTypes.func.isRequired, // Función para actualizar la lista
+  onEdit: PropTypes.func, // Función para editar
+  onDelete: PropTypes.func, // Función para eliminar
 };
 
 export default AboutUsList;
