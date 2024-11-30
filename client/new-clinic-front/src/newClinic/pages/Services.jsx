@@ -14,7 +14,7 @@ const Services = () => {
   //Input search term
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [servicesList, setServicesList] = useState();
+  const [servicesList, setServicesList] = useState(null);
   const [elementModalAnimationStyle, setElementModalAnimationStyle] = useState(
     "animate__animated animate__fadeIn"
   );
@@ -23,9 +23,11 @@ const Services = () => {
     axios
       .get("/api/v1/products/")
       .then(({ data }) => {
-        setServicesList(
-          data?.products.filter((element) => element.type === "servicio")
-        );
+        if(authState?.logged){
+          setServicesList(data?.products.filter( (element) => element.type === 'servicio'));
+        }else{
+          setServicesList(data?.products.filter( (element) => element.type === 'servicio' && element.state === true));
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -58,50 +60,58 @@ const Services = () => {
     <>
       <Header />
 
-      <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
-      <div className="flex justify-center mb-4">
-        <Input
-          text={searchTerm}
-          handleText={(newText) => setSearchTerm(newText.target.value)}
-          placeHolder="Buscar por tipo de servicio..."
-          extraStyle="w-[300px]"
-        />
-      </div>
+      <div className="min-h-screen">
 
-      {authState?.logged ? (
-        <>
-          <div className="flex justify-start relative">
-            <button
-              className={`rounded-md bg-yellow-300 
-                  py-2 px-4 text-center text-lg transition-all shadow-sm 
-                  hover:shadow-lg text-slate-600 hover:text-white
-                  focus:text-white active:text-white disabled:pointer-events-none 
-                  disabled:opacity-50 disabled:shadow-none ml-24`}
-              onClick={() => setIsModalOpen(!isModalOpen)}
-            >
-              Añadir nuevo servicio
-            </button>
-          </div>
-
-          <ElementModal
-            title="Añandir Servicio"
-            isOpen={isModalOpen}
-            onClose={onCloseAddModal}
-            // onAddProduct={handleAddProduct}
-            type="servicio"
-            style={elementModalAnimationStyle}
+        <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
+        <div className="flex justify-center mb-4">
+          <Input
+            text={searchTerm}
+            handleText={(newText) => setSearchTerm(newText.target.value)}
+            placeHolder="Buscar por tipo de servicio..."
+            extraStyle="w-[300px]"
           />
-        </>
-      ) : null}
+        </div>
 
-      <ElementsGrid
-        data={servicesList}
-        searchTerm={searchTerm}
-        onCloseDeleteModal={onCloseModal}
-        onCloseEditModal={onCloseModal}
-      />
+        {authState?.logged ? (
+          <>
+            <div className="flex justify-start relative">
+              <button
+                className={`rounded-md bg-yellow-300 
+                    py-2 px-4 text-center text-lg transition-all shadow-sm 
+                    hover:shadow-lg text-slate-600 hover:text-white
+                    focus:text-white active:text-white disabled:pointer-events-none 
+                    disabled:opacity-50 disabled:shadow-none ml-24`}
+                onClick={() => setIsModalOpen(!isModalOpen)}
+              >
+                Añadir nuevo servicio
+              </button>
+            </div>
 
+            <ElementModal
+              title="Añandir Servicio"
+              isOpen={isModalOpen}
+              onClose={onCloseAddModal}
+              // onAddProduct={handleAddProduct}
+              type="servicio"
+              style={elementModalAnimationStyle}
+            />
+          </>
+        ) : null}
+
+        <ElementsGrid
+          data={servicesList}
+          searchTerm={searchTerm}
+          onCloseDeleteModal={onCloseModal}
+          onCloseEditModal={onCloseModal}
+        />
+
+
+      </div>
+      
       <Footer />
+          
+      
+      
     </>
   );
 };

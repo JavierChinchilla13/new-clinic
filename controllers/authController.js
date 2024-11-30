@@ -121,6 +121,8 @@ const login = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
+
+
 const logout = async (req, res) => {
   await Token.findOneAndDelete({ user: req.user.userId });
 

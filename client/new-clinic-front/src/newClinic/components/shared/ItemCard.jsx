@@ -15,7 +15,7 @@ import { useContext } from "react";
 
 */
 
-const ItemCard = ({ name, description, image, type, price, onViewDetails, onEdit, onDelete }) => {
+const ItemCard = ({ name, description, image, type, price, state, onViewDetails, onEdit, onDelete }) => {
 
     const { authState } = useContext(AuthContext);
 
@@ -61,6 +61,28 @@ const ItemCard = ({ name, description, image, type, price, onViewDetails, onEdit
             
                     <p className="text-gray-600">{type}</p> 
                     <p className="text-gray-600">{description}</p> 
+                        {
+                            authState?.logged ?
+                            (
+                                <p className={
+                                    state ?
+                                    `text-green-600 font-bold`
+                                        :
+                                      `text-red-600 font-bold`  }
+                                    >
+                                    {
+                                        state ?
+                                        `Estado: Activo`
+                                        :
+                                        `Estado: Inactivo`
+                                    }
+                                </p> 
+                            )
+                            :
+                            null
+                        }
+                    
+
                 </div>
                 
             
@@ -84,6 +106,7 @@ ItemCard.propTypes = {
     image: PropTypes.string,
     type: PropTypes.string,
     price: PropTypes.number,
+    state: PropTypes.bool,
     onViewDetails: PropTypes.func,
     onEdit: PropTypes.func,
     onDelete: PropTypes.func

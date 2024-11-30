@@ -46,9 +46,9 @@ const AddUser = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen flex flex-col lg:flex-row items-center justify-center gap-8 p-8 bg-gray-50">
+      <div className="min-h-screen flex flex-col lg:flex-row justify-center gap-8 p-8 bg-gray-50">
         {/* Formulario */}
-        <div className="w-full lg:w-5/12 bg-white rounded-xl shadow-lg p-6">
+        <div className="w-fit h-fit lg:w-5/12 bg-white rounded-xl shadow-lg p-6 mt-12">
           <h1 className="text-xl font-bold text-gray-700 mb-4">
             Agregar administrador
           </h1>
@@ -98,7 +98,7 @@ const AddUser = () => {
         </div>
 
         {/* Lista de Administradores */}
-        <div className="w-full lg:w-6/12 bg-white rounded-xl shadow-lg p-6">
+        <div className="w-fit h-fit lg:w-6/12 bg-white rounded-xl shadow-lg p-6 mt-12">
           <h1 className="text-xl font-bold text-gray-700 mb-4">
             Lista de administradores
           </h1>

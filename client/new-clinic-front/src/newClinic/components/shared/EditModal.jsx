@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "../../../hooks/useForm";
-
+ 
 export const EditModal = ({ product, onClose, onSave }) => {
   // const [editedProduct, setEditedProduct] = useState({ ...product });
 
@@ -13,6 +13,7 @@ export const EditModal = ({ product, onClose, onSave }) => {
 
   const [imageFile, setImageFile] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [state, setState] = useState(true);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -27,8 +28,8 @@ export const EditModal = ({ product, onClose, onSave }) => {
       description: formState.description,
       price: formState.price,
       image: imageFile === null ? product.image : imageFile,
-      imageLoaded
-
+      imageLoaded,
+      state
     };
     
     onSave(updatedProduct);
@@ -80,6 +81,16 @@ export const EditModal = ({ product, onClose, onSave }) => {
               step="any"
             />
           </div>
+
+          <select
+            value={state}
+            onChange={(e) => setState(e.target.value === "true")}
+            className="py-2 px-3 rounded-xl border-2 border-blue-300 mb-4"
+          >
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
+
           <div className="flex justify-end space-x-2">
             <button
               type="button"

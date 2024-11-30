@@ -89,8 +89,7 @@ export const ElementsGrid = ({data, searchTerm, onCloseDeleteModal, onCloseEditM
         description: updatedProduct.description,
         price: updatedProduct.price,
         state: updatedProduct.state,
-        image: updatedProduct.imageLoaded ? imageUrl : updatedProduct.image
-        // image: 'https://images.wikidexcdn.net/mwuploads/wikidex/thumb/9/95/latest/20160817212623/Charizard.png/200px-Charizard.png'
+        image: updatedProduct.imageLoaded ? imageUrl : updatedProduct.image,
       }
 
       // console.log(updatedProduct.image); 
@@ -107,7 +106,7 @@ export const ElementsGrid = ({data, searchTerm, onCloseDeleteModal, onCloseEditM
     <>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 max-w-6xl mx-auto">
-        {filteredProducts?.map((element) => (
+        {filteredProducts?.map((element) => ( 
           <ItemCard
             key={element._id}
             name={element.name}
@@ -115,6 +114,7 @@ export const ElementsGrid = ({data, searchTerm, onCloseDeleteModal, onCloseEditM
             image={element.image}
             type={element.type}
             price={element.price}
+            state={element.state}
             onViewDetails={() => handleViewDetails(element)}
             onEdit={() => handleSetEditProduct(element)}  
             onDelete={() => handleSetDeleteProduct(element)}  

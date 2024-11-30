@@ -2,19 +2,21 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "../../../hooks/useForm";
 import { createPost, uploadImage } from "../../utils/AboutUsService";
+import Input from "./Input";
 
 export const AddAboutUs = ({ onClose, isOpen }) => {
-  const { newInfo } = useState({
+
+  const { formState, onInputChange} = useForm({
     name: "",
     description: "",
-  });
+  })
 
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
 
   const handleSubmit = async () => {
-    if (!newInfo.name || !newInfo.description) {
+    if (!formState.name || !formState.description) {
       alert("Por favor, complete todos los campos.");
       return;
     }
@@ -60,7 +62,7 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
           <div className="mb-4">
             <label className="block text-gray-700">Nombre</label>
             <Input
-              text={newInfo.name}
+              text={formState.name}
               handleText={onInputChange}
               placeHolder="Nombre"
               nameRef="name"
@@ -72,7 +74,7 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
           <div className="mb-4">
             <label className="block text-gray-700">Descripción</label>
             <Input
-              text={newInfo.description}
+              text={formState.description}
               handleText={onInputChange}
               placeHolder="Descripción"
               nameRef="description"

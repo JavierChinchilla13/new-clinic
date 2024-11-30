@@ -2,9 +2,9 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-800 text-white py-4 flex justify-center items-center w-full">
+    <footer className=" bottom-0 bg-gray-200 text-gray-600 py-4 flex justify-center items-center w-full align-bottom">
       <p className="text-sm font-medium">
-        © {currentYear} New Clínica, Todos los derechos reservados.
+        © {currentYear} New Clinic, Todos los derechos reservados.
       </p>
     </footer>
   );

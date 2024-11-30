@@ -5,6 +5,7 @@ import { ElementsGrid } from "../components/shared/ElementsGrid";
 import ElementModal from "../components/ElementModal";
 import {AuthContext} from '../../auth/context/AuthContext'
 import axios from "axios";
+import Footer from "../components/Footer";
 
 
 const Products = () => {
@@ -23,7 +24,11 @@ const Products = () => {
     axios
     .get("/api/v1/products/")
     .then( ({data}) => {
-        setProductsList(data?.products.filter( (element) => element.type === 'producto'));
+        if(authState?.logged){
+          setProductsList(data?.products.filter( (element) => element.type === 'producto'));
+        }else{
+          setProductsList(data?.products.filter( (element) => element.type === 'producto' && element.state === true));
+        }
     })
     .catch((error) => {
         console.log(error);
@@ -57,60 +62,65 @@ const Products = () => {
     <>
       <Header />
 
-      
-        <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Productos</h2>
-        <div className="flex justify-center mb-4">
+      <div className="min-h-screen">
 
-              <Input
-                text={searchTerm}
-                handleText={(newText) => setSearchTerm(newText.target.value)}
-                placeHolder="Buscar por tipo de producto..."
-                extraStyle = 'w-[300px]'
-              />
+          <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Productos</h2>
+          <div className="flex justify-center mb-4">
 
-        </div>
+                <Input
+                  text={searchTerm}
+                  handleText={(newText) => setSearchTerm(newText.target.value)}
+                  placeHolder="Buscar por tipo de producto..."
+                  extraStyle = 'w-[300px]'
+                />
 
-        {
+          </div>
 
-            authState?.logged ?
+          {
 
-            <>
-                <div className="flex justify-start relative">
-                <button 
-                className={`rounded-md bg-yellow-300 
-                      py-2 px-4 text-center text-lg transition-all shadow-sm 
-                      hover:shadow-lg text-slate-600 hover:text-white
-                      focus:text-white active:text-white disabled:pointer-events-none 
-                      disabled:opacity-50 disabled:shadow-none ml-24`}
-                onClick={() => {
-                  // elementModalStyle = 'animate__animated animate__fadeIn';
-                  setIsModalOpen(!isModalOpen)
-                }}
-                >
-                  Añadir nuevo producto
-                </button>
-            </div>
+              authState?.logged ?
 
-              <ElementModal
-              title="Añadir Producto"
-              isOpen={isModalOpen}
-              onClose={onCloseAddModal}
-              // onAddProduct={handleAddProduct}
-              type="producto"
-              style={elementModalAnimationStyle}
-              />
-            </>
+              <>
+                  <div className="flex justify-start relative">
+                  <button 
+                  className={`rounded-md bg-yellow-300 
+                        py-2 px-4 text-center text-lg transition-all shadow-sm 
+                        hover:shadow-lg text-slate-600 hover:text-white
+                        focus:text-white active:text-white disabled:pointer-events-none 
+                        disabled:opacity-50 disabled:shadow-none ml-24`}
+                  onClick={() => {
+                    // elementModalStyle = 'animate__animated animate__fadeIn';
+                    setIsModalOpen(!isModalOpen)
+                  }}
+                  >
+                    Añadir nuevo producto
+                  </button>
+                  </div>
 
-            :
-            null
-        }
+                  <ElementModal
+                  title="Añadir Producto"
+                  isOpen={isModalOpen}
+                  onClose={onCloseAddModal}
+                  // onAddProduct={handleAddProduct}
+                  type="producto"
+                  style={elementModalAnimationStyle}
+                  />
+              </>
+              :
+              null
+            }
 
-          <ElementsGrid
-            data={productsList}
-            searchTerm={searchTerm}
-            onCloseDeleteModal={onCloseModal}
-            onCloseEditModal={onCloseModal}
-          />
+            <ElementsGrid
+              data={productsList}
+              searchTerm={searchTerm}
+              onCloseDeleteModal={onCloseModal}
+              onCloseEditModal={onCloseModal}
+            />
+
+      </div>
+
+        <Footer />
+        
         
     </>
     );

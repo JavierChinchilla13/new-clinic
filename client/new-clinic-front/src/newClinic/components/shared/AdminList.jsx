@@ -48,7 +48,7 @@ const AdminList = ({ refreshTrigger }) => {
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr key={user.id} className="border-b hover:bg-gray-50">
+            <tr key={user._id} className="border-b hover:bg-gray-50">
               <td className="px-4 py-2">{index + 1}</td>
               <td className="px-4 py-2">{user.name}</td>
               <td className="px-4 py-2">{user.email}</td>

@@ -1,5 +1,5 @@
 import AboutUsCard from "./AboutUsCard";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Axios from "axios";
 import { AddAboutUs } from "./AddAboutUs";
 import { DeleteAboutUsModal } from "./DeleteAboutUsModal";
@@ -107,7 +107,11 @@ const AboutUsList = () => {
 
       {/* Modales para agregar, eliminar y editar */}
       {isAddModalOpen && (
-        <AddAboutUs onClose={handleCloseAddModal} onSave={handleSave} />
+        <AddAboutUs 
+        onClose={handleCloseAddModal} 
+        onSave={handleSave} 
+        isOpen={false}
+        />
       )}
       {isDeleteModalOpen && (
         <DeleteAboutUsModal

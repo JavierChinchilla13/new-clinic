@@ -92,16 +92,6 @@ const ElementModal = ({ isOpen, onClose, title, type, style }) => {
           className="mb-4"
         />
 
-        {/* <label>Tipo</label>
-        <select
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className="py-2 px-3 rounded-xl border-2 border-blue-300 mb-4"
-        >
-          <option value="producto">Producto</option>
-          <option value="servicio">Servicio</option>
-        </select> */}
-
         <label>Precio</label>
         <Input
           text={formState.price}

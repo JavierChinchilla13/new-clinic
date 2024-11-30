@@ -21,7 +21,8 @@ const AboutUs = () => {
         setLoading(false);
       })
       .catch((error) => {
-        setError("Error al cargar la información");
+        console.log(error);
+        setError(`Error al cargar la información: ${error.message}`);
         setLoading(false);
       });
   }, []);
@@ -50,19 +51,28 @@ const AboutUs = () => {
         )}
 
         {/* Mostrar mensaje de error o cargar información */}
-        {loading ? (
-          <p>Cargando información...</p>
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
-        ) : (
-          <AboutUsList informaciones={informaciones} />
-        )}
+        {loading ? 
+          (
+            <p>Cargando información...</p>
+          ) 
+          : error ? 
+          (
+            <p className="text-red-500">{error}</p>
+          ) 
+          : 
+          (
+            <AboutUsList 
+            informaciones={informaciones} 
+            />
+          )
+        }
 
         {/* Modal para agregar información */}
         {isModalOpen && (
           <AddAboutUs
             onClose={() => setIsModalOpen(false)}
             onSave={handleAddInfo}
+            isOpen={true}
           />
         )}
       </div>
