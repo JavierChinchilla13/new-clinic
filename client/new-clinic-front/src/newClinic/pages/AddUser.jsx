@@ -13,7 +13,9 @@ const AddUser = () => {
     password: "",
   });
 
-  const { showAlert, loading, setLoading, setSuccess, hideAlert } =
+  const [refreshTable, setRefreshTable] = useState(false);
+
+  const { alert, showAlert, loading, setLoading, setSuccess, hideAlert } =
     useLocalState();
 
   const onInputChange = (e) => {
@@ -30,9 +32,12 @@ const AddUser = () => {
       setSuccess(true);
       setFormState({ name: "", email: "", password: "" });
       showAlert({ text: data.msg, type: "success" });
+
+      // Refrescar tabla de usuarios
+      setRefreshTable((prev) => !prev);
     } catch (error) {
       const { msg } = error.response?.data || "Hubo un error.";
-      showAlert({ text: msg });
+      showAlert({ text: msg, type: "error" });
     } finally {
       setLoading(false);
     }
@@ -47,6 +52,19 @@ const AddUser = () => {
           <h1 className="text-xl font-bold text-gray-700 mb-4">
             Agregar administrador
           </h1>
+
+          {alert.show && (
+            <div
+              className={`p-4 mb-4 text-center rounded-lg ${
+                alert.type === "success"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {alert.text}
+            </div>
+          )}
+
           <form onSubmit={onRegisterUser} className="space-y-4">
             <Input
               text={formState.name}
@@ -84,7 +102,7 @@ const AddUser = () => {
           <h1 className="text-xl font-bold text-gray-700 mb-4">
             Lista de administradores
           </h1>
-          <AdminList />
+          <AdminList refreshTrigger={refreshTable} />
         </div>
       </div>
     </>

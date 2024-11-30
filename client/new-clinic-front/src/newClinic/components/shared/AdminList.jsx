@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 
-const AdminList = () => {
+const AdminList = ({ refreshTrigger }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("/api/v1/users");
+      setUsers(response.data.users || []);
+      setError(null);
+    } catch (err) {
+      setError("Error al obtener los usuarios." + err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("/api/v1/users");
-        setUsers(response.data.users || []);
-      } catch (err) {
-        setError("Error al obtener los usuarios." + err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchUsers();
-  }, []);
+  }, [refreshTrigger]);
 
   if (loading)
     return <div className="text-center text-gray-500">Cargando...</div>;
@@ -54,6 +58,10 @@ const AdminList = () => {
       </table>
     </div>
   );
+};
+
+AdminList.propTypes = {
+  refreshTrigger: PropTypes.bool.isRequired,
 };
 
 export default AdminList;

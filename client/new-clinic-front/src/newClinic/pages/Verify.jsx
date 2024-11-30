@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
-import Button from "../components/shared/Button";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -12,7 +11,6 @@ const VerifyPage = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const query = useQuery();
-  const navigate = useNavigate(); // Hook para redirigir
 
   const verifyToken = async () => {
     setLoading(true);
@@ -58,13 +56,12 @@ const VerifyPage = () => {
             <h2 className="text-2xl font-semibold text-green-600 text-center mb-4">
               Cuenta confirmada
             </h2>
-            <Button
-              type="button"
-              extraStyle={"w-full"}
-              onClick={() => navigate("../../auth/login")} // Redirige al hacer clic
+            <Link
+              to="/auth/login"
+              className="w-full bg-green-500 text-white py-2 px-4 rounded text-center block"
             >
               Inicia sesión
-            </Button>
+            </Link>
           </>
         )}
       </div>
