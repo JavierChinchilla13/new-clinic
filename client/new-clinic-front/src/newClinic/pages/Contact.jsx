@@ -58,13 +58,7 @@ const Contact = () => {
           </div>
 
           {/* Imagen de contacto */}
-          <div className="w-full md:w-1/4 flex justify-center items-center">
-            <img
-              src="/path/to/contact-image.jpg"
-              alt="Persona recibiendo tratamiento"
-              className="rounded-md"
-            />
-          </div>
+          {/*   */}
         </div>
       </div>
     </>

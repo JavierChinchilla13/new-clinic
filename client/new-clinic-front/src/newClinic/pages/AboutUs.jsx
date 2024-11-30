@@ -1,82 +1,65 @@
-import { useContext, useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "../components/Header";
 import AboutUsList from "../components/shared/AboutUsList";
-import { AddAboutUs } from "../components/shared/AddAboutUs";
-import { AuthContext } from "../../auth/context/AuthContext";
-import Axios from "axios";
+import AddAboutUs from "../components/shared/AddAboutUs"; // Modal para añadir información
+import logo from "../../assets/logo.png"; // Ruta al logo
 
 const AboutUs = () => {
-  const { authState } = useContext(AuthContext);
+  const [informaciones, setInformaciones] = useState([]); // Estado para la lista de información
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el modal
 
-  const [informaciones, setInformaciones] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  // Función para abrir el modal
+  const handleOpenModal = () => setIsModalOpen(true);
 
-  // Cargar información desde la API al montar el componente
-  useEffect(() => {
-    Axios.get("/api/v1/posts")
-      .then((response) => {
-        setInformaciones(response.data.posts || []); 
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setError(`Error al cargar la información: ${error.message}`);
-        setLoading(false);
-      });
-  }, []);
+  // Función para cerrar el modal
+  const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleAddInfo = (newInfo) => {
-    // Aquí puedes integrar una llamada POST a la API si deseas que los datos sean persistentes
-    setInformaciones((prev) => [...prev, { id: prev.length + 1, ...newInfo }]);
+  // Función para guardar nueva información
+  const handleSaveInfo = (newInfo) => {
+    setInformaciones((prev) => [...prev, newInfo]); // Agrega el nuevo post al estado actual
   };
 
   return (
-    <>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Header */}
       <Header />
-      <h1 className="text-4xl ml-12 mt-12 font-bold">Bienvenido a New Clinic!</h1>
-      <div className="bg-white py-12 px-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-8">Sobre nosotros</h2>
 
-        {authState?.logged && (
-          <div className="flex justify-end">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-teal-500 text-white py-2 px-4 rounded mb-6"
-            >
-              Añadir Información
-            </button>
+      {/* Contenido principal */}
+      <main className="container mx-auto px-6 py-12">
+        {/* Logo y título */}
+        <div className="flex flex-col md:flex-row items-center justify-between mb-10">
+          <div className="flex items-center">
+            <img src={logo} alt="Logo de New Clinic" className="h-20 mr-4" />
+            <h1 className="text-4xl font-bold text-gray-800">Sobre nosotros</h1>
           </div>
-        )}
+          {/* Botón responsivo */}
+          <button
+            onClick={handleOpenModal}
+            className="mt-4 md:mt-0 bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-lg shadow-lg transition duration-300"
+          >
+            Añadir Información
+          </button>
+        </div>
 
-        {/* Mostrar mensaje de error o cargar información */}
-        {loading ? 
-          (
-            <p>Cargando información...</p>
-          ) 
-          : error ? 
-          (
-            <p className="text-red-500">{error}</p>
-          ) 
-          : 
-          (
-            <AboutUsList 
-            informaciones={informaciones} 
-            />
-          )
-        }
+        {/* Subtítulo */}
+        <p className="text-lg font-semibold text-teal-600 mb-6">
+          • Medicina Estética • Medicina General • Nutrición • Spa
+        </p>
 
-        {/* Modal para agregar información */}
-        {isModalOpen && (
-          <AddAboutUs
-            onClose={() => setIsModalOpen(false)}
-            onSave={handleAddInfo}
-            isOpen={true}
-          />
-        )}
-      </div>
-    </>
+        {/* Lista de información */}
+        <AboutUsList
+          informaciones={informaciones}
+          setInformaciones={setInformaciones}
+        />
+
+        {/* Modal para añadir información */}
+        <AddAboutUs
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSave={handleSaveInfo}
+        />
+      </main>
+    </div>
   );
 };
 

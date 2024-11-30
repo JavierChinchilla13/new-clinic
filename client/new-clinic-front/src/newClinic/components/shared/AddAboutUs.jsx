@@ -1,16 +1,15 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useForm } from "../../../hooks/useForm";
-import { createPost, uploadImage } from "../../utils/AboutUsService";
 import Input from "./Input";
 
-export const AddAboutUs = ({ onClose, isOpen }) => {
+import { uploadImage, createPost } from "../../utils/AboutUsService";
 
-  const { formState, onInputChange} = useForm({
+export const AddAboutUs = ({ onClose, isOpen, onSave }) => {
+  const { formState, onInputChange } = useForm({
     name: "",
     description: "",
-  })
-
+  });
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(null);
@@ -28,24 +27,29 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
       if (image) {
         const formData = new FormData();
         formData.append("image", image);
+
         const { data } = await uploadImage(formData);
         imageUrl = data.image.src;
       }
 
       const { name, description } = formState;
-      const newPost = {
+
+      const newInfo = {
         name,
         description,
         image: imageUrl,
       };
 
-      await createPost(newPost);
+      await createPost(newInfo); // Llama al servicio para guardar en el backend
 
-      onClose(); // Cierra el modal
+      // Actualiza la lista en el componente padre
+      onSave(newInfo);
+      onClose();
     } catch (error) {
-      console.error("Error creating product:", error)
+      console.error("Error al guardar la información:", error);
+      alert("No se pudo guardar la información. Por favor, intenta más tarde.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -55,10 +59,7 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
         <h2 className="text-2xl font-bold mb-4">Añadir Información</h2>
-
-        {/* Formulario */}
         <form>
-          {/* Campo de Nombre */}
           <div className="mb-4">
             <label className="block text-gray-700">Nombre</label>
             <Input
@@ -69,8 +70,6 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
               className="w-full p-2 border rounded"
             />
           </div>
-
-          {/* Campo de Descripción */}
           <div className="mb-4">
             <label className="block text-gray-700">Descripción</label>
             <Input
@@ -81,8 +80,6 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
               className="w-full p-2 border rounded"
             />
           </div>
-
-          {/* Campo de Imagen */}
           <div className="mb-4">
             <label className="block text-gray-700">Imagen</label>
             <input
@@ -91,8 +88,6 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
               className="w-full p-2 border rounded"
             />
           </div>
-
-          {/* Botones de acción */}
           <div className="flex justify-end space-x-2">
             <button
               type="button"
@@ -105,9 +100,11 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
               type="button"
               onClick={handleSubmit}
               disabled={loading}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+              className={`py-2 px-4 rounded font-bold text-white ${
+                loading ? "bg-gray-400" : "bg-green-500 hover:bg-green-600"
+              }`}
             >
-              Guardar
+              {loading ? "Cargando..." : "Guardar"}
             </button>
           </div>
         </form>
@@ -118,5 +115,8 @@ export const AddAboutUs = ({ onClose, isOpen }) => {
 
 AddAboutUs.propTypes = {
   onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
 };
+
+export default AddAboutUs;
