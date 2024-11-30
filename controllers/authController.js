@@ -46,7 +46,7 @@ const register = async (req, res) => {
 
   // send verification token back only while testing in postman!!!
   res.status(StatusCodes.CREATED).json({
-    msg: "Success! Please check your email to verify account",
+    msg: "¡Éxito! Por favor, revisa tu correo electrónico para verificar tu cuenta.",
   });
 };
 
@@ -164,7 +164,9 @@ const forgotPassword = async (req, res) => {
 
   res
     .status(StatusCodes.OK)
-    .json({ msg: "Please check your email for reset password link" });
+    .json({
+      msg: "Por favor, revisa tu correo electrónico para encontrar el enlace de restablecimiento de contraseña.",
+    });
 };
 
 const resetPassword = async (req, res) => {
