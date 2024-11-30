@@ -2,19 +2,21 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
 export const EditAboutUsModal = ({ onClose, onSave, infoToEdit }) => {
+  
   const [editedInfo, setEditedInfo] = useState({
-    title: "",
+    name: "",
     description: "",
-    image: null,
   });
+
+  const [imageLoaded, setImageLoaded] = useState(false); // Estado para controlar si la imagen se ha cargado
 
   // Rellenar los campos con la información existente al abrir el modal
   useEffect(() => {
     if (infoToEdit) {
       setEditedInfo({
-        title: infoToEdit.title,
+        name: infoToEdit.title, // Mapeando 'title' a 'name'
         description: infoToEdit.description,
-        image: null, 
+        image: null,  // Se puede cargar la imagen por defecto si lo deseas
       });
     }
   }, [infoToEdit]);
@@ -27,15 +29,20 @@ export const EditAboutUsModal = ({ onClose, onSave, infoToEdit }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setEditedInfo((prev) => ({ ...prev, image: file }));
+    setImageLoaded(true); // Marcar la imagen como cargada
   };
 
   const handleSubmit = () => {
-    if (!editedInfo.title || !editedInfo.description) {
-      alert("Por favor, complete todos los campos.");
-      return;
-    }
-    onSave(editedInfo);
-    onClose(); 
+    const updateInfo = {
+      _id: infoToEdit?._id,
+      name: editedInfo.name,
+      description: editedInfo.description,
+      image: editedInfo.image || infoToEdit.image, // Mantener imagen actual si no se cambia
+      imageLoaded, // Agregar el estado de imagen cargada
+    };
+
+    onSave(updateInfo);
+    onClose();
   };
 
   return (
@@ -47,8 +54,8 @@ export const EditAboutUsModal = ({ onClose, onSave, infoToEdit }) => {
             <label className="block text-gray-700">Título</label>
             <input
               type="text"
-              name="title"
-              value={editedInfo.title}
+              name="name"
+              value={editedInfo.name}
               onChange={handleChange}
               className="w-full p-2 border rounded"
               placeholder="Escribe el título"
@@ -97,5 +104,5 @@ export const EditAboutUsModal = ({ onClose, onSave, infoToEdit }) => {
 EditAboutUsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
-  infoToEdit: PropTypes.object, 
+  infoToEdit: PropTypes.object,
 };
