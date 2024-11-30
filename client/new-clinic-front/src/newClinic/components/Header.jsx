@@ -1,13 +1,11 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import Logo from '../components/shared/Logo'
+import Logo from "../components/shared/Logo";
 import { AuthContext } from "../../auth/context/AuthContext";
 
 const Header = () => {
-
   const navigate = useNavigate();
-
-  const { authState, logout } = useContext(AuthContext);
+  const { authState, logout } = useContext(AuthContext); // Asegúrate de tener el AuthContext bien configurado
 
   const imgStyles =
     "cursor-pointer hover:scale-105 transition-all mt-[20px] w-[140px]";
@@ -15,13 +13,13 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const onLogoutLogin = () => {
-    if (authState?.logged){
-      logout();
-      navigate('/');
-    }else{
-      navigate('/auth/login');
+    if (authState?.logged) {
+      logout(); // Limpia la sesión
+      navigate("/"); // Redirige al inicio o la página de login
+    } else {
+      navigate("/auth/login"); // Redirige al login si no está logueado
     }
-  }
+  };
 
   return (
     <header
@@ -77,9 +75,7 @@ const Header = () => {
           </li>
         </NavLink>
 
-        {
-          authState?.logged ?
-          (
+        {authState?.logged ? (
           <NavLink to="/admin/addUser">
             <li
               className="p-3 text-base text-emerald-700 hover:bg-emerald-600 
@@ -89,156 +85,120 @@ const Header = () => {
               Agregar colaborador
             </li>
           </NavLink>
-          )
-          :
-          null
-        }
-        
+        ) : null}
       </ul>
 
-      {/* <NavLink to="/auth/login"> */}
-        <label
-          className={
-            !authState?.logged ?
-            ( `p-3 text-base text-emerald-700 hover:bg-emerald-600 
+      <label
+        className={
+          !authState?.logged
+            ? `p-3 text-base text-emerald-700 hover:bg-emerald-600 
             hover:text-white rounded-md transition-all
-            cursor-pointer hidden xl:flex`)
-            :
-            ( `p-3 text-base text-emerald-700 hover:bg-red-500 
+            cursor-pointer hidden xl:flex`
+            : `p-3 text-base text-emerald-700 hover:bg-red-500 
             hover:text-white rounded-md transition-all
-            cursor-pointer hidden xl:flex`)
-            }
-
-          onClick={onLogoutLogin}
-        >
-          {
-            authState?.logged ?
-            ("Logout")
-            : ("Sign in")
-          }
-        </label>
-      {/* </NavLink> */}
+            cursor-pointer hidden xl:flex`
+        }
+        onClick={onLogoutLogin}
+      >
+        {authState?.logged ? "Logout" : "Sign in"}
+      </label>
 
       <i
         className="bx bx-menu xl:hidden block text-5xl cursor-pointer"
         onClick={() => setMenuOpen(!menuOpen)}
       ></i>
 
-          {
-            menuOpen ?
-              <div
-                className={`absolute top-36 left-0 w-full bg-white flex flex-col 
+      {menuOpen ? (
+        <div
+          className={`absolute top-36 left-0 w-full bg-white flex flex-col 
                         items-center gap-6 font-semibold text-lg
                         transform transition-transform z-100`}
-                style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
-              >
-                <NavLink to="/">
-                  <li
-                    className="list-none w-screen text-center 
+          style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
+        >
+          <NavLink to="/">
+            <li
+              className="list-none w-screen text-center 
                                 p-4 hover:bg-emerald-600 hover:text-white
                                 rounded-md transition-all cursor-pointer"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                  >
-                    Inicio
-                  </li>
-                </NavLink>
-                <NavLink to="/products">
-                  <li
-                    className="list-none w-screen text-center 
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              Inicio
+            </li>
+          </NavLink>
+          <NavLink to="/products">
+            <li
+              className="list-none w-screen text-center 
                                 p-4 hover:bg-emerald-600 hover:text-white
                                 rounded-md transition-all cursor-pointer"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                  >
-                    Productos
-                  </li>
-                </NavLink>
-                <NavLink to="/services">
-                  <li
-                    className="list-none w-screen text-center 
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              Productos
+            </li>
+          </NavLink>
+          <NavLink to="/services">
+            <li
+              className="list-none w-screen text-center 
                                 p-4 hover:bg-emerald-600 hover:text-white
                                 rounded-md transition-all cursor-pointer"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                  >
-                    Servicios
-                  </li>
-                </NavLink>
-                <NavLink to="/">
-                  <li
-                    className="list-none w-screen text-center 
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              Servicios
+            </li>
+          </NavLink>
+          <NavLink to="/">
+            <li
+              className="list-none w-screen text-center 
                                 p-4 hover:bg-emerald-600 hover:text-white
                                 rounded-md transition-all cursor-pointer"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                  >
-                    Sobre nosotros
-                  </li>
-                </NavLink>
-                <NavLink to="/contact">
-                  <li
-                    className="list-none w-screen text-center 
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              Sobre nosotros
+            </li>
+          </NavLink>
+          <NavLink to="/contact">
+            <li
+              className="list-none w-screen text-center 
                                 p-4 hover:bg-emerald-600 hover:text-white
                                 rounded-md transition-all cursor-pointer"
-                    onClick={() => {
-                      setMenuOpen(!menuOpen);
-
-                    }}
-                  >
-                    Contáctanos
-                  </li>
-                </NavLink>
-                {
-                  authState?.logged ? 
-                  (
-                    <NavLink to="/admin/addUser">
-                    <li
-                      className="list-none w-screen text-center 
+              onClick={() => {
+                setMenuOpen(!menuOpen);
+              }}
+            >
+              Contáctanos
+            </li>
+          </NavLink>
+          {authState?.logged ? (
+            <NavLink to="/admin/addUser">
+              <li
+                className="list-none w-screen text-center 
                                   p-4 hover:bg-emerald-600 hover:text-white
                                   rounded-md transition-all cursor-pointer"
-                      onClick={() => {}}
-                    >
-                      Agregar colaborador
-                    </li>
-                    </NavLink>
-  
+                onClick={() => {}}
+              >
+                Agregar colaborador
+              </li>
+            </NavLink>
+          ) : null}
 
-                  )
-
-                  :
-
-                  null
-                }
-               
-
-
-                <li
-                  className={
-                    !authState?.logged ?
-                    (`list-none w-screen text-center 
+          <li
+            className={
+              !authState?.logged
+                ? `list-none w-screen text-center 
                     p-4 hover:bg-emerald-600 hover:text-white
-                    rounded-md transition-all cursor-pointer`)
-                    :
-                    (`list-none w-screen text-center 
+                    rounded-md transition-all cursor-pointer`
+                : `list-none w-screen text-center 
                     p-4 hover:bg-red-500 hover:text-white
-                    rounded-md transition-all cursor-pointer`)
-                  }
-                  
-                  onClick={() => {
-                    setMenuOpen(!menuOpen) 
-                    onLogoutLogin()}}
-                >
-                  {
-                  authState?.logged ?
-                  ("Logout")
-                  : ("Sign in")
-                  }
-                </li>
-
-
-              </div>
-
-              :
-              null
-
-          }
+                    rounded-md transition-all cursor-pointer`
+            }
+            onClick={() => {
+              setMenuOpen(!menuOpen);
+              onLogoutLogin();
+            }}
+          >
+            {authState?.logged ? "Logout" : "Sign in"}
+          </li>
+        </div>
+      ) : null}
     </header>
   );
 };
