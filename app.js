@@ -42,7 +42,26 @@ app.use(express.json()); // Parse JSON payloads
 app.use(cookieParser(process.env.JWT_SECRET)); // Parse and sign cookies
 app.use(fileUpload({ useTempFiles: true })); // Handle file uploads
 app.use(morgan("tiny")); // HTTP request logger
-app.use(helmet()); // Security headers
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://unpkg.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        fontSrc: ["'self'", "https://unpkg.com"],
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+        frameSrc: ["'self'", "https://www.google.com"], // Permitir Google en iframes
+        // Agrega otras directivas necesarias
+      },
+    },
+  })
+); // Security headers
 app.use(xss()); // Prevent cross-site scripting attacks
 
 // Serve static files
