@@ -4,6 +4,8 @@ import AboutUsCard from "./AboutUsCard";
 import { DeleteAboutUsModal } from "./DeleteAboutUsModal";
 import { EditAboutUsModal } from "./EditAboutUsModal";
 import PropTypes from "prop-types";
+import axios from "axios";
+import { updatePost, uploadImage } from "../../utils/aboutUsService";
 
 const AboutUsList = ({ informaciones, setInformaciones }) => {
   const [loading, setLoading] = useState(true); // Estado de carga
@@ -34,19 +36,19 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
   }, []);
 
   // Función para abrir el modal de eliminar
-  const handleOpenDeleteModal = (info) => setInfoToDelete(info);
+  const handleOpenDeleteModal = (info) => {
+    setInfoToDelete(info);
+  }
 
-  // Eliminar información
   const handleDelete = async () => {
-    try {
-      await Axios.delete(`/api/v1/posts/${infoToDelete._id}`); // DELETE a la API
-      setInformaciones((prev) =>
-        prev.filter((info) => info._id !== infoToDelete._id)
-      );
-      setInfoToDelete(null); // Cierra el modal de eliminar
-    } catch (err) {
-      console.error("Error al eliminar la información:", err);
-    }
+    const infoID = infoToDelete?._id;
+
+    axios
+    .delete(`/api/v1/posts/${infoID}`)
+    .catch( () => {
+      console.log('error');
+    })
+    setInfoToDelete(null);
   };
 
   // Función para abrir el modal de edición
@@ -55,17 +57,22 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
   // Guardar los cambios de edición
   const handleEditSave = async (editedInfo) => {
     try {
-      const response = await Axios.patch(
-        `/api/v1/posts/${editedInfo._id}`,
-        editedInfo
-      );
-      setInformaciones((prev) =>
-        prev.map((info) =>
-          info._id === editedInfo._id
-            ? { ...info, ...response.data.post }
-            : info
-        )
-      );
+
+      let imageUrl = "";
+      if (editedInfo.imageLoaded) {
+        const formData = new FormData();
+        formData.append("image", editedInfo.image);
+        const { data } = await uploadImage(formData);
+        imageUrl = data.image.src;
+      }
+
+      const newInfoData = {
+        name: editedInfo.name,
+        description: editedInfo.description,
+        image: editedInfo.imageLoaded ? imageUrl : editedInfo.image,
+      }
+
+      await updatePost(editedInfo._id, newInfoData);
       setInfoToEdit(null); // Cierra el modal de edición
     } catch (err) {
       console.error("Error al guardar los cambios de edición:", err);
@@ -108,10 +115,11 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
       )}
       {infoToEdit && (
         <EditAboutUsModal
-          info={infoToEdit}
-          onClose={() => setInfoToEdit(null)}
-          onSave={handleEditSave}
-        />
+        infoToEdit={infoToEdit} // Ahora coincide con lo esperado en el modal
+        onClose={() => setInfoToEdit(null)}
+        onSave={handleEditSave}
+      />
+      
       )}
     </div>
   );

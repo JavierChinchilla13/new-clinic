@@ -1,49 +1,37 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useForm } from "../../../hooks/useForm";
 
 export const EditAboutUsModal = ({ onClose, onSave, infoToEdit }) => {
   
-  const [editedInfo, setEditedInfo] = useState({
-    name: "",
-    description: "",
-  });
+  const { formState, onInputChange} = useForm({
+    name: infoToEdit ? infoToEdit.name : '',
+    description: infoToEdit ? infoToEdit.description : '',
+    })
 
-  const [imageLoaded, setImageLoaded] = useState(false); // Estado para controlar si la imagen se ha cargado
-
-  // Rellenar los campos con la información existente al abrir el modal
-  useEffect(() => {
-    if (infoToEdit) {
-      setEditedInfo({
-        name: infoToEdit.title, // Mapeando 'title' a 'name'
-        description: infoToEdit.description,
-        image: null,  // Se puede cargar la imagen por defecto si lo deseas
-      });
-    }
-  }, [infoToEdit]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedInfo((prev) => ({ ...prev, [name]: value }));
-  };
+  const [imageFile, setImageFile] = useState(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setEditedInfo((prev) => ({ ...prev, image: file }));
-    setImageLoaded(true); // Marcar la imagen como cargada
+    setImageFile(file); 
+    setImageLoaded(true);
   };
 
   const handleSubmit = () => {
-    const updateInfo = {
+    const updatedInfo = {
       _id: infoToEdit?._id,
-      name: editedInfo.name,
-      description: editedInfo.description,
-      image: editedInfo.image || infoToEdit.image, // Mantener imagen actual si no se cambia
+      name: formState.name,
+      description: formState.description,
+      image: imageFile === null ? infoToEdit.image : imageFile, // Mantener imagen actual si no se cambia
       imageLoaded, // Agregar el estado de imagen cargada
     };
 
-    onSave(updateInfo);
-    onClose();
+    onSave(updatedInfo);
   };
+
+  
+  if (!infoToEdit) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -55,8 +43,8 @@ export const EditAboutUsModal = ({ onClose, onSave, infoToEdit }) => {
             <input
               type="text"
               name="name"
-              value={editedInfo.name}
-              onChange={handleChange}
+              value={formState.name}
+              onChange={onInputChange}
               className="w-full p-2 border rounded"
               placeholder="Escribe el título"
             />
@@ -65,8 +53,8 @@ export const EditAboutUsModal = ({ onClose, onSave, infoToEdit }) => {
             <label className="block text-gray-700">Descripción</label>
             <textarea
               name="description"
-              value={editedInfo.description}
-              onChange={handleChange}
+              value={formState.description}
+              onChange={onInputChange}
               className="w-full p-2 border rounded"
               placeholder="Escribe la descripción"
             />
