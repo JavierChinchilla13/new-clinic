@@ -42,14 +42,19 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
 
   const handleDelete = async () => {
     const infoID = infoToDelete?._id;
-
-    axios
-    .delete(`/api/v1/posts/${infoID}`)
-    .catch( () => {
-      console.log('error');
-    })
-    setInfoToDelete(null);
+  
+    try {
+      await axios.delete(`/api/v1/posts/${infoID}`);
+  
+      // Actualiza el estado eliminando el elemento
+      setInformaciones((prev) => prev.filter((info) => info._id !== infoID));
+  
+      setInfoToDelete(null); // Cierra el modal de eliminación
+    } catch (err) {
+      console.error("Error al eliminar la información:", err);
+    }
   };
+  
 
   // Función para abrir el modal de edición
   const handleOpenEditModal = (info) => setInfoToEdit(info);
@@ -57,7 +62,6 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
   // Guardar los cambios de edición
   const handleEditSave = async (editedInfo) => {
     try {
-
       let imageUrl = "";
       if (editedInfo.imageLoaded) {
         const formData = new FormData();
@@ -65,19 +69,28 @@ const AboutUsList = ({ informaciones, setInformaciones }) => {
         const { data } = await uploadImage(formData);
         imageUrl = data.image.src;
       }
-
+  
       const newInfoData = {
         name: editedInfo.name,
         description: editedInfo.description,
         image: editedInfo.imageLoaded ? imageUrl : editedInfo.image,
-      }
-
+      };
+  
       await updatePost(editedInfo._id, newInfoData);
+  
+      // Actualiza directamente el estado con la información editada
+      setInformaciones((prev) =>
+        prev.map((info) =>
+          info._id === editedInfo._id ? { ...info, ...newInfoData } : info
+        )
+      );
+  
       setInfoToEdit(null); // Cierra el modal de edición
     } catch (err) {
       console.error("Error al guardar los cambios de edición:", err);
     }
   };
+  
 
   return (
     <div>
