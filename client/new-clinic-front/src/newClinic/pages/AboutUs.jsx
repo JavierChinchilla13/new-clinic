@@ -28,9 +28,19 @@ const AboutUs = () => {
       <main className="container mx-auto px-6 py-12">
         {/* Logo y título */}
         <div className="flex flex-col md:flex-row items-center justify-between mb-10">
-          <div className="flex items-center">
-            <img src={logo} alt="Logo de New Clinic" className="h-20 mr-4" />
-            <h1 className="text-4xl font-bold text-gray-800">Sobre nosotros</h1>
+          <div className="flex flex-col-reverse md:flex-row items-center justify-between mb-10">
+            <div>
+              <img
+                src={logo}
+                alt="Logo de New Clinic"
+                className="h-24 md:h-28 mb-4 md:mb-0 mx-auto md:mx-0"
+              />
+            </div>
+            <div className="text-center md:text-left mt-4 md:mt-0">
+              <h1 className="text-4xl font-bold text-gray-800">
+                Sobre Nosotros
+              </h1>
+            </div>
           </div>
           {/* Botón responsivo */}
           <button
@@ -42,7 +52,7 @@ const AboutUs = () => {
         </div>
 
         {/* Subtítulo */}
-        <p className="text-lg font-semibold text-teal-600 mb-6">
+        <p className="text-xl font-bold text-teal-500 mb-6">
           • Medicina Estética • Medicina General • Nutrición • Spa
         </p>
 
