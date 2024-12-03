@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../../../auth/context/AuthContext"; // Importación del contexto de autenticación
+import { AuthContext } from "../../auth/context/AuthContext"; // Importación del contexto de autenticación
 import Header from "../components/Header";
 import AboutUsList from "../components/shared/AboutUsList";
 import AddAboutUs from "../components/shared/AddAboutUs"; // Modal para añadir información
