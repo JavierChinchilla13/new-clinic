@@ -5,6 +5,7 @@ import Input from "../components/shared/Input";
 import axios from "axios";
 import useLocalState from "../utils/localState";
 import AdminList from "../components/shared/AdminList";
+import Footer from "../components/Footer";
 
 const AddUser = () => {
   const [formState, setFormState] = useState({
@@ -44,7 +45,7 @@ const AddUser = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen pt-[150px]">
       <Header />
       <div className="min-h-screen flex flex-col lg:flex-row justify-center gap-8 p-8 bg-gray-50">
         {/* Formulario */}
@@ -105,7 +106,8 @@ const AddUser = () => {
           <AdminList refreshTrigger={refreshTable} />
         </div>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 
