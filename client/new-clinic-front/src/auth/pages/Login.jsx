@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../newClinic/components/shared/Button";
 import Input from "../../newClinic/components/shared/Input";
 import { useState, useContext } from "react";
-import Logo from "../../newClinic/components/shared/Logo";
+import logo from "../../assets/logo.png"; // Ruta al logo
 import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthContext";
 
@@ -13,8 +13,6 @@ const Login = () => {
   // Estilos
   const containerStyles = "flex flex-col items-center h-42";
   const textBoxStyles = "w-4/6 mt-4";
-  const imgStyles =
-    "hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16";
   const buttonStyles = "mt-6 mb-6";
 
   // Estados
@@ -70,9 +68,9 @@ const Login = () => {
       bg-gradient-to-r from-blue-300 to-emerald-400"
     >
       <div className="w-full max-w-[600px] p-8 shadow-2xl rounded-lg shadow-emerald-400 bg-white ">
-        <Link to="/">
-          <Logo extraStyle={imgStyles} />
-        </Link>
+        <div className="flex items-center">
+          <img src={logo} alt="Logo de New Clinic" className="hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16" />
+        </div>
 
         <form onSubmit={onSubmit} className={containerStyles}>
           <Input

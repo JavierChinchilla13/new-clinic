@@ -20,6 +20,8 @@ export const AddAboutUs = ({ onClose, isOpen, onSave }) => {
       return;
     }
 
+
+    
     setLoading(true);
 
     try {
@@ -45,6 +47,7 @@ export const AddAboutUs = ({ onClose, isOpen, onSave }) => {
       // Actualiza la lista en el componente padre
       onSave(newInfo);
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("Error al guardar la información:", error);
       alert("No se pudo guardar la información. Por favor, intenta más tarde.");
