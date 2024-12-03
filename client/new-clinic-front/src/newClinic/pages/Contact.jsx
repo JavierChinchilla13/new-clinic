@@ -12,7 +12,7 @@ const Contact = () => {
   // const { authState } = useContext(AuthContext);
 
   return (
-    <div className="flex flex-col min-h-screen pt-[90px]">
+    <div className="flex flex-col min-h-screen pt-[150px]">
       <Header />
 
       <div className="flex-grow flex flex-col items-center z-5">
