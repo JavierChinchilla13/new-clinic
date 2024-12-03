@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <header
       className="fixed top-0 left-0 w-full z-50 bg-emerald-400 drop-shadow-md flex justify-between items-center text-black py-4 px-8 md:px-11"
-      style={{ height: "90px" }} // Cambia este valor según sea necesario
+      style={{ height: "150px" }} // Cambia este valor según sea necesario
     >
       <Link to="/">
         <Logo extraStyle={imgStyles} />
@@ -109,8 +109,8 @@ const Header = () => {
 
       {menuOpen && (
         <div
-          className={`fixed top-24 left-0 w-full bg-white flex flex-col 
-        items-center gap-6 font-semibold text-lg z-[1000]`}
+          className={`fixed top-32 left-0 w-full bg-white flex flex-col 
+              items-center gap-6 font-semibold text-lg z-[1000]`}
           style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
         >
           <NavLink to="/products">

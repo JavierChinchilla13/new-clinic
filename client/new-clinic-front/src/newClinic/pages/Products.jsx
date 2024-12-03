@@ -62,7 +62,7 @@ const Products = () => {
   // };
 
   return (
-    <div className="flex flex-col min-h-screen pt-[90px]">
+    <div className="flex flex-col min-h-screen pt-[150px]">
       <Header />
 
       <div className="flex-grow min-h-screen">

@@ -23,7 +23,7 @@ const AboutUs = () => {
   };
 
   return (
-    <div className="bg-gray-50 flex flex-col min-h-screen min-h-screen pt-[90px]">
+    <div className="bg-gray-50 flex flex-col min-h-screen min-h-screen pt-[150px]">
       {/* Header */}
       <Header />
 
