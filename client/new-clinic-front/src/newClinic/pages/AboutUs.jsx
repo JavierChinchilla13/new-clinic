@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import AboutUsList from "../components/shared/AboutUsList";
 import AddAboutUs from "../components/shared/AddAboutUs"; // Modal para añadir información
 import logo from "../../assets/logo.png"; // Ruta al logo
+import Footer from "../components/Footer";
 
 const AboutUs = () => {
   const { authState } = useContext(AuthContext); // Obtiene el estado de autenticación
@@ -22,12 +23,12 @@ const AboutUs = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 flex flex-col min-h-screen min-h-screen pt-[90px]">
       {/* Header */}
       <Header />
 
       {/* Contenido principal */}
-      <main className="container mx-auto px-6 py-12">
+      <main className="flex-grow container mx-auto px-6 py-12">
         {/* Logo y título */}
         <div className="flex flex-col md:flex-row items-center justify-between mb-10">
           <div className="flex flex-col-reverse md:flex-row items-center justify-between mb-10">
@@ -75,6 +76,8 @@ const AboutUs = () => {
           onSave={handleSaveInfo}
         />
       </main>
+
+      <Footer />
     </div>
   );
 };

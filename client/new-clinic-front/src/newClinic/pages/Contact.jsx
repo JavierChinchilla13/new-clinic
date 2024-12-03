@@ -3,6 +3,7 @@ import Header from "../components/Header";
 // import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import ContactList from "../components/shared/ContactList";
+import Footer from "../components/Footer";
 // import { AuthContext } from "../../auth/context/AuthContext";
 
 // const center = [9.9357769, -84.1106032]; // Coordenadas de Sabana, Multicentro Sabana
@@ -11,10 +12,10 @@ const Contact = () => {
   // const { authState } = useContext(AuthContext);
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen pt-[90px]">
       <Header />
 
-      <div className="flex flex-col items-center z-5">
+      <div className="flex-grow flex flex-col items-center z-5">
         {/* Sección de contacto */}
         <div className="w-full flex flex-col md:flex-row justify-center items-start p-8 space-y-4 md:space-y-0 md:space-x-8">
           {/* Información de contacto y dirección */}
@@ -35,7 +36,7 @@ const Contact = () => {
 
             {/* Botón de Email */}
             <a
-              href="mailto:servicios.newclinic@gmail.com"
+              href="mailto:newclinics.info@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full text-center px-4 py-2 text-white bg-blue-500 rounded-md shadow hover:bg-blue-600 transition"
@@ -61,7 +62,9 @@ const Contact = () => {
           {/*   */}
         </div>
       </div>
-    </>
+
+      <Footer />
+    </div>
   );
 };
 

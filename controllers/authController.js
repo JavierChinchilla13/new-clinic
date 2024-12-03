@@ -27,7 +27,7 @@ const register = async (req, res) => {
     password,
     verificationToken,
   });
-  const origin = "http://localhost:5173";
+  const origin = "https://new-clinic.onrender.com";
 
   const origin2 = req.get("origin");
   const protocol = req.protocol;
@@ -122,7 +122,6 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
-
 const logout = async (req, res) => {
   await Token.findOneAndDelete({ user: req.user.userId });
 
@@ -148,7 +147,7 @@ const forgotPassword = async (req, res) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
     //send email
-    const origin = "http://localhost:5173";
+    const origin = "https://new-clinic.onrender.com";
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,
@@ -164,11 +163,9 @@ const forgotPassword = async (req, res) => {
     await user.save();
   }
 
-  res
-    .status(StatusCodes.OK)
-    .json({
-      msg: "Por favor, revisa tu correo electrónico para encontrar el enlace de restablecimiento de contraseña.",
-    });
+  res.status(StatusCodes.OK).json({
+    msg: "Por favor, revisa tu correo electrónico para encontrar el enlace de restablecimiento de contraseña.",
+  });
 };
 
 const resetPassword = async (req, res) => {

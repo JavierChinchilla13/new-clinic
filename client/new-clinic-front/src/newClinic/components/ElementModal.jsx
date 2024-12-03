@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import Input from "../components/shared/Input";
-import Button from "../components/shared/Button";
+import Input from "./shared/Input";
+import Button from "./shared/Button";
 import { createPost, uploadImage } from "../utils/productService";
 import { useForm } from "../../hooks/useForm";
 
@@ -68,7 +68,7 @@ const ElementModal = ({ isOpen, onClose, title, type, style }) => {
 
   return (
     <div
-      className={`fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 ${style}`}
+      className={`fixed inset-0 bg-black bg-opacity-50 z-[1000] flex justify-center items-center ${style}`}
     >
       <div
         className={`bg-white p-6 rounded-lg shadow-lg max-w-md w-full grid `}
