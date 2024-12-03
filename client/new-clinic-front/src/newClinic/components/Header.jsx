@@ -23,9 +23,8 @@ const Header = () => {
 
   return (
     <header
-      className="flex justify-between 
-        items-center text-black py-6 px-8
-        md:px-11 bg-emerald-400 drop-shadow-md"
+      className="fixed top-0 left-0 w-full z-50 bg-emerald-400 drop-shadow-md flex justify-between items-center text-black py-4 px-8 md:px-11"
+      style={{ height: "90px" }} // Cambia este valor según sea necesario
     >
       <Link to="/">
         <Logo extraStyle={imgStyles} />
@@ -100,7 +99,7 @@ const Header = () => {
         }
         onClick={onLogoutLogin}
       >
-        {authState?.logged ? "Logout" : "Sign in"}
+        {authState?.logged ? "Cerrar sesión" : "Iniciar sesión"}
       </label>
 
       <i
@@ -108,28 +107,17 @@ const Header = () => {
         onClick={() => setMenuOpen(!menuOpen)}
       ></i>
 
-      {menuOpen ? (
+      {menuOpen && (
         <div
-          className={`absolute top-36 left-0 w-full bg-white flex flex-col 
-                        items-center gap-6 font-semibold text-lg
-                        transform transition-transform z-1000`}
+          className={`fixed top-24 left-0 w-full bg-white flex flex-col 
+        items-center gap-6 font-semibold text-lg z-[1000]`}
           style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
         >
-          <NavLink to="/">
-            <li
-              className="list-none w-screen text-center 
-                                p-4 hover:bg-emerald-600 hover:text-white
-                                rounded-md transition-all cursor-pointer"
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              Inicio
-            </li>
-          </NavLink>
           <NavLink to="/products">
             <li
               className="list-none w-screen text-center 
-                                p-4 hover:bg-emerald-600 hover:text-white
-                                rounded-md transition-all cursor-pointer"
+            p-4 hover:bg-emerald-600 hover:text-white
+            rounded-md transition-all cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               Productos
@@ -138,8 +126,8 @@ const Header = () => {
           <NavLink to="/services">
             <li
               className="list-none w-screen text-center 
-                                p-4 hover:bg-emerald-600 hover:text-white
-                                rounded-md transition-all cursor-pointer"
+            p-4 hover:bg-emerald-600 hover:text-white
+            rounded-md transition-all cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               Servicios
@@ -148,8 +136,8 @@ const Header = () => {
           <NavLink to="/">
             <li
               className="list-none w-screen text-center 
-                                p-4 hover:bg-emerald-600 hover:text-white
-                                rounded-md transition-all cursor-pointer"
+                      p-4 hover:bg-emerald-600 hover:text-white
+                      rounded-md transition-all cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               Sobre nosotros
@@ -158,8 +146,8 @@ const Header = () => {
           <NavLink to="/contact">
             <li
               className="list-none w-screen text-center 
-                                p-4 hover:bg-emerald-600 hover:text-white
-                                rounded-md transition-all cursor-pointer"
+                      p-4 hover:bg-emerald-600 hover:text-white
+                      rounded-md transition-all cursor-pointer"
               onClick={() => {
                 setMenuOpen(!menuOpen);
               }}
@@ -167,38 +155,37 @@ const Header = () => {
               Contáctanos
             </li>
           </NavLink>
-          {authState?.logged ? (
+          {authState?.logged && (
             <NavLink to="/admin/addUser">
               <li
                 className="list-none w-screen text-center 
-                                  p-4 hover:bg-emerald-600 hover:text-white
-                                  rounded-md transition-all cursor-pointer"
+                        p-4 hover:bg-emerald-600 hover:text-white
+                        rounded-md transition-all cursor-pointer"
                 onClick={() => {}}
               >
                 Agregar colaborador
               </li>
             </NavLink>
-          ) : null}
-
+          )}
           <li
             className={
               !authState?.logged
                 ? `list-none w-screen text-center 
-                    p-4 hover:bg-emerald-600 hover:text-white
-                    rounded-md transition-all cursor-pointer`
+              p-4 hover:bg-emerald-600 hover:text-white
+              rounded-md transition-all cursor-pointer`
                 : `list-none w-screen text-center 
-                    p-4 hover:bg-red-500 hover:text-white
-                    rounded-md transition-all cursor-pointer`
+              p-4 hover:bg-red-500 hover:text-white
+              rounded-md transition-all cursor-pointer`
             }
             onClick={() => {
               setMenuOpen(!menuOpen);
               onLogoutLogin();
             }}
           >
-            {authState?.logged ? "Logout" : "Sign in"}
+            {authState?.logged ? "Cerrar sesión." : "Iniciar sesión"}
           </li>
         </div>
-      ) : null}
+      )}
     </header>
   );
 };

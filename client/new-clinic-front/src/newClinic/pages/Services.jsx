@@ -23,10 +23,16 @@ const Services = () => {
     axios
       .get("/api/v1/products/")
       .then(({ data }) => {
-        if(authState?.logged){
-          setServicesList(data?.products.filter( (element) => element.type === 'servicio'));
-        }else{
-          setServicesList(data?.products.filter( (element) => element.type === 'servicio' && element.state === true));
+        if (authState?.logged) {
+          setServicesList(
+            data?.products.filter((element) => element.type === "servicio")
+          );
+        } else {
+          setServicesList(
+            data?.products.filter(
+              (element) => element.type === "servicio" && element.state === true
+            )
+          );
         }
       })
       .catch((error) => {
@@ -57,11 +63,10 @@ const Services = () => {
   // };
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen pt-[90px]">
       <Header />
 
-      <div className="min-h-screen">
-
+      <div className="flex-grow">
         <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
         <div className="flex justify-center mb-4">
           <Input
@@ -104,15 +109,9 @@ const Services = () => {
           onCloseDeleteModal={onCloseModal}
           onCloseEditModal={onCloseModal}
         />
-
-
       </div>
-      
       <Footer />
-          
-      
-      
-    </>
+    </div>
   );
 };
 

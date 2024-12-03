@@ -14,7 +14,7 @@ const AboutUsCard = ({ title, description, image, onEdit, onDelete }) => {
           <h3 className="font-bold text-3xl text-gray-800 mb-2">
             {title || "Sin título"}
           </h3>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-lg text-justify">
             {description || "Sin descripción"}
           </p>
         </div>
