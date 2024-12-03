@@ -11,7 +11,7 @@ const ElementModal = ({ isOpen, onClose, title, type, style }) => {
     description: "",
     price: "",
   });
- 
+
   // const [type, setType] = useState("producto");
   const [state, setState] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -19,17 +19,19 @@ const ElementModal = ({ isOpen, onClose, title, type, style }) => {
 
   const handleSubmit = async () => {
     // Validación de los campos
-    if (!formState.name || !formState.description || !formState.price) {
+    if (!formState.name || !formState.description) {
       alert("Todos los campos son requeridos.");
       return;
     }
-
-    // Validar que el precio sea un número
     const price = parseInt(formState.price);
-    if (isNaN(price)) {
-      alert("El precio debe ser un número válido.");
-      return;
+
+    if (formState.price) {
+      if (isNaN(price)) {
+        alert("El precio debe ser un número válido.");
+        return;
+      }
     }
+    // Validar que el precio sea un número
 
     setLoading(true);
 
@@ -65,8 +67,12 @@ const ElementModal = ({ isOpen, onClose, title, type, style }) => {
   if (!isOpen) return null;
 
   return (
-    <div className={`fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 ${style}`}>
-      <div className={`bg-white p-6 rounded-lg shadow-lg max-w-md w-full grid `}>
+    <div
+      className={`fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50 ${style}`}
+    >
+      <div
+        className={`bg-white p-6 rounded-lg shadow-lg max-w-md w-full grid `}
+      >
         <h2 className="text-xl font-semibold mb-4">{title}</h2>
 
         <label>Nombre</label>

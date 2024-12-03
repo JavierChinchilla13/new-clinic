@@ -11,7 +11,7 @@ const AboutUsCard = ({ title, description, image, onEdit, onDelete }) => {
       <div className="mb-6 p-4 w-full flex flex-col md:flex-row">
         {/* Texto a la izquierda */}
         <div className="flex-1 pr-0 md:pr-4 pt-2">
-          <h3 className="font-bold text-xl text-gray-800 mb-2">
+          <h3 className="font-bold text-3xl text-gray-800 mb-2">
             {title || "Sin título"}
           </h3>
           <p className="text-gray-600 text-lg">
@@ -20,12 +20,12 @@ const AboutUsCard = ({ title, description, image, onEdit, onDelete }) => {
         </div>
 
         {/* Imagen aún más grande */}
-        <div className="w-full md:w-1/2 h-80 bg-gray-200 rounded-lg overflow-hidden mt-4 md:mt-0">
+        <div className="w-full md:w-1/2 h-80 bg-gray-50 rounded-lg overflow-hidden mt-4 md:mt-0">
           {image ? (
             <img
               src={image}
               alt="Imagen"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain bg-gray-50" // Usa "object-contain" para mantener proporciones
             />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">
