@@ -110,14 +110,14 @@ const Header = () => {
       {menuOpen && (
         <div
           className={`fixed top-32 left-0 w-full bg-white flex flex-col 
-              items-center gap-6 font-semibold text-lg z-[1000]`}
+            items-center gap-6 font-semibold text-lg z-[1000] border-b-2 border-gray-300`}
           style={{ transition: "transform 0.3s ease, opacity 0.3s ease" }}
         >
           <NavLink to="/products">
             <li
               className="list-none w-screen text-center 
-            p-4 hover:bg-emerald-600 hover:text-white
-            rounded-md transition-all cursor-pointer"
+          p-4 hover:bg-emerald-600 hover:text-white
+          rounded-md transition-all cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               Productos
@@ -126,8 +126,8 @@ const Header = () => {
           <NavLink to="/services">
             <li
               className="list-none w-screen text-center 
-            p-4 hover:bg-emerald-600 hover:text-white
-            rounded-md transition-all cursor-pointer"
+          p-4 hover:bg-emerald-600 hover:text-white
+          rounded-md transition-all cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               Servicios
@@ -136,8 +136,8 @@ const Header = () => {
           <NavLink to="/">
             <li
               className="list-none w-screen text-center 
-                      p-4 hover:bg-emerald-600 hover:text-white
-                      rounded-md transition-all cursor-pointer"
+                    p-4 hover:bg-emerald-600 hover:text-white
+                    rounded-md transition-all cursor-pointer"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               Sobre nosotros
@@ -146,8 +146,8 @@ const Header = () => {
           <NavLink to="/contact">
             <li
               className="list-none w-screen text-center 
-                      p-4 hover:bg-emerald-600 hover:text-white
-                      rounded-md transition-all cursor-pointer"
+                    p-4 hover:bg-emerald-600 hover:text-white
+                    rounded-md transition-all cursor-pointer"
               onClick={() => {
                 setMenuOpen(!menuOpen);
               }}
@@ -159,8 +159,8 @@ const Header = () => {
             <NavLink to="/admin/addUser">
               <li
                 className="list-none w-screen text-center 
-                        p-4 hover:bg-emerald-600 hover:text-white
-                        rounded-md transition-all cursor-pointer"
+                      p-4 hover:bg-emerald-600 hover:text-white
+                      rounded-md transition-all cursor-pointer"
                 onClick={() => {}}
               >
                 Agregar colaborador
@@ -171,18 +171,18 @@ const Header = () => {
             className={
               !authState?.logged
                 ? `list-none w-screen text-center 
-              p-4 hover:bg-emerald-600 hover:text-white
-              rounded-md transition-all cursor-pointer`
+            p-4 hover:bg-emerald-600 hover:text-white
+            rounded-md transition-all cursor-pointer`
                 : `list-none w-screen text-center 
-              p-4 hover:bg-red-500 hover:text-white
-              rounded-md transition-all cursor-pointer`
+            p-4 hover:bg-red-500 hover:text-white
+            rounded-md transition-all cursor-pointer`
             }
             onClick={() => {
               setMenuOpen(!menuOpen);
               onLogoutLogin();
             }}
           >
-            {authState?.logged ? "Cerrar sesión." : "Iniciar sesión"}
+            {authState?.logged ? "Cerrar sesión" : "Iniciar sesión"}
           </li>
         </div>
       )}

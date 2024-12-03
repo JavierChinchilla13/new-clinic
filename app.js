@@ -44,29 +44,15 @@ app.use(fileUpload({ useTempFiles: true })); // Handle file uploads
 app.use(morgan("tiny")); // HTTP request logger
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        styleSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://unpkg.com",
-          "https://cdnjs.cloudflare.com",
-        ],
-        fontSrc: ["'self'", "https://unpkg.com"],
-        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-        frameSrc: ["'self'", "https://www.google.com"], // Permitir Google en iframes
-        // Agrega otras directivas necesarias
-      },
-    },
+    contentSecurityPolicy: false, // Desactivado temporalmente
   })
-); // Security headers
+);
 app.use(xss()); // Prevent cross-site scripting attacks
 
 // Serve static files
-app.use(express.static(path.resolve(__dirname, "./client/")));
-app.use(express.static(path.join(__dirname, "client/new-clinic-front/dist")));
+app.use(
+  express.static(path.resolve(__dirname, "client/new-clinic-front/dist"))
+);
 
 // API routes
 app.use("/api/v1/auth", authRouter);
@@ -75,8 +61,8 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/contacts", contactRouter);
 app.use("/api/v1/posts", postRouter);
 
-// Catch-all route to serve the frontend
-app.get("*", (req, res) => {
+// Catch-all route for SPA
+app.get(/^\/(?!api\/v1\/|assets\/).*/, (req, res) => {
   res.sendFile(
     path.resolve(__dirname, "client/new-clinic-front/dist", "index.html")
   );
