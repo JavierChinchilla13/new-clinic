@@ -46,18 +46,15 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
           "https://unpkg.com",
           "https://cdnjs.cloudflare.com",
         ],
-        fontSrc: ["'self'", "https://unpkg.com"],
+        scriptSrc: ["'self'"],
         imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
-        frameSrc: ["'self'", "https://www.google.com"], // Permitir Google en iframes
-        // Agrega otras directivas necesarias
+        fontSrc: ["'self'", "https://unpkg.com"],
       },
     },
   })
@@ -76,7 +73,7 @@ app.use("/api/v1/contacts", contactRouter);
 app.use("/api/v1/posts", postRouter);
 
 // Catch-all route to serve the frontend
-app.get("*", (req, res) => {
+app.get(/^\/(?!api\/v1\/).*/, (req, res) => {
   res.sendFile(
     path.resolve(__dirname, "client/new-clinic-front/dist", "index.html")
   );
