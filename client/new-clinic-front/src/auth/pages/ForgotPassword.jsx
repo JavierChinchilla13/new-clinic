@@ -114,7 +114,7 @@ const ForgotPassword = () => {
                   to="../login"
                   className="text-blue-500 hover:underline ml-1"
                 >
-                  Log In
+                  Iniciar sesión
                 </Link>
               </p>
             </form>

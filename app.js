@@ -5,16 +5,16 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
-// Security and sanitization packages
+// Seguridad y limpieza
 const helmet = require("helmet");
 const xss = require("xss-clean");
 
-// Additional packages
+// Paquetes adicionales
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
 
-// Cloudinary configuration
+// Configuración de Cloudinary
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -22,7 +22,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// Database connection
+// Conexión a la base de datos
 const connectDB = require("./db/connect");
 
 // Routers
@@ -36,52 +36,81 @@ const postRouter = require("./routes/postRoutes");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
-// Global middleware setup
-app.set("trust proxy", 1); // Enable if behind a proxy (e.g., Heroku)
-app.use(express.json()); // Parse JSON payloads
-app.use(cookieParser(process.env.JWT_SECRET)); // Parse and sign cookies
-app.use(fileUpload({ useTempFiles: true })); // Handle file uploads
-app.use(morgan("tiny")); // HTTP request logger
+// Configuración de seguridad
+app.set("trust proxy", 1); // Para proxies como Heroku
+app.use(express.json()); // Parsear JSON
+app.use(cookieParser(process.env.JWT_SECRET)); // Cookies firmadas
+app.use(fileUpload({ useTempFiles: true })); // Subida de archivos
+app.use(morgan("tiny")); // Logger de solicitudes HTTP
+
+// Configuración de Helmet
 app.use(
   helmet({
-    contentSecurityPolicy: false, // Desactivado temporalmente
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "https://unpkg.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://unpkg.com",
+          "https://cdnjs.cloudflare.com",
+        ],
+        fontSrc: ["'self'", "https://unpkg.com"],
+        imgSrc: ["'self'", "data:", "https:"],
+      },
+    },
   })
 );
-app.use(xss()); // Prevent cross-site scripting attacks
+app.use(xss()); // Protección contra XSS
 
-// Serve static files
+// Middleware para tipos MIME correctos
+app.use((req, res, next) => {
+  if (req.path.endsWith(".js")) {
+    res.type("application/javascript");
+  } else if (req.path.endsWith(".css")) {
+    res.type("text/css");
+  }
+  next();
+});
+
+// Servir archivos estáticos
 app.use(
   express.static(path.resolve(__dirname, "client/new-clinic-front/dist"))
 );
 
-// API routes
+// Rutas de API
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/contacts", contactRouter);
 app.use("/api/v1/posts", postRouter);
 
-// Catch-all route for SPA
-app.get(/^\/(?!api\/v1\/|assets\/).*/, (req, res) => {
+// Ruta para SPA (Single Page Application)
+app.get("*", (req, res) => {
   res.sendFile(
     path.resolve(__dirname, "client/new-clinic-front/dist", "index.html")
   );
 });
 
-// Error-handling middleware
-app.use(notFoundMiddleware); // Handle 404 errors
-app.use(errorHandlerMiddleware); // Handle other errors
+// Middleware de errores
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
-// Start the server
+// Inicialización del servidor
 const port = process.env.PORT || 3000;
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URI); // Connect to the database
+    await connectDB(process.env.MONGO_URI);
     app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
+      console.log(`Server is running on http://localhost:${port}`)
     );
   } catch (error) {
-    console.log(error); // Log errors during server startup
+    console.log(error);
   }
 };
 
