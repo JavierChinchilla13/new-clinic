@@ -18,11 +18,22 @@ export const ContactCard = ({ onClose }) => {
     }));
   };
   //Correo
+  const sendEmail = () => {
+    const subject = `Solicitud de información`;
+    const body = `Nombre: ${encodeURIComponent(formData.name)}%0A` +
+                 `Teléfono: ${encodeURIComponent(formData.phone)}%0A` +
+                 `Email: ${encodeURIComponent(formData.email)}%0A` +
+                 `Detalles: ${encodeURIComponent(formData.details)}`;
+    const mailtoLink = `mailto:newclinics.info@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+    window.location.href = mailtoLink;
+  };
+
   const handleSubmitEmail = (e) => {
     e.preventDefault();
-    alert("Datos enviados por correo: " + JSON.stringify(formData));
+    sendEmail();
     onClose();
   };
+
   //whatsApp
   const handleSubmitWhatsApp = (e) => {
     e.preventDefault();
