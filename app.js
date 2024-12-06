@@ -62,6 +62,7 @@ app.use(
         ],
         fontSrc: ["'self'", "https://unpkg.com"],
         imgSrc: ["'self'", "data:", "https:"],
+        frameSrc: ["'self'", "https://www.google.com"], // Permite cargar Google en iframes
       },
     },
   })
