@@ -6,14 +6,17 @@ const sendVerificationEmail = async ({
   verificationToken,
   origin,
 }) => {
+  // Enlace para verificar el correo electrónico
   const verifyEmail = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
 
-  const message = `<p>Please confirm your email by clicking on the following link : <a href="${verifyEmail}">Verify Email</a></p>`;
+  // Mensaje del correo electrónico
+  const message = `<p>Por favor, confirma tu correo electrónico haciendo clic en el siguiente enlace: <a href="${verifyEmail}">Verificar Correo</a></p>`;
 
+  // Enviar el correo electrónico
   return sendEmail({
     to: email,
-    subject: "Email Confirmation",
-    html: `<h4>Hello, ${name}</h4>
+    subject: "Confirmación de Correo Electrónico",
+    html: `<h4>Hola, ${name}</h4>
     ${message}`,
   });
 };

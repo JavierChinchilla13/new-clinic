@@ -68,9 +68,13 @@ const Login = () => {
       bg-gradient-to-r from-blue-300 to-emerald-400"
     >
       <div className="w-full max-w-[600px] p-8 shadow-2xl rounded-lg shadow-emerald-400 bg-white ">
-        <Link to={'/'}>
+        <Link to={"/"}>
           <div className="flex items-center">
-            <img src={logo} alt="Logo de New Clinic" className="hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16" />
+            <img
+              src={logo}
+              alt="Logo de New Clinic"
+              className="hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16"
+            />
           </div>
         </Link>
 
@@ -78,7 +82,7 @@ const Login = () => {
           <Input
             text={email}
             nameRef="email"
-            handleText={(e) => setEmail(e.target.value)}
+            handleText={(e) => setEmail(e.target.value.toLowerCase())}
             placeHolder="Email"
             extraStyle={textBoxStyles}
           />
@@ -86,6 +90,7 @@ const Login = () => {
             text={password}
             nameRef="password"
             handleText={(e) => setPassword(e.target.value)}
+            type="password"
             placeHolder="Contraseña"
             extraStyle={textBoxStyles}
           />
