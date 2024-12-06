@@ -37,26 +37,39 @@ const AdminList = ({ refreshTrigger }) => {
     );
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-        <thead>
-          <tr className="bg-gray-100 text-left text-sm font-semibold text-gray-700">
-            <th className="px-4 py-2 border-b">#</th>
-            <th className="px-4 py-2 border-b">Nombre</th>
-            <th className="px-4 py-2 border-b">Correo Electrónico</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={user._id} className="border-b hover:bg-gray-50">
-              <td className="px-4 py-2">{index + 1}</td>
-              <td className="px-4 py-2">{user.name}</td>
-              <td className="px-4 py-2">{user.email}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+
+    <>
+        <div className="overflow-x-auto">
+
+      
+
+
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+            <thead>
+              <tr className="bg-gray-100 text-left text-sm font-semibold text-gray-700">
+                <th className="px-4 py-2 border-b">#</th>
+                <th className="px-4 py-2 border-b">Nombre</th>
+                <th className="px-4 py-2 border-b">Correo Electrónico</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user, index) => (
+                <tr key={user._id} className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-2">{index + 1}</td>
+                  <td className="px-4 py-2">{user.name}</td>
+                  <td className="px-4 py-2">{user.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+
+
+        </div>
+    </>
+
+
+    
   );
 };
 

@@ -68,12 +68,15 @@ const Login = () => {
       bg-gradient-to-r from-blue-300 to-emerald-400"
     >
       <div className="w-full max-w-[600px] p-8 shadow-2xl rounded-lg shadow-emerald-400 bg-white ">
-        <div className="flex items-center">
-        <Link
-              to="../../newClinic/pages/AboutUs">
-              <img src={logo} alt="Logo de New Clinic" className="hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16" />
-            </Link>
-        </div>
+        <Link to={"/"}>
+          <div className="flex items-center">
+            <img
+              src={logo}
+              alt="Logo de New Clinic"
+              className="hover:scale-105 transition-all w-3/4 max-w-[440px] mt-4 ml-16"
+            />
+          </div>
+        </Link>
 
         <form onSubmit={onSubmit} className={containerStyles}>
           <Input

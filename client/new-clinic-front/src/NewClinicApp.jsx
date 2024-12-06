@@ -1,10 +1,13 @@
 import { AuthProvider } from "./auth/context/AuthProvider"
+import { AppProvider } from "./newClinic/context"
 import AppRouter from "./router/AppRouter"
 
 export const NewClinicApp = () => {
   return (
-    <AuthProvider>
-        <AppRouter/>
-    </AuthProvider>
+    <AppProvider>
+      <AuthProvider>
+          <AppRouter/>
+      </AuthProvider>
+    </AppProvider>
     )
 }
