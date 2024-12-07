@@ -27,8 +27,7 @@ const register = async (req, res) => {
     password,
     verificationToken,
   });
-  // const origin = "https://new-clinic.onrender.com";
-  const origin = "http://localhost:3000";
+  const origin = "https://new-clinic.onrender.com";
 
   const origin2 = req.get("origin");
   const protocol = req.protocol;
@@ -148,8 +147,8 @@ const forgotPassword = async (req, res) => {
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
     //send email
-    // const origin = "https://new-clinic.onrender.com";
-    const origin = "http://localhost:3000";
+    const origin = "https://new-clinic.onrender.com";
+
     await sendResetPasswordEmail({
       name: user.name,
       email: user.email,
