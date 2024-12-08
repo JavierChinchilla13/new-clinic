@@ -3,18 +3,6 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { AuthContext } from "../../../auth/context/AuthContext";
 import { useContext } from "react";
 
-/*
-    type data = {
-        key={index}
-        name={element.name}
-        description={element.description}
-        image={element.image}
-        type:{element.type}
-        price={element.price}
-    }
-
-*/
-
 const ItemCard = ({
   name,
   image,

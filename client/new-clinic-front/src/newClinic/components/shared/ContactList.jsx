@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import { FaEdit, FaTrash, FaSave, FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../../auth/context/AuthContext";
@@ -29,7 +29,7 @@ const ContactList = () => {
         setLoading(false);
       })
       .catch((err) => {
-        setError("Error al cargar los contactos");
+        setError("Error al cargar los contactos" + err);
         setLoading(false);
       });
   }, []);
