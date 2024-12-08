@@ -4,6 +4,9 @@ import Header from "../components/Header";
 import "leaflet/dist/leaflet.css";
 import ContactList from "../components/shared/ContactList";
 import Footer from "../components/Footer";
+import MailIcon from "../../assets/mail.png";
+import WhatsAppIcon from "../../assets/whatsapp.png";
+import InstagramIcon from "../../assets/instagram.png";
 // import { AuthContext } from "../../auth/context/AuthContext";
 
 // const center = [9.9357769, -84.1106032]; // Coordenadas de Sabana, Multicentro Sabana
@@ -24,25 +27,51 @@ const Contact = () => {
 
             <ContactList />
 
-            {/* Botón de WhatsApp */}
-            <a
-              href="https://wa.me/50661226703"
-              className="block w-full text-center px-4 py-2 text-white bg-green-500 rounded-md shadow hover:bg-green-600 transition"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Contactar por WhatsApp
-            </a>
+            <div className="flex flex-row justify-center items-center space-x-8">
+              {/* Correo */}
+              <div className="flex flex-col items-center space-y-2">
+                <a
+                  href="mailto:newclinics.info@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-14 h-14 bg-white-500 rounded-full shadow hover:bg-blue-600 transition"
+                >
+                  <img src={MailIcon} alt="Email" className="w-14 h-14" />
+                </a>
+              </div>
 
-            {/* Botón de Email */}
-            <a
-              href="mailto:newclinics.info@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full text-center px-4 py-2 text-white bg-blue-500 rounded-md shadow hover:bg-blue-600 transition"
-            >
-              Contactar por Email
-            </a>
+              {/* Teléfono */}
+              <div className="flex flex-col items-center space-y-2">
+                <a
+                  href="https://wa.me/50661226703"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-14 h-14 bg-white-500 rounded-full shadow hover:bg-green-600 transition"
+                >
+                  <img
+                    src={WhatsAppIcon}
+                    alt="WhatsApp"
+                    className="w-14 h-14"
+                  />
+                </a>
+              </div>
+
+              {/* Instagram */}
+              <div className="flex flex-col items-center space-y-2">
+                <a
+                  href="https://www.instagram.com/newclinic.cr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-full shadow hover:opacity-50 transition"
+                >
+                  <img
+                    src={InstagramIcon}
+                    alt="Instagram"
+                    className="w-14 h-14"
+                  />
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Mapa con iframe de Google */}
