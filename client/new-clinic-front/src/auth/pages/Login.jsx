@@ -33,7 +33,9 @@ const Login = () => {
 
     // Validación inicial: Verifica si email y contraseña están presentes
     if (!email || !password) {
-      toast.error("Es necesario el email y contraseña"); // Muestra un mensaje de error
+      toast.error("Es necesario el email y contraseña"); 
+      setErrorMessage("Es necesario el email y contraseña." // Muestra un mensaje genérico si no hay detalles
+      );// Muestra un mensaje de error
       return;
     }
 
@@ -111,7 +113,8 @@ const Login = () => {
           />
 
           {/* Mensaje de error, si existe */}
-          {errorMessage && (
+          {errorMessage && 
+          (
             <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
           )}
 
