@@ -8,4 +8,6 @@ export default defineConfig({
     outDir: "dist", // Carpeta de salida
     assetsDir: "assets", // Carpeta para archivos estáticos
   },
+
+  
 });
