@@ -38,8 +38,7 @@ export const AuthProvider = ({ children }) => {
     const action = {
       type: types.login,
       payload: {
-        email,
-        token,
+        email
       },
     };
 
@@ -49,8 +48,7 @@ export const AuthProvider = ({ children }) => {
       JSON.stringify({
         logged: true,
         user: {
-          email,
-          token,
+          email
         },
       })
     );

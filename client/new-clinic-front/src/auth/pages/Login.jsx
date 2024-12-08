@@ -55,7 +55,7 @@ const Login = () => {
 
       if (response.ok) {
         // Si la solicitud es exitosa
-        login(email, password); // Actualiza el contexto con los datos del usuario
+        login(email); // Actualiza el contexto con los datos del usuario
         navigate("/"); // Redirige a la página principal
         setEmail(""); // Limpia el campo de email
         setPassword(""); // Limpia el campo de contraseña
