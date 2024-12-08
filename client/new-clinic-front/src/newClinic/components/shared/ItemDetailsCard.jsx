@@ -18,7 +18,10 @@ export const ItemDetailsCard = ({ data, onClose, onContact }) => {
         )}
         <div className="mt-4">
           <button
-            onClick={() => onContact(data.name)}
+            onClick={() => {
+              console.log("Contactando para:", data.name); // Debugging
+              onContact(data.name);
+            }}
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
           >
             Solicitar información

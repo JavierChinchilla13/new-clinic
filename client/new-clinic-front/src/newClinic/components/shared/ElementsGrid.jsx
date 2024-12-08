@@ -8,16 +8,6 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { updatePost, uploadImage } from "../../utils/productService";
 
-/*
-    type data = {
-        key={index}
-        name={element.name}
-        description={element.description}
-        image={element.image}
-        type:{element.type}
-        price={element.price}
-*/
-
 export const ElementsGrid = ({
   data,
   searchTerm,
@@ -30,6 +20,7 @@ export const ElementsGrid = ({
   const [productToDelete, setProductToDelete] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [productToEdit, setProductToEdit] = useState(null);
+  const [productName, setProductName] = useState("");
 
   // Filtro segun tipo
   const filteredProducts = searchTerm
@@ -47,7 +38,8 @@ export const ElementsGrid = ({
     setSelectedProduct(null);
   };
 
-  const handleContact = () => {
+  const handleContact = (name) => {
+    setProductName(name); // Save the product name
     setShowContactForm(true);
   };
 
@@ -69,14 +61,10 @@ export const ElementsGrid = ({
     });
 
     onCloseDeleteModal();
-
     setShowDeleteModal(false);
   };
 
   const handleEdit = async (updatedProduct) => {
-    // setProductToEdit(updatedProduct);
-    // console.log("Producto editado", updatedProduct);
-
     let imageUrl = "";
     if (updatedProduct.imageLoaded) {
       const formData = new FormData();
@@ -93,10 +81,7 @@ export const ElementsGrid = ({
       image: updatedProduct.imageLoaded ? imageUrl : updatedProduct.image,
     };
 
-    // console.log(updatedProduct.image);
-
     await updatePost(updatedProduct._id, newProductData);
-
     onCloseEditModal();
     setShowEditModal(false);
   };
@@ -124,12 +109,15 @@ export const ElementsGrid = ({
         <ItemDetailsCard
           data={selectedProduct}
           onClose={handleCloseModal}
-          onContact={handleContact}
+          onContact={handleContact} // Pass contact handler
         />
       )}
 
       {showContactForm && (
-        <ContactCard onClose={() => setShowContactForm(false)} />
+        <ContactCard
+          productName={productName} // Pass productName to ContactCard
+          onClose={() => setShowContactForm(false)}
+        />
       )}
 
       {showDeleteModal && (
