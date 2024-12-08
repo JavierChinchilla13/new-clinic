@@ -21,8 +21,9 @@ const Services = () => {
 
   const getProductsList = () => {
     axios
-      .get("/api/v1/products/")
+      .get("/api/v1/products")
       .then(({ data }) => {
+        // console.log(data)
         if (authState?.logged) {
           setServicesList(
             data?.products.filter((element) => element.type === "servicio")
@@ -66,7 +67,7 @@ const Services = () => {
     <div className="grid min-h-screen pt-[150px]">
       <Header />
 
-      <div className="flex-grow">
+      <div className="flex-grow  min-h-screen">
         <h2 className="text-2xl font-bold mb-4 ml-20 mt-8">Servicios</h2>
         <div className="flex justify-center mb-4">
           <Input
@@ -96,7 +97,6 @@ const Services = () => {
               title="Añandir Servicio"
               isOpen={isModalOpen}
               onClose={onCloseAddModal}
-              // onAddProduct={handleAddProduct}
               type="servicio"
               style={elementModalAnimationStyle}
             />

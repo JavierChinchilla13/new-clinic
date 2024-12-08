@@ -39,5 +39,6 @@
   },
   "engines": {
     "node": "16.x"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }

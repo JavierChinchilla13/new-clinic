@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import { FaEdit, FaTrash, FaSave, FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../../auth/context/AuthContext";
@@ -28,7 +28,7 @@ const ContactList = () => {
         setContacts(response.data.Contacts);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setError("Error al cargar los contactos");
         setLoading(false);
       });
@@ -235,7 +235,7 @@ const ContactList = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {contacts.map((contact) => (
+          {contacts?.map((contact) => (
             <tr key={contact._id}>
               <td className="px-4 py-4">
                 {editingContact?._id === contact._id ? (
