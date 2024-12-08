@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export const ContactCard = ({ onClose, productName }) => {
+export const ContactCard = ({ productName, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
