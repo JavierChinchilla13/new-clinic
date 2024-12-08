@@ -23,16 +23,17 @@ const ContactList = () => {
 
   // Cargar los contactos al montar el componente
   useEffect(() => {
-    Axios.get("/api/v1/contacts")
-      .then((response) => {
-        setContacts(response.data.Contacts);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Error al cargar los contactos" + err);
-        setLoading(false);
-      });
-  }, []);
+  Axios.get("/api/v1/contacts")
+    .then((response) => {
+      setContacts(response.data.Contacts);
+      setLoading(false);
+    })
+    .catch((err) => {
+      // Combina ambos casos para incluir el mensaje más completo
+      setError("Error al cargar los contactos: " + (err.message || "desconocido"));
+      setLoading(false);
+    });
+}, []);
 
   // Manejar la edición de un contacto
   const handleEdit = (contact) => {
@@ -235,7 +236,7 @@ const ContactList = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {contacts.map((contact) => (
+          {contacts?.map((contact) => (
             <tr key={contact._id}>
               <td className="px-4 py-4">
                 {editingContact?._id === contact._id ? (

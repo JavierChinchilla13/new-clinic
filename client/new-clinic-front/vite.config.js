@@ -7,5 +7,15 @@ export default defineConfig({
   build: {
     outDir: "dist", // Carpeta de salida
     assetsDir: "assets", // Carpeta para archivos estáticos
+  },server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
+
+  
 });
